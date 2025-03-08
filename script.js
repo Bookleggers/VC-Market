@@ -24,14 +24,16 @@ document.addEventListener("DOMContentLoaded", function () {
     }, 4000);
   }
 
-  // ✅ Password Validation (ONLY FOR SIGN-UP PAGE)
+  // ✅ Password Validation (Only on Sign-Up)
   window.validatePassword = function () {
     const passwordInput = document.getElementById("signup-password");
+    if (!passwordInput) return;
+
+    const password = passwordInput.value;
     const validationContainer = document.getElementById("signup-validation");
+    if (!validationContainer) return;
 
-    if (!passwordInput || !validationContainer) return;
-
-    validationContainer.innerHTML = ""; // Clear existing validation
+    validationContainer.style.display = password.length > 0 ? "block" : "none"; // Hide if empty
 
     const validationRules = {
       uppercase: { regex: /[A-Z]/, text: "At least 1 uppercase letter" },
@@ -41,14 +43,19 @@ document.addEventListener("DOMContentLoaded", function () {
     };
 
     Object.entries(validationRules).forEach(([rule, ruleData]) => {
-      const isValid = ruleData.regex.test(passwordInput.value);
+      const isValid = ruleData.regex.test(password);
 
-      const element = document.createElement("p");
+      let element = document.getElementById(`signup-${rule}`);
+      if (!element) {
+        element = document.createElement("p");
+        element.id = `signup-${rule}`;
+        validationContainer.appendChild(element);
+      }
+
+      // Update text, icon, and color dynamically
       element.innerHTML = `<i class="fa-solid ${isValid ? "fa-check" : "fa-xmark"}" style="color: ${
         isValid ? "#34b233" : "#b21807"
       };"></i> <span style="color: ${isValid ? "#34b233" : "#b21807"};">${ruleData.text}</span>`;
-
-      validationContainer.appendChild(element);
     });
   };
 
@@ -107,17 +114,23 @@ document.addEventListener("DOMContentLoaded", function () {
     }
   };
 
-  // ✅ Switching Between Sign-Up & Login
+  // ✅ Switch Between Sign-Up & Login Pages
   document.getElementById("show-login").addEventListener("click", function () {
     document.getElementById("signup-section").style.display = "none";
     document.getElementById("login-section").style.display = "block";
-    document.getElementById("signup-validation").style.display = "none"; // Hides validation
+    document.getElementById("verification-message").classList.add("hidden");
+    document.getElementById("show-signup-container").classList.remove("hidden");
+
+    // Hide password validation when switching to login
+    document.getElementById("signup-validation").style.display = "none";
   });
 
   document.getElementById("show-signup").addEventListener("click", function () {
     document.getElementById("login-section").style.display = "none";
     document.getElementById("signup-section").style.display = "block";
-    document.getElementById("signup-validation").style.display = "block"; // Shows validation
+
+    // Show password validation when switching to sign-up
+    document.getElementById("signup-validation").style.display = "block";
   });
 
   // ✅ Attach Functions to Buttons
