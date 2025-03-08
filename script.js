@@ -97,6 +97,7 @@ if (document.getElementById("login-button")) {
 }
 
 // ✅ Run filters only on the home page
-if (document.getElementById("degree-filter")) {
-  window.onload = loadFilters;
-}
+document.addEventListener("DOMContentLoaded", function () {
+  loadFilters();
+});
+
