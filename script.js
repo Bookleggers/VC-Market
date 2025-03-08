@@ -12,33 +12,37 @@ document.addEventListener("DOMContentLoaded", async function () {
 
   let checkInterval;
 
-  // Auto-login if email was verified
+  // ✅ Check for an existing session
   async function checkAuth() {
-    const { data: { user }, error } = await supabase.auth.getUser();
+    const { data, error } = await supabase.auth.getSession();
     if (error) {
       console.error("Auth error:", error.message);
       return;
     }
-    if (user) {
-      document.getElementById("user-info").innerText = `Logged in as ${user.email}`;
-      clearInterval(checkInterval); // Stop checking once logged in
+    if (data.session) {
+      document.getElementById("user-info").innerText = `Logged in as ${data.session.user.email}`;
+      clearInterval(checkInterval);
     }
   }
 
-  // Keep checking if email is verified every 5 seconds
-  async function startVerificationCheck(email) {
+  // ✅ Refresh session every 5 seconds to detect email verification
+  async function startVerificationCheck() {
     checkInterval = setInterval(async () => {
-      const { data: { user } } = await supabase.auth.getUser();
-      if (user && user.email_confirmed_at) {
+      const { data, error } = await supabase.auth.refreshSession();
+      if (error) {
+        console.error("Session refresh error:", error.message);
+        return;
+      }
+      if (data.session && data.session.user.email_confirmed_at) {
         console.log("Email verified, logging in...");
         clearInterval(checkInterval);
         alert("Your email has been verified! Logging you in...");
-        document.getElementById("user-info").innerText = `Logged in as ${user.email}`;
+        document.getElementById("user-info").innerText = `Logged in as ${data.session.user.email}`;
       }
     }, 5000); // Check every 5 seconds
   }
 
-  // Sign Up Function
+  // ✅ Sign Up Function
   async function signUp() {
     const email = document.getElementById("signup-email").value;
     const password = document.getElementById("signup-password").value;
@@ -49,11 +53,11 @@ document.addEventListener("DOMContentLoaded", async function () {
       alert(error.message);
     } else {
       alert("Check your email for verification! This page will auto-login when you verify.");
-      startVerificationCheck(email);
+      startVerificationCheck(); // Start auto-login check
     }
   }
 
-  // Login Function
+  // ✅ Login Function
   async function login() {
     const email = document.getElementById("login-email").value;
     const password = document.getElementById("login-password").value;
@@ -63,20 +67,20 @@ document.addEventListener("DOMContentLoaded", async function () {
     if (error) {
       alert(error.message);
     } else {
-      document.getElementById("user-info").innerText = `Logged in as ${data.user.email}`;
+      document.getElementById("user-info").innerText = `Logged in as ${data.session.user.email}`;
     }
   }
 
-  // Logout Function
+  // ✅ Logout Function
   async function logout() {
     await supabase.auth.signOut();
     document.getElementById("user-info").innerText = "Not logged in";
   }
 
-  // Auto-login when returning to page
+  // ✅ Start session check when the page loads
   checkAuth();
 
-  // Attach functions to buttons
+  // ✅ Attach functions to buttons
   document.getElementById("signup-button").addEventListener("click", signUp);
   document.getElementById("login-button").addEventListener("click", login);
   document.getElementById("logout-button").addEventListener("click", logout);
