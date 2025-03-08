@@ -24,14 +24,14 @@ document.addEventListener("DOMContentLoaded", function () {
     }, 4000);
   }
 
-  // ✅ Password Validation (Only for Sign-Up)
+  // ✅ Password Validation (ONLY FOR SIGN-UP PAGE)
   window.validatePassword = function () {
     const passwordInput = document.getElementById("signup-password");
     const validationContainer = document.getElementById("signup-validation");
 
     if (!passwordInput || !validationContainer) return;
 
-    validationContainer.style.display = "block"; // Always ensure it's visible on Sign-Up
+    validationContainer.innerHTML = ""; // Clear existing validation
 
     const validationRules = {
       uppercase: { regex: /[A-Z]/, text: "At least 1 uppercase letter" },
@@ -40,13 +40,10 @@ document.addEventListener("DOMContentLoaded", function () {
       symbol: { regex: /[^A-Za-z0-9]/, text: "At least 1 symbol" }
     };
 
-    validationContainer.innerHTML = ""; // Clear before updating
-
     Object.entries(validationRules).forEach(([rule, ruleData]) => {
       const isValid = ruleData.regex.test(passwordInput.value);
 
       const element = document.createElement("p");
-      element.id = `signup-${rule}`;
       element.innerHTML = `<i class="fa-solid ${isValid ? "fa-check" : "fa-xmark"}" style="color: ${
         isValid ? "#34b233" : "#b21807"
       };"></i> <span style="color: ${isValid ? "#34b233" : "#b21807"};">${ruleData.text}</span>`;
@@ -110,17 +107,17 @@ document.addEventListener("DOMContentLoaded", function () {
     }
   };
 
-  // ✅ Switch Between Sign-Up & Login Pages
+  // ✅ Switching Between Sign-Up & Login
   document.getElementById("show-login").addEventListener("click", function () {
     document.getElementById("signup-section").style.display = "none";
     document.getElementById("login-section").style.display = "block";
-    document.getElementById("signup-validation").style.display = "none"; // Hide validation on login
+    document.getElementById("signup-validation").style.display = "none"; // Hides validation
   });
 
   document.getElementById("show-signup").addEventListener("click", function () {
     document.getElementById("login-section").style.display = "none";
     document.getElementById("signup-section").style.display = "block";
-    document.getElementById("signup-validation").style.display = "block"; // Show validation on sign-up
+    document.getElementById("signup-validation").style.display = "block"; // Shows validation
   });
 
   // ✅ Attach Functions to Buttons
