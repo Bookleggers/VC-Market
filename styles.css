@@ -37,20 +37,19 @@ nav ul li a:hover {
 }
 
 /* Main Container */
-.container {
-  text-align: center;
-  background: white;
+main {
+  max-width: 900px;
+  margin: 20px auto;
   padding: 20px;
+  background: white;
   border-radius: 8px;
   box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
-  width: 350px;
-  margin: 50px auto;
 }
 
 /* Filters Section */
 .filters {
   text-align: center;
-  margin: 20px auto;
+  margin-bottom: 20px;
   display: flex;
   justify-content: center;
   gap: 10px;
@@ -61,19 +60,18 @@ nav ul li a:hover {
   border: 1px solid #ccc;
   border-radius: 4px;
   font-size: 14px;
+  width: 200px;
 }
 
 /* Book Listings */
-#book-listings {
-  max-width: 800px;
-  margin: 20px auto;
+.book-container {
   display: flex;
   flex-wrap: wrap;
   gap: 15px;
   justify-content: center;
 }
 
-.book-item {
+.book-card {
   background: white;
   padding: 15px;
   border-radius: 5px;
@@ -82,18 +80,31 @@ nav ul li a:hover {
   text-align: center;
 }
 
-.book-item strong {
-  display: block;
+.book-title {
+  font-size: 18px;
+  font-weight: bold;
+  color: #333;
+}
+
+.book-price {
   font-size: 16px;
-  margin-bottom: 5px;
+  color: #007bff;
+  font-weight: bold;
 }
 
-.book-item:hover {
-  background: #f0f0f0;
-  cursor: pointer;
+.book-issues {
+  font-size: 14px;
+  color: #dc3545;
+  font-style: italic;
 }
 
-/* Buttons */
+.book-module {
+  font-size: 14px;
+  color: #666;
+  margin-top: 5px;
+}
+
+/* Button */
 button {
   padding: 10px;
   width: 100%;
@@ -109,59 +120,19 @@ button:hover {
   background: #0056b3;
 }
 
-/* Login & Sign-Up Page Styles */
-.password-container {
-  position: relative;
-  display: flex;
-  align-items: center;
-}
+/* Responsive Design */
+@media (max-width: 600px) {
+  .filters {
+    flex-direction: column;
+    align-items: center;
+  }
 
-.password-container input {
-  flex-grow: 1;
-}
+  .filters select {
+    width: 100%;
+  }
 
-.toggle-password {
-  position: absolute;
-  right: 10px;
-  cursor: pointer;
-  user-select: none;
-  font-size: 18px;
-  color: #666;
-}
-
-.toggle-password:hover {
-  color: #333;
-}
-
-/* Password Validation */
-.password-validation {
-  text-align: left;
-  font-size: 14px;
-  color: #b21807;
-  margin: 5px 0;
-}
-
-.password-validation p {
-  margin: 3px 0;
-  display: flex;
-  align-items: center;
-  gap: 5px;
-}
-
-/* Notification Banner */
-#notification {
-  position: fixed;
-  top: 20px;
-  left: 50%;
-  transform: translateX(-50%);
-  background: #28a745;
-  color: white;
-  padding: 10px 15px;
-  border-radius: 5px;
-  display: none;
-}
-
-/* Hidden Elements */
-.hidden {
-  display: none;
+  .book-container {
+    flex-direction: column;
+    align-items: center;
+  }
 }
