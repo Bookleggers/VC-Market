@@ -54,6 +54,12 @@ button:hover {
   right: 10px;
   cursor: pointer;
   user-select: none;
+  font-size: 16px;
+  color: #666;
+}
+
+.toggle-password:hover {
+  color: #333;
 }
 
 /* Notification Banner */
