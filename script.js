@@ -4,42 +4,59 @@ const supabase = window.supabase.createClient(
   "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im1sd3hmYnRpcXFhY3F2aHdmYnRrIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDE0MzM3MzYsImV4cCI6MjA1NzAwOTczNn0.Q6YD0EtZWITvTAMXFNFysyTFPtDHtD_cMFn_1G8VX4c"
 );
 
-// ✅ Load dropdown filters for books
+// ✅ Load dropdown filters for books when the page loads
+document.addEventListener("DOMContentLoaded", function () {
+  loadFilters();
+});
+
+// ✅ Load dropdown options from Supabase
 async function loadFilters() {
   if (!supabase) {
     console.error("Supabase is not initialized!");
     return;
   }
 
+  // Fetch data from Supabase
   const { data, error } = await supabase.from("preloaded_books").select("degree, module, title");
   if (error) {
     console.error("Error fetching books:", error);
     return;
   }
 
-  const degreeCounts = {}, moduleCounts = {}, bookCounts = {};
+  // Ensure data is received
+  if (!data || data.length === 0) {
+    console.warn("No data found in preloaded_books");
+    return;
+  }
+
+  // Use sets to avoid duplicates
+  const degrees = new Set();
+  const modules = new Set();
+  const books = new Set();
 
   data.forEach(book => {
-    degreeCounts[book.degree] = (degreeCounts[book.degree] || 0) + 1;
-    moduleCounts[book.module] = (moduleCounts[book.module] || 0) + 1;
-    bookCounts[book.title] = (bookCounts[book.title] || 0) + 1;
+    if (book.degree) degrees.add(book.degree);
+    if (book.module) modules.add(book.module);
+    if (book.title) books.add(book.title);
   });
 
-  populateDropdown("degree-filter", degreeCounts);
-  populateDropdown("module-filter", moduleCounts);
-  populateDropdown("book-filter", bookCounts);
+  // Populate dropdowns
+  populateDropdown("degree-filter", degrees);
+  populateDropdown("module-filter", modules);
+  populateDropdown("book-filter", books);
 }
 
 // ✅ Populate dropdowns dynamically
-function populateDropdown(filterId, data) {
+function populateDropdown(filterId, dataSet) {
   const dropdown = document.getElementById(filterId);
   if (!dropdown) return;
 
   dropdown.innerHTML = '<option value="">Select</option>'; // Reset dropdown
-  Object.entries(data).forEach(([key, count]) => {
+
+  dataSet.forEach(value => {
     let option = document.createElement("option");
-    option.value = key;
-    option.textContent = `${key} (${count})`;
+    option.value = value;
+    option.textContent = value;
     dropdown.appendChild(option);
   });
 }
@@ -95,9 +112,3 @@ if (document.getElementById("login-button")) {
     else alert(`Logged in as ${data.user.email}`);
   });
 }
-
-// ✅ Run filters only on the home page
-document.addEventListener("DOMContentLoaded", function () {
-  loadFilters();
-});
-
