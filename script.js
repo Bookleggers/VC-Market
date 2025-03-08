@@ -14,7 +14,7 @@ document.addEventListener("DOMContentLoaded", function () {
   function showNotification(message, success = true) {
     const notification = document.getElementById("notification");
     if (!notification) return;
-    
+
     notification.textContent = message;
     notification.style.backgroundColor = success ? "#28a745" : "#dc3545"; // Green for success, Red for error
     notification.style.display = "block";
@@ -24,9 +24,12 @@ document.addEventListener("DOMContentLoaded", function () {
     }, 4000);
   }
 
-  // ✅ Live Password Validation (Fully Working)
-  function validatePassword(inputId, validationPrefix) {
-    const password = document.getElementById(inputId).value;
+  // ✅ Live Password Validation (Now Works Fully)
+  window.validatePassword = function (inputId, validationPrefix) {
+    const passwordInput = document.getElementById(inputId);
+    if (!passwordInput) return; // Ensure input field exists
+
+    const password = passwordInput.value;
 
     const validationRules = {
       uppercase: /[A-Z]/.test(password),
@@ -37,7 +40,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
     Object.keys(validationRules).forEach(rule => {
       const element = document.getElementById(`${validationPrefix}-${rule}`);
-      if (!element) return; // Ensure element exists
+      if (!element) return; // Ensure validation element exists
 
       const icon = element.querySelector("i");
       if (!icon) return; // Ensure icon exists
@@ -50,7 +53,7 @@ document.addEventListener("DOMContentLoaded", function () {
         icon.style.color = "#b21807"; // ❌ Red for invalid
       }
     });
-  }
+  };
 
   // ✅ Attach Password Validation to Input Fields
   const signupPassword = document.getElementById("signup-password");
