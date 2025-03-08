@@ -31,7 +31,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
     if (!passwordInput || !validationContainer) return;
 
-    validationContainer.style.display = passwordInput.value.length > 0 ? "block" : "none"; // Hide if empty
+    validationContainer.style.display = "block"; // Always ensure it's visible on Sign-Up
 
     const validationRules = {
       uppercase: { regex: /[A-Z]/, text: "At least 1 uppercase letter" },
@@ -40,8 +40,7 @@ document.addEventListener("DOMContentLoaded", function () {
       symbol: { regex: /[^A-Za-z0-9]/, text: "At least 1 symbol" }
     };
 
-    // Clear validation container before adding elements
-    validationContainer.innerHTML = "";
+    validationContainer.innerHTML = ""; // Clear before updating
 
     Object.entries(validationRules).forEach(([rule, ruleData]) => {
       const isValid = ruleData.regex.test(passwordInput.value);
@@ -115,19 +114,13 @@ document.addEventListener("DOMContentLoaded", function () {
   document.getElementById("show-login").addEventListener("click", function () {
     document.getElementById("signup-section").style.display = "none";
     document.getElementById("login-section").style.display = "block";
-    document.getElementById("verification-message").classList.add("hidden");
-    document.getElementById("show-signup-container").classList.remove("hidden");
-
-    // 🔥 Hide password validation when switching to login
-    document.getElementById("signup-validation").style.display = "none";
+    document.getElementById("signup-validation").style.display = "none"; // Hide validation on login
   });
 
   document.getElementById("show-signup").addEventListener("click", function () {
     document.getElementById("login-section").style.display = "none";
     document.getElementById("signup-section").style.display = "block";
-
-    // 🔥 Show password validation when switching to sign-up
-    document.getElementById("signup-validation").style.display = "block";
+    document.getElementById("signup-validation").style.display = "block"; // Show validation on sign-up
   });
 
   // ✅ Attach Functions to Buttons
