@@ -16,12 +16,13 @@
     <div id="signup-section">
         <h2>Sign Up</h2>
         <input type="email" id="signup-email" placeholder="Email" required>
+        
         <div class="password-container">
             <input type="password" id="signup-password" placeholder="Password" required>
             <i class="fa-solid fa-eye" onclick="togglePassword('signup-password', this)"></i>
         </div>
-        
-        <!-- 🔥 Password Validation (Now always present but hidden when switching) -->
+
+        <!-- ✅ Password Validation (ONLY FOR SIGN-UP) -->
         <div id="signup-validation"></div>
 
         <button id="signup-button">Sign Up</button>
@@ -29,10 +30,11 @@
         <p>Have an account? <button id="show-login">Log in</button></p>
     </div>
 
-    <!-- 🔥 Login Section (Hidden by Default) -->
+    <!-- 🔥 Login Section (Hidden Initially) -->
     <div id="login-section" style="display: none;">
         <h2>Log In</h2>
         <input type="email" id="login-email" placeholder="Email" required>
+        
         <div class="password-container">
             <input type="password" id="login-password" placeholder="Password" required>
             <i class="fa-solid fa-eye" onclick="togglePassword('login-password', this)"></i>
@@ -42,7 +44,7 @@
         
         <p>Don't have an account? <button id="show-signup">Sign up</button></p>
         
-        <!-- 🔥 Verification Message (Hidden Initially) -->
+        <!-- ✅ Verification Message -->
         <p id="verification-message" class="hidden">Verification email sent. Please verify and log in.</p>
     </div>
 
