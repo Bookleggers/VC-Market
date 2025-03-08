@@ -9,6 +9,9 @@
 </head>
 <body>
 
+  <!-- Notification Banner -->
+  <div id="notification" class="hidden"></div>
+
   <div class="container">
     <h2>VC Market</h2>
 
@@ -27,7 +30,7 @@
 
     <!-- Login Section (Initially Hidden) -->
     <div id="login-section" style="display: none;">
-      <p id="verification-message">Verification email sent. It may take a few minutes to arrive. Please verify your email and log in below.</p>
+      <p id="verification-message" class="hidden">Verification email sent. It may take a few minutes to arrive. Please verify your email and log in below.</p>
 
       <input type="email" id="login-email" placeholder="Email">
       
@@ -37,15 +40,9 @@
       </div>
 
       <button id="login-button">Log In</button>
+      <p id="show-signup-container" class="hidden">Don't have an account? <button id="show-signup">Sign up</button></p>
     </div>
 
-    <!-- User Info & Logout -->
-    <h3>User Info</h3>
-    <p id="user-info">Not logged in</p>
-    <button id="logout-button">Logout</button>
-
-    <!-- Continue Button for Session 2 -->
-    <button id="continue-button" style="display: none;">Continue</button>
   </div>
 
   <script src="script.js"></script>
