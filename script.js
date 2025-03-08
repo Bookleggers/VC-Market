@@ -24,7 +24,7 @@ document.addEventListener("DOMContentLoaded", function () {
     }, 4000);
   }
 
-  // ✅ Live Password Validation with Debugging Logs
+  // ✅ Live Password Validation (Now Fixes UI Updates)
   window.validatePassword = function (inputId, validationPrefix) {
     const passwordInput = document.getElementById(inputId);
     if (!passwordInput) return; // Ensure input field exists
@@ -35,7 +35,7 @@ document.addEventListener("DOMContentLoaded", function () {
       uppercase: /[A-Z]/.test(password),
       lowercase: /[a-z]/.test(password),
       number: /[0-9]/.test(password),
-      symbol: /[!@#$%^&*(),.?":{}|<>]/.test(password) // Checks for common symbols
+      symbol: /[^A-Za-z0-9]/.test(password) // Fix: Now correctly detects any symbol
     };
 
     console.log("Password Input:", password);
@@ -44,19 +44,23 @@ document.addEventListener("DOMContentLoaded", function () {
     console.log("Number Detected:", validationRules.number);
     console.log("Symbol Detected:", validationRules.symbol);
 
-    Object.keys(validationRules).forEach(rule => {
+    Object.entries(validationRules).forEach(([rule, isValid]) => {
       const element = document.getElementById(`${validationPrefix}-${rule}`);
       if (!element) return; // Ensure validation element exists
 
       const icon = element.querySelector("i");
       if (!icon) return; // Ensure icon exists
 
-      if (validationRules[rule]) {
-        icon.classList.replace("fa-xmark", "fa-check");
-        icon.style.color = "#34b233"; // ✅ Green for valid
+      if (isValid) {
+        if (!icon.classList.contains("fa-check")) {
+          icon.classList.replace("fa-xmark", "fa-check");
+          icon.style.color = "#34b233"; // ✅ Green for valid
+        }
       } else {
-        icon.classList.replace("fa-check", "fa-xmark");
-        icon.style.color = "#b21807"; // ❌ Red for invalid
+        if (!icon.classList.contains("fa-xmark")) {
+          icon.classList.replace("fa-check", "fa-xmark");
+          icon.style.color = "#b21807"; // ❌ Red for invalid
+        }
       }
     });
   };
