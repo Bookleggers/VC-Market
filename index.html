@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>VC Market</title>
   <link rel="stylesheet" href="styles.css">
-  <script src="https://https://cdn.jsdelivr.net/npm/@supabase/supabase-js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/js/all.min.js" defer></script>
 </head>
 <body>
@@ -26,12 +26,12 @@
       </div>
 
       <!-- Password Validation Messages -->
-      <ul class="password-validation" id="signup-validation">
-        <li id="signup-uppercase"><i class="fa-solid fa-xmark" style="color: #b21807;"></i> At least 1 uppercase letter</li>
-        <li id="signup-lowercase"><i class="fa-solid fa-xmark" style="color: #b21807;"></i> At least 1 lowercase letter</li>
-        <li id="signup-number"><i class="fa-solid fa-xmark" style="color: #b21807;"></i> At least 1 number</li>
-        <li id="signup-symbol"><i class="fa-solid fa-xmark" style="color: #b21807;"></i> At least 1 symbol</li>
-      </ul>
+      <div class="password-validation" id="signup-validation">
+        <p id="signup-uppercase"><i class="fa-solid fa-xmark" style="color: #b21807;"></i> At least 1 uppercase letter</p>
+        <p id="signup-lowercase"><i class="fa-solid fa-xmark" style="color: #b21807;"></i> At least 1 lowercase letter</p>
+        <p id="signup-number"><i class="fa-solid fa-xmark" style="color: #b21807;"></i> At least 1 number</p>
+        <p id="signup-symbol"><i class="fa-solid fa-xmark" style="color: #b21807;"></i> At least 1 symbol</p>
+      </div>
 
       <button id="signup-button">Sign Up</button>
       <p>Have an account? <button id="show-login">Log in</button></p>
@@ -49,12 +49,12 @@
       </div>
 
       <!-- Password Validation Messages -->
-      <ul class="password-validation" id="login-validation">
-        <li id="login-uppercase"><i class="fa-solid fa-xmark" style="color: #b21807;"></i> At least 1 uppercase letter</li>
-        <li id="login-lowercase"><i class="fa-solid fa-xmark" style="color: #b21807;"></i> At least 1 lowercase letter</li>
-        <li id="login-number"><i class="fa-solid fa-xmark" style="color: #b21807;"></i> At least 1 number</li>
-        <li id="login-symbol"><i class="fa-solid fa-xmark" style="color: #b21807;"></i> At least 1 symbol</li>
-      </ul>
+      <div class="password-validation" id="login-validation">
+        <p id="login-uppercase"><i class="fa-solid fa-xmark" style="color: #b21807;"></i> At least 1 uppercase letter</p>
+        <p id="login-lowercase"><i class="fa-solid fa-xmark" style="color: #b21807;"></i> At least 1 lowercase letter</p>
+        <p id="login-number"><i class="fa-solid fa-xmark" style="color: #b21807;"></i> At least 1 number</p>
+        <p id="login-symbol"><i class="fa-solid fa-xmark" style="color: #b21807;"></i> At least 1 symbol</p>
+      </div>
 
       <button id="login-button">Log In</button>
       <p id="show-signup-container" class="hidden">Don't have an account? <button id="show-signup">Sign up</button></p>
