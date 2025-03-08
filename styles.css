@@ -1,60 +1,95 @@
 body {
-    font-family: Arial, sans-serif;
-    text-align: center;
-    padding: 20px;
+  font-family: Arial, sans-serif;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  background-color: #f8f9fa;
+}
+
+.container {
+  text-align: center;
+  background: white;
+  padding: 20px;
+  border-radius: 8px;
+  box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+  width: 300px;
 }
 
 input {
-    display: block;
-    margin: 10px auto;
-    padding: 10px;
-    width: 80%;
-    max-width: 300px;
+  display: block;
+  width: 100%;
+  padding: 8px;
+  margin: 10px 0;
+  border: 1px solid #ccc;
+  border-radius: 4px;
 }
 
 button {
-    padding: 10px 15px;
-    cursor: pointer;
-    border: none;
-    background: #007BFF;
-    color: white;
-    font-size: 16px;
-    border-radius: 5px;
+  padding: 10px;
+  width: 100%;
+  background: #007bff;
+  color: white;
+  border: none;
+  cursor: pointer;
+  margin: 5px 0;
 }
 
 button:hover {
-    background: #0056b3;
+  background: #0056b3;
 }
 
 .password-container {
-    position: relative;
-    display: inline-block;
-    width: 80%;
-    max-width: 300px;
+  position: relative;
+  display: flex;
+  align-items: center;
 }
 
 .password-container input {
-    width: 100%;
-    padding-right: 35px;
+  flex-grow: 1;
 }
 
-.password-container i {
-    position: absolute;
-    right: 10px;
-    top: 50%;
-    transform: translateY(-50%);
-    cursor: pointer;
+.toggle-password {
+  position: absolute;
+  right: 10px;
+  cursor: pointer;
+  user-select: none;
+  font-size: 18px;
+  color: #666;
 }
 
-.notification {
-    position: fixed;
-    top: 10px;
-    left: 50%;
-    transform: translateX(-50%);
-    padding: 10px 15px;
-    color: white;
-    border-radius: 5px;
-    font-size: 14px;
-    background: #28a745;
-    display: none;
+.toggle-password:hover {
+  color: #333;
+}
+
+/* Password Validation Styles */
+.password-validation {
+  text-align: left;
+  font-size: 14px;
+  color: #b21807;
+  margin: 5px 0;
+}
+
+.password-validation p {
+  margin: 3px 0;
+  display: flex;
+  align-items: center;
+  gap: 5px;
+}
+
+/* Notification Banner */
+#notification {
+  position: fixed;
+  top: 20px;
+  left: 50%;
+  transform: translateX(-50%);
+  background: #28a745;
+  color: white;
+  padding: 10px 15px;
+  border-radius: 5px;
+  display: none;
+}
+
+.hidden {
+  display: none;
 }
