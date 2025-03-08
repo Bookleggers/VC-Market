@@ -10,7 +10,7 @@ document.addEventListener("DOMContentLoaded", async function () {
     "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im1sd3hmYnRpcXFhY3F2aHdmYnRrIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDE0MzM3MzYsImV4cCI6MjA1NzAwOTczNn0.Q6YD0EtZWITvTAMXFNFysyTFPtDHtD_cMFn_1G8VX4c"
   );
 
-  // ✅ Password Validation
+  // ✅ Make validatePassword globally accessible
   window.validatePassword = function (inputId, validationId) {
     const password = document.getElementById(inputId).value;
     const requirements = {
@@ -22,18 +22,20 @@ document.addEventListener("DOMContentLoaded", async function () {
 
     Object.keys(requirements).forEach(key => {
       const element = document.getElementById(`${validationId}-${key}`);
-      const icon = element.querySelector("i");
-      if (requirements[key]) {
-        icon.classList.replace("fa-xmark", "fa-check");
-        icon.style.color = "#34b233"; // Green for valid
-      } else {
-        icon.classList.replace("fa-check", "fa-xmark");
-        icon.style.color = "#b21807"; // Red for invalid
+      if (element) {
+        const icon = element.querySelector("i");
+        if (requirements[key]) {
+          icon.classList.replace("fa-xmark", "fa-check");
+          icon.style.color = "#34b233"; // Green for valid
+        } else {
+          icon.classList.replace("fa-check", "fa-xmark");
+          icon.style.color = "#b21807"; // Red for invalid
+        }
       }
     });
   };
 
-  // ✅ Sign Up Function
+  // ✅ Sign Up Function (Now Global)
   window.signUp = async function () {
     const email = document.getElementById("signup-email").value;
     const password = document.getElementById("signup-password").value;
@@ -52,7 +54,7 @@ document.addEventListener("DOMContentLoaded", async function () {
     }
   };
 
-  // ✅ Login Function
+  // ✅ Login Function (Now Global)
   window.login = async function () {
     const email = document.getElementById("login-email").value;
     const password = document.getElementById("login-password").value;
@@ -66,7 +68,7 @@ document.addEventListener("DOMContentLoaded", async function () {
     }
   };
 
-  // ✅ Toggle Password Visibility
+  // ✅ Toggle Password Visibility (Now Global)
   window.togglePassword = function (fieldId, icon) {
     const passwordField = document.getElementById(fieldId);
     if (passwordField.type === "password") {
