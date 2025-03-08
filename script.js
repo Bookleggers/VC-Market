@@ -6,44 +6,20 @@ const supabase = window.supabase.createClient(
 
 // ✅ Load dropdown filters for books when the page loads
 document.addEventListener("DOMContentLoaded", function () {
-  loadFilters();
+  loadDegrees();
 });
 
-// ✅ Load dropdown options from Supabase
-async function loadFilters() {
-  if (!supabase) {
-    console.error("Supabase is not initialized!");
-    return;
-  }
+// ✅ Load Degree options from Supabase
+async function loadDegrees() {
+  const { data, error } = await supabase.from("preloaded_books").select("degree").order("degree", { ascending: true });
 
-  // Fetch data from Supabase
-  const { data, error } = await supabase.from("preloaded_books").select("degree, module, title");
   if (error) {
-    console.error("Error fetching books:", error);
+    console.error("Error fetching degrees:", error);
     return;
   }
 
-  // Ensure data is received
-  if (!data || data.length === 0) {
-    console.warn("No data found in preloaded_books");
-    return;
-  }
-
-  // Use sets to avoid duplicates
-  const degrees = new Set();
-  const modules = new Set();
-  const books = new Set();
-
-  data.forEach(book => {
-    if (book.degree) degrees.add(book.degree);
-    if (book.module) modules.add(book.module);
-    if (book.title) books.add(book.title);
-  });
-
-  // Populate dropdowns
-  populateDropdown("degree-filter", degrees);
-  populateDropdown("module-filter", modules);
-  populateDropdown("book-filter", books);
+  const uniqueDegrees = [...new Set(data.map(book => book.degree))]; // Remove duplicates
+  populateDropdown("degree-filter", uniqueDegrees);
 }
 
 // ✅ Populate dropdowns dynamically
@@ -61,54 +37,75 @@ function populateDropdown(filterId, dataSet) {
   });
 }
 
-// ✅ Filter books based on selection
-async function filterBooks() {
+// ✅ Update Modules when a Degree is selected
+async function updateModules() {
   const selectedDegree = document.getElementById("degree-filter")?.value;
-  const selectedModule = document.getElementById("module-filter")?.value;
-  const selectedBook = document.getElementById("book-filter")?.value;
+  const moduleDropdown = document.getElementById("module-filter");
+  const bookListings = document.getElementById("book-listings");
 
-  let query = supabase.from("book_listings").select("title, price, condition");
-  if (selectedDegree) query = query.eq("degree", selectedDegree);
-  if (selectedModule) query = query.eq("module", selectedModule);
-  if (selectedBook) query = query.eq("title", selectedBook);
-
-  const { data, error } = await query;
-  if (error) {
-    console.error("Error fetching filtered books:", error);
+  if (!selectedDegree) {
+    moduleDropdown.innerHTML = '<option value="">Select Module</option>';
+    moduleDropdown.disabled = true;
+    bookListings.innerHTML = "";
     return;
   }
 
-  const listingsContainer = document.getElementById("book-listings");
-  if (!listingsContainer) return;
+  // Fetch modules based on selected degree
+  const { data, error } = await supabase
+    .from("preloaded_books")
+    .select("module")
+    .eq("degree", selectedDegree)
+    .order("module", { ascending: true });
 
-  listingsContainer.innerHTML = ""; // Clear previous listings
+  if (error) {
+    console.error("Error fetching modules:", error);
+    return;
+  }
+
+  const uniqueModules = [...new Set(data.map(book => book.module))]; // Remove duplicates
+  populateDropdown("module-filter", uniqueModules);
+  moduleDropdown.disabled = uniqueModules.length === 0;
+
+  // Show books for the selected degree
+  filterBooks();
+}
+
+// ✅ Filter books based on Degree and Module
+async function filterBooks() {
+  const selectedDegree = document.getElementById("degree-filter")?.value;
+  const selectedModule = document.getElementById("module-filter")?.value;
+  const bookListings = document.getElementById("book-listings");
+
+  if (!selectedDegree) {
+    bookListings.innerHTML = "";
+    return;
+  }
+
+  let query = supabase.from("preloaded_books").select("title, price, module, issues").eq("degree", selectedDegree);
+  if (selectedModule) query = query.eq("module", selectedModule);
+
+  const { data, error } = await query.order("module", { ascending: true }).order("title", { ascending: true });
+
+  if (error) {
+    console.error("Error fetching books:", error);
+    return;
+  }
+
+  // Clear existing books
+  bookListings.innerHTML = "";
+
+  // Generate book cards
   data.forEach(book => {
-    let div = document.createElement("div");
-    div.classList.add("book-item");
-    div.innerHTML = `<strong>${book.title}</strong> - R${book.price} (${book.condition})`;
-    listingsContainer.appendChild(div);
-  });
-}
+    let card = document.createElement("div");
+    card.classList.add("book-card");
 
-// ✅ Authentication Functions (Sign-Up, Login)
-if (document.getElementById("signup-button")) {
-  document.getElementById("signup-button").addEventListener("click", async () => {
-    const email = document.getElementById("signup-email").value;
-    const password = document.getElementById("signup-password").value;
+    card.innerHTML = `
+      <strong class="book-title">${book.title}</strong>
+      <p class="book-price">R${book.price}</p>
+      ${book.issues ? `<p class="book-issues">⚠️ ${book.issues}</p>` : ""}
+      <p class="book-module">${book.module}</p>
+    `;
 
-    let { error } = await supabase.auth.signUp({ email, password });
-    if (error) alert(error.message);
-    else alert("Verification email sent! Please check your inbox.");
-  });
-}
-
-if (document.getElementById("login-button")) {
-  document.getElementById("login-button").addEventListener("click", async () => {
-    const email = document.getElementById("login-email").value;
-    const password = document.getElementById("login-password").value;
-
-    let { data, error } = await supabase.auth.signInWithPassword({ email, password });
-    if (error) alert(error.message);
-    else alert(`Logged in as ${data.user.email}`);
+    bookListings.appendChild(card);
   });
 }
