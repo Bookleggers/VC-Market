@@ -62,6 +62,21 @@ button:hover {
   color: #333;
 }
 
+/* Password Validation Styles */
+.password-validation {
+  text-align: left;
+  font-size: 14px;
+  color: #b21807;
+  margin: 5px 0;
+}
+
+.password-validation p {
+  margin: 3px 0;
+  display: flex;
+  align-items: center;
+  gap: 5px;
+}
+
 /* Notification Banner */
 #notification {
   position: fixed;
