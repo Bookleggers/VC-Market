@@ -1,51 +1,59 @@
-// Load Supabase SDK via script tag instead of import
-const supabase = window.supabase.createClient(
-  "https://mlwxfbtiqqacqvhwfbtk.supabase.co",
-  "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im1sd3hmYnRpcXFhY3F2aHdmYnRrIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDE0MzM3MzYsImV4cCI6MjA1NzAwOTczNn0.Q6YD0EtZWITvTAMXFNFysyTFPtDHtD_cMFn_1G8VX4c"
-);
-
-// Sign Up Function
-async function signUp() {
-  const email = document.getElementById("signup-email").value;
-  const password = document.getElementById("signup-password").value;
-
-  let { error } = await supabase.auth.signUp({ email, password });
-
-  if (error) {
-    alert(error.message);
-  } else {
-    alert("Check your email for verification!");
+// Ensure Supabase is available
+document.addEventListener("DOMContentLoaded", function () {
+  if (!window.supabase) {
+    console.error("Supabase failed to load.");
+    return;
   }
-}
 
-// Login Function
-async function login() {
-  const email = document.getElementById("login-email").value;
-  const password = document.getElementById("login-password").value;
+  // Initialize Supabase
+  const supabase = window.supabase.createClient(
+    "https://mlwxfbtiqqacqvhwfbtk.supabase.co",
+    "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im1sd3hmYnRpcXFhY3F2aHdmYnRrIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDE0MzM3MzYsImV4cCI6MjA1NzAwOTczNn0.Q6YD0EtZWITvTAMXFNFysyTFPtDHtD_cMFn_1G8VX4c"
+  );
 
-  let { data, error } = await supabase.auth.signInWithPassword({ email, password });
+  // Sign Up Function
+  async function signUp() {
+    const email = document.getElementById("signup-email").value;
+    const password = document.getElementById("signup-password").value;
 
-  if (error) {
-    alert(error.message);
-  } else {
-    document.getElementById("user-info").innerText = `Logged in as ${data.user.email}`;
+    let { error } = await supabase.auth.signUp({ email, password });
+
+    if (error) {
+      alert(error.message);
+    } else {
+      alert("Check your email for verification!");
+    }
   }
-}
 
-// Logout Function
-async function logout() {
-  await supabase.auth.signOut();
-  document.getElementById("user-info").innerText = "Not logged in";
-}
+  // Login Function
+  async function login() {
+    const email = document.getElementById("login-email").value;
+    const password = document.getElementById("login-password").value;
 
-// Handle Auth State Change
-supabase.auth.onAuthStateChange((event, session) => {
-  if (session) {
-    document.getElementById("user-info").innerText = `Logged in as ${session.user.email}`;
+    let { data, error } = await supabase.auth.signInWithPassword({ email, password });
+
+    if (error) {
+      alert(error.message);
+    } else {
+      document.getElementById("user-info").innerText = `Logged in as ${data.user.email}`;
+    }
   }
+
+  // Logout Function
+  async function logout() {
+    await supabase.auth.signOut();
+    document.getElementById("user-info").innerText = "Not logged in";
+  }
+
+  // Handle Auth State Change
+  supabase.auth.onAuthStateChange((event, session) => {
+    if (session) {
+      document.getElementById("user-info").innerText = `Logged in as ${session.user.email}`;
+    }
+  });
+
+  // Attach functions to buttons
+  document.getElementById("signup-button").addEventListener("click", signUp);
+  document.getElementById("login-button").addEventListener("click", login);
+  document.getElementById("logout-button").addEventListener("click", logout);
 });
-
-// Attach functions to buttons
-document.getElementById("signup-button").addEventListener("click", signUp);
-document.getElementById("login-button").addEventListener("click", login);
-document.getElementById("logout-button").addEventListener("click", logout);
