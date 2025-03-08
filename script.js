@@ -11,6 +11,7 @@ document.addEventListener("DOMContentLoaded", async function () {
   );
 
   let signupEmail = "";
+  let signupPassword = "";
 
   // ✅ Check if the user is already logged in (Session 2 - Auto-login after verification)
   async function checkAuth() {
@@ -25,9 +26,9 @@ document.addEventListener("DOMContentLoaded", async function () {
   // ✅ Sign Up Function
   async function signUp() {
     signupEmail = document.getElementById("signup-email").value;
-    const password = document.getElementById("signup-password").value;
+    signupPassword = document.getElementById("signup-password").value;
 
-    let { error } = await supabase.auth.signUp({ email: signupEmail, password });
+    let { error } = await supabase.auth.signUp({ email: signupEmail, password: signupPassword });
 
     if (error) {
       alert(error.message);
@@ -35,9 +36,8 @@ document.addEventListener("DOMContentLoaded", async function () {
       // ✅ Show verification message & auto-fill login fields
       document.getElementById("signup-section").style.display = "none";
       document.getElementById("login-section").style.display = "block";
-      document.getElementById("verification-message").innerText =
-        "Verification email sent. It may take a few minutes to arrive. Please verify your email and log in below.";
-      document.getElementById("login-email").value = signupEmail; // Auto-fill login
+      document.getElementById("login-email").value = signupEmail;
+      document.getElementById("login-password").value = signupPassword;
     }
   }
 
@@ -67,12 +67,21 @@ document.addEventListener("DOMContentLoaded", async function () {
     await checkAuth(); // Refresh session
   }
 
-  // ✅ Start session check when the page loads
-  checkAuth();
+  // ✅ Show/hide password toggle
+  window.togglePassword = function (fieldId) {
+    const passwordField = document.getElementById(fieldId);
+    passwordField.type = passwordField.type === "password" ? "text" : "password";
+  };
 
   // ✅ Attach functions to buttons
   document.getElementById("signup-button").addEventListener("click", signUp);
   document.getElementById("login-button").addEventListener("click", login);
   document.getElementById("logout-button").addEventListener("click", logout);
   document.getElementById("continue-button").addEventListener("click", continueAfterVerification);
+  document.getElementById("show-login").addEventListener("click", () => {
+    document.getElementById("signup-section").style.display = "none";
+    document.getElementById("login-section").style.display = "block";
+  });
+
+  checkAuth(); // Auto-login check
 });
