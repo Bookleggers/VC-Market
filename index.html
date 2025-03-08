@@ -6,6 +6,7 @@
   <title>VC Market</title>
   <link rel="stylesheet" href="styles.css">
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/js/all.min.js"></script>
 </head>
 <body>
 
@@ -21,7 +22,7 @@
       
       <div class="password-container">
         <input type="password" id="signup-password" placeholder="Password">
-        <span class="toggle-password" onclick="togglePassword('signup-password')">👁️</span>
+        <i class="fa-solid fa-eye-slash toggle-password" onclick="togglePassword('signup-password', this)"></i>
       </div>
 
       <button id="signup-button">Sign Up</button>
@@ -36,7 +37,7 @@
       
       <div class="password-container">
         <input type="password" id="login-password" placeholder="Password">
-        <span class="toggle-password" onclick="togglePassword('login-password')">👁️</span>
+        <i class="fa-solid fa-eye-slash toggle-password" onclick="togglePassword('login-password', this)"></i>
       </div>
 
       <button id="login-button">Log In</button>
