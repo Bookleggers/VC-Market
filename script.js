@@ -27,13 +27,11 @@ document.addEventListener("DOMContentLoaded", function () {
   // ✅ Password Validation (Only for Sign-Up)
   window.validatePassword = function () {
     const passwordInput = document.getElementById("signup-password");
-    if (!passwordInput) return;
-
-    const password = passwordInput.value;
     const validationContainer = document.getElementById("signup-validation");
-    if (!validationContainer) return;
 
-    validationContainer.style.display = password.length > 0 ? "block" : "none"; // Hide if empty
+    if (!passwordInput || !validationContainer) return;
+
+    validationContainer.style.display = passwordInput.value.length > 0 ? "block" : "none"; // Hide if empty
 
     const validationRules = {
       uppercase: { regex: /[A-Z]/, text: "At least 1 uppercase letter" },
@@ -42,11 +40,11 @@ document.addEventListener("DOMContentLoaded", function () {
       symbol: { regex: /[^A-Za-z0-9]/, text: "At least 1 symbol" }
     };
 
-    // Ensure validation container is cleared before adding elements
+    // Clear validation container before adding elements
     validationContainer.innerHTML = "";
 
     Object.entries(validationRules).forEach(([rule, ruleData]) => {
-      const isValid = ruleData.regex.test(password);
+      const isValid = ruleData.regex.test(passwordInput.value);
 
       const element = document.createElement("p");
       element.id = `signup-${rule}`;
@@ -85,7 +83,7 @@ document.addEventListener("DOMContentLoaded", function () {
     }
   };
 
-  // ✅ Login Function (Now Clean – No Validation)
+  // ✅ Login Function
   window.login = async function () {
     const email = document.getElementById("login-email").value;
     const password = document.getElementById("login-password").value;
@@ -120,7 +118,7 @@ document.addEventListener("DOMContentLoaded", function () {
     document.getElementById("verification-message").classList.add("hidden");
     document.getElementById("show-signup-container").classList.remove("hidden");
 
-    // Completely remove password validation when switching to login
+    // 🔥 Hide password validation when switching to login
     document.getElementById("signup-validation").style.display = "none";
   });
 
@@ -128,7 +126,7 @@ document.addEventListener("DOMContentLoaded", function () {
     document.getElementById("login-section").style.display = "none";
     document.getElementById("signup-section").style.display = "block";
 
-    // Show password validation when switching to sign-up
+    // 🔥 Show password validation when switching to sign-up
     document.getElementById("signup-validation").style.display = "block";
   });
 
