@@ -1,5 +1,4 @@
-// Ensure Supabase is available
-document.addEventListener("DOMContentLoaded", function () {
+document.addEventListener("DOMContentLoaded", async function () {
   if (!window.supabase) {
     console.error("Supabase failed to load.");
     return;
@@ -11,6 +10,14 @@ document.addEventListener("DOMContentLoaded", function () {
     "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im1sd3hmYnRpcXFhY3F2aHdmYnRrIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDE0MzM3MzYsImV4cCI6MjA1NzAwOTczNn0.Q6YD0EtZWITvTAMXFNFysyTFPtDHtD_cMFn_1G8VX4c"
   );
 
+  // Auto-login if email was verified
+  async function checkAuth() {
+    const { data: user } = await supabase.auth.getUser();
+    if (user) {
+      document.getElementById("user-info").innerText = `Logged in as ${user.email}`;
+    }
+  }
+
   // Sign Up Function
   async function signUp() {
     const email = document.getElementById("signup-email").value;
@@ -21,7 +28,7 @@ document.addEventListener("DOMContentLoaded", function () {
     if (error) {
       alert(error.message);
     } else {
-      alert("Check your email for verification!");
+      alert("Check your email for verification! After verifying, return to this page.");
     }
   }
 
@@ -45,12 +52,8 @@ document.addEventListener("DOMContentLoaded", function () {
     document.getElementById("user-info").innerText = "Not logged in";
   }
 
-  // Handle Auth State Change
-  supabase.auth.onAuthStateChange((event, session) => {
-    if (session) {
-      document.getElementById("user-info").innerText = `Logged in as ${session.user.email}`;
-    }
-  });
+  // Auto-login when returning to page
+  checkAuth();
 
   // Attach functions to buttons
   document.getElementById("signup-button").addEventListener("click", signUp);
