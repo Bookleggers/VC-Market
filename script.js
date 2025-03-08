@@ -58,15 +58,15 @@ document.addEventListener("DOMContentLoaded", async function () {
     }
   }
 
-  // ✅ Toggle Password Visibility (Font Awesome Fix)
+  // ✅ Toggle Password Visibility (Fixed Icons)
   window.togglePassword = function (fieldId, icon) {
     const passwordField = document.getElementById(fieldId);
     if (passwordField.type === "password") {
       passwordField.type = "text";
-      icon.classList.replace("fa-eye-slash", "fa-eye");
+      icon.classList.replace("fa-eye", "fa-eye-slash");
     } else {
       passwordField.type = "password";
-      icon.classList.replace("fa-eye", "fa-eye-slash");
+      icon.classList.replace("fa-eye-slash", "fa-eye");
     }
   };
 
