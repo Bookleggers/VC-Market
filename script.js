@@ -1,4 +1,4 @@
-document.addEventListener("DOMContentLoaded", async function () {
+document.addEventListener("DOMContentLoaded", function () {
   if (!window.supabase) {
     console.error("Supabase failed to load.");
     return;
@@ -36,23 +36,25 @@ document.addEventListener("DOMContentLoaded", async function () {
       const element = document.getElementById(`${validationId}-${rule}`);
       if (element) { 
         const icon = element.querySelector("i");
-        if (validationRules[rule]) {
-          icon.classList.replace("fa-xmark", "fa-check");
-          icon.style.color = "#34b233"; // ✅ Green for valid
-        } else {
-          icon.classList.replace("fa-check", "fa-xmark");
-          icon.style.color = "#b21807"; // ❌ Red for invalid
+        if (icon) { 
+          if (validationRules[rule]) {
+            icon.classList.replace("fa-xmark", "fa-check");
+            icon.style.color = "#34b233"; // ✅ Green for valid
+          } else {
+            icon.classList.replace("fa-check", "fa-xmark");
+            icon.style.color = "#b21807"; // ❌ Red for invalid
+          }
         }
       }
     });
   }
 
   // ✅ Attach Password Validation to Input Fields
-  document.getElementById("signup-password").addEventListener("input", () => {
+  document.getElementById("signup-password").addEventListener("input", function () {
     validatePassword("signup-password", "signup");
   });
 
-  document.getElementById("login-password").addEventListener("input", () => {
+  document.getElementById("login-password").addEventListener("input", function () {
     validatePassword("login-password", "login");
   });
 
@@ -102,14 +104,14 @@ document.addEventListener("DOMContentLoaded", async function () {
   }
 
   // ✅ Switch Between Sign-Up & Login Pages
-  document.getElementById("show-login").addEventListener("click", () => {
+  document.getElementById("show-login").addEventListener("click", function () {
     document.getElementById("signup-section").style.display = "none";
     document.getElementById("login-section").style.display = "block";
     document.getElementById("verification-message").classList.add("hidden");
     document.getElementById("show-signup-container").classList.remove("hidden");
   });
 
-  document.getElementById("show-signup").addEventListener("click", () => {
+  document.getElementById("show-signup").addEventListener("click", function () {
     document.getElementById("login-section").style.display = "none";
     document.getElementById("signup-section").style.display = "block";
   });
