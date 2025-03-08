@@ -10,22 +10,32 @@
 <body>
 
   <div class="container">
-    <h2>VC Market - User Authentication</h2>
+    <h2>VC Market</h2>
 
     <!-- Sign Up Section -->
     <div id="signup-section">
-      <h3>Sign Up</h3>
       <input type="email" id="signup-email" placeholder="Email">
-      <input type="password" id="signup-password" placeholder="Password">
+      
+      <div class="password-container">
+        <input type="password" id="signup-password" placeholder="Password">
+        <span class="toggle-password" onclick="togglePassword('signup-password')">👁️</span>
+      </div>
+
       <button id="signup-button">Sign Up</button>
+      <p>Have an account? <button id="show-login">Log in</button></p>
     </div>
 
-    <!-- Login Section -->
+    <!-- Login Section (Initially Hidden) -->
     <div id="login-section" style="display: none;">
-      <p id="verification-message"></p>
-      <h3>Log In</h3>
+      <p id="verification-message">Verification email sent. It may take a few minutes to arrive. Please verify your email and log in below.</p>
+
       <input type="email" id="login-email" placeholder="Email">
-      <input type="password" id="login-password" placeholder="Password">
+      
+      <div class="password-container">
+        <input type="password" id="login-password" placeholder="Password">
+        <span class="toggle-password" onclick="togglePassword('login-password')">👁️</span>
+      </div>
+
       <button id="login-button">Log In</button>
     </div>
 
