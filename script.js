@@ -27,7 +27,7 @@ document.addEventListener("DOMContentLoaded", function () {
   // ✅ Fully Dynamic Password Validation
   window.validatePassword = function (inputId, validationPrefix) {
     const passwordInput = document.getElementById(inputId);
-    if (!passwordInput) return; // Ensure input field exists
+    if (!passwordInput) return;
 
     const password = passwordInput.value;
 
@@ -35,26 +35,24 @@ document.addEventListener("DOMContentLoaded", function () {
       uppercase: { regex: /[A-Z]/, text: "At least 1 uppercase letter" },
       lowercase: { regex: /[a-z]/, text: "At least 1 lowercase letter" },
       number: { regex: /[0-9]/, text: "At least 1 number" },
-      symbol: { regex: /[^A-Za-z0-9]/, text: "At least 1 symbol" } // Any non-alphanumeric character
+      symbol: { regex: /[^A-Za-z0-9]/, text: "At least 1 symbol" }
     };
 
-    console.log("Password Input:", password);
     Object.entries(validationRules).forEach(([rule, ruleData]) => {
       const isValid = ruleData.regex.test(password);
-      console.log(`${ruleData.text} Detected:`, isValid);
 
       let element = document.getElementById(`${validationPrefix}-${rule}`);
       if (!element) {
-        // If the element does not exist, create it dynamically
+        // If missing, create it dynamically
         element = document.createElement("p");
         element.id = `${validationPrefix}-${rule}`;
         document.getElementById(`${validationPrefix}-validation`).appendChild(element);
       }
 
-      // Set the text and dynamically change the icon
+      // Update text, icon, and color dynamically
       element.innerHTML = `<i class="fa-solid ${isValid ? "fa-check" : "fa-xmark"}" style="color: ${
         isValid ? "#34b233" : "#b21807"
-      };"></i> ${ruleData.text}`;
+      };"></i> <span style="color: ${isValid ? "#34b233" : "#b21807"};">${ruleData.text}</span>`;
     });
   };
 
