@@ -21,20 +21,23 @@
   </header>
   
   <main>
-    <h2>Available Textbooks</h2>
+    <h2>Find Your Textbooks</h2>
     
-    <table id="books-table" border="1">
-      <thead>
-        <tr>
-          <th>Title</th>
-          <th>Module</th>
-          <th>Degree</th>
-          <th>New Price</th>
-        </tr>
-      </thead>
-      <tbody>
-      </tbody>
-    </table>
+    <div class="filters">
+      <select id="degree-filter" onchange="filterBooks()">
+        <option value="">Select Degree</option>
+      </select>
+      
+      <select id="module-filter" onchange="filterBooks()">
+        <option value="">Select Module</option>
+      </select>
+      
+      <select id="book-filter" onchange="filterBooks()">
+        <option value="">Select Book</option>
+      </select>
+    </div>
+    
+    <div id="book-listings"></div>
   </main>
 </body>
 </html>
