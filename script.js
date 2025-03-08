@@ -1,15 +1,21 @@
-// ✅ Ensure Supabase is loaded before using it
-if (typeof supabase === "undefined") {
-  var supabase = window.supabase.createClient(
-    "https://mlwxfbtiqqacqvhwfbtk.supabase.co",
-    "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im1sd3hmYnRpcXFhY3F2aHdmYnRrIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDE0MzM3MzYsImV4cCI6MjA1NzAwOTczNn0.Q6YD0EtZWITvTAMXFNFysyTFPtDHtD_cMFn_1G8VX4c"
-  );
-}
+// ✅ Initialize Supabase correctly
+const supabase = window.supabase.createClient(
+  "https://mlwxfbtiqqacqvhwfbtk.supabase.co",
+  "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im1sd3hmYnRpcXFhY3F2aHdmYnRrIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDE0MzM3MzYsImV4cCI6MjA1NzAwOTczNn0.Q6YD0EtZWITvTAMXFNFysyTFPtDHtD_cMFn_1G8VX4c"
+);
 
 // ✅ Load dropdown filters for books
 async function loadFilters() {
+  if (!supabase) {
+    console.error("Supabase is not initialized!");
+    return;
+  }
+
   const { data, error } = await supabase.from("preloaded_books").select("degree, module, title");
-  if (error) { console.error("Error fetching books:", error); return; }
+  if (error) {
+    console.error("Error fetching books:", error);
+    return;
+  }
 
   const degreeCounts = {}, moduleCounts = {}, bookCounts = {};
 
@@ -50,7 +56,10 @@ async function filterBooks() {
   if (selectedBook) query = query.eq("title", selectedBook);
 
   const { data, error } = await query;
-  if (error) { console.error("Error fetching filtered books:", error); return; }
+  if (error) {
+    console.error("Error fetching filtered books:", error);
+    return;
+  }
 
   const listingsContainer = document.getElementById("book-listings");
   if (!listingsContainer) return;
