@@ -24,8 +24,10 @@ document.addEventListener("DOMContentLoaded", function () {
     }, 4000);
   }
 
-  // ✅ Fully Dynamic Password Validation
-  window.validatePassword = function (inputId, validationPrefix) {
+  // ✅ Password Validation (Now Only on Sign-Up Page)
+  window.validatePassword = function (inputId) {
+    if (inputId === "login-password") return; // Don't show validation for login
+
     const passwordInput = document.getElementById(inputId);
     if (!passwordInput) return;
 
@@ -41,12 +43,12 @@ document.addEventListener("DOMContentLoaded", function () {
     Object.entries(validationRules).forEach(([rule, ruleData]) => {
       const isValid = ruleData.regex.test(password);
 
-      let element = document.getElementById(`${validationPrefix}-${rule}`);
+      let element = document.getElementById(`signup-${rule}`);
       if (!element) {
-        // If missing, create it dynamically
+        // Create validation dynamically if missing
         element = document.createElement("p");
-        element.id = `${validationPrefix}-${rule}`;
-        document.getElementById(`${validationPrefix}-validation`).appendChild(element);
+        element.id = `signup-${rule}`;
+        document.getElementById("signup-validation").appendChild(element);
       }
 
       // Update text, icon, and color dynamically
@@ -56,13 +58,9 @@ document.addEventListener("DOMContentLoaded", function () {
     });
   };
 
-  // ✅ Attach Password Validation to Input Fields
+  // ✅ Attach Password Validation to Sign-Up Only
   document.getElementById("signup-password").oninput = function () {
-    validatePassword("signup-password", "signup");
-  };
-
-  document.getElementById("login-password").oninput = function () {
-    validatePassword("login-password", "login");
+    validatePassword("signup-password");
   };
 
   // ✅ Sign Up Function
