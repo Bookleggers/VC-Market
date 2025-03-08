@@ -24,7 +24,7 @@ document.addEventListener("DOMContentLoaded", function () {
     }, 4000);
   }
 
-  // ✅ Live Password Validation (Now Works Fully)
+  // ✅ Live Password Validation (Fixed & Globally Accessible)
   window.validatePassword = function (inputId, validationPrefix) {
     const passwordInput = document.getElementById(inputId);
     if (!passwordInput) return; // Ensure input field exists
@@ -56,23 +56,16 @@ document.addEventListener("DOMContentLoaded", function () {
   };
 
   // ✅ Attach Password Validation to Input Fields
-  const signupPassword = document.getElementById("signup-password");
-  const loginPassword = document.getElementById("login-password");
+  document.getElementById("signup-password").oninput = function () {
+    validatePassword("signup-password", "signup");
+  };
 
-  if (signupPassword) {
-    signupPassword.addEventListener("input", function () {
-      validatePassword("signup-password", "signup");
-    });
-  }
-
-  if (loginPassword) {
-    loginPassword.addEventListener("input", function () {
-      validatePassword("login-password", "login");
-    });
-  }
+  document.getElementById("login-password").oninput = function () {
+    validatePassword("login-password", "login");
+  };
 
   // ✅ Sign Up Function
-  async function signUp() {
+  window.signUp = async function () {
     const email = document.getElementById("signup-email").value;
     const password = document.getElementById("signup-password").value;
 
@@ -88,10 +81,10 @@ document.addEventListener("DOMContentLoaded", function () {
       document.getElementById("verification-message").classList.remove("hidden");
       showNotification("Verification email sent. Please verify and log in.");
     }
-  }
+  };
 
   // ✅ Login Function
-  async function login() {
+  window.login = async function () {
     const email = document.getElementById("login-email").value;
     const password = document.getElementById("login-password").value;
 
@@ -102,10 +95,10 @@ document.addEventListener("DOMContentLoaded", function () {
     } else {
       showNotification(`Logged in as ${data.session.user.email}`);
     }
-  }
+  };
 
   // ✅ Toggle Password Visibility
-  function togglePassword(fieldId, icon) {
+  window.togglePassword = function (fieldId, icon) {
     const passwordField = document.getElementById(fieldId);
     if (!passwordField) return;
 
@@ -116,39 +109,22 @@ document.addEventListener("DOMContentLoaded", function () {
       passwordField.type = "password";
       icon.classList.replace("fa-eye-slash", "fa-eye");
     }
-  }
+  };
 
   // ✅ Switch Between Sign-Up & Login Pages
-  const showLoginBtn = document.getElementById("show-login");
-  const showSignupBtn = document.getElementById("show-signup");
+  document.getElementById("show-login").addEventListener("click", function () {
+    document.getElementById("signup-section").style.display = "none";
+    document.getElementById("login-section").style.display = "block";
+    document.getElementById("verification-message").classList.add("hidden");
+    document.getElementById("show-signup-container").classList.remove("hidden");
+  });
 
-  if (showLoginBtn) {
-    showLoginBtn.addEventListener("click", function () {
-      document.getElementById("signup-section").style.display = "none";
-      document.getElementById("login-section").style.display = "block";
-      document.getElementById("verification-message").classList.add("hidden");
-      document.getElementById("show-signup-container").classList.remove("hidden");
-    });
-  }
-
-  if (showSignupBtn) {
-    showSignupBtn.addEventListener("click", function () {
-      document.getElementById("login-section").style.display = "none";
-      document.getElementById("signup-section").style.display = "block";
-    });
-  }
+  document.getElementById("show-signup").addEventListener("click", function () {
+    document.getElementById("login-section").style.display = "none";
+    document.getElementById("signup-section").style.display = "block";
+  });
 
   // ✅ Attach Functions to Buttons
-  const signupButton = document.getElementById("signup-button");
-  const loginButton = document.getElementById("login-button");
-
-  if (signupButton) {
-    signupButton.addEventListener("click", signUp);
-  }
-
-  if (loginButton) {
-    loginButton.addEventListener("click", login);
-  }
-
-  window.togglePassword = togglePassword;
+  document.getElementById("signup-button").addEventListener("click", signUp);
+  document.getElementById("login-button").addEventListener("click", login);
 });
