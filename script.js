@@ -24,7 +24,7 @@ document.addEventListener("DOMContentLoaded", function () {
     }, 4000);
   }
 
-  // ✅ Live Password Validation (Now Fixes UI Updates)
+  // ✅ Fully Dynamic Password Validation
   window.validatePassword = function (inputId, validationPrefix) {
     const passwordInput = document.getElementById(inputId);
     if (!passwordInput) return; // Ensure input field exists
@@ -32,36 +32,29 @@ document.addEventListener("DOMContentLoaded", function () {
     const password = passwordInput.value;
 
     const validationRules = {
-      uppercase: /[A-Z]/.test(password),
-      lowercase: /[a-z]/.test(password),
-      number: /[0-9]/.test(password),
-      symbol: /[^A-Za-z0-9]/.test(password) // Fix: Now correctly detects any symbol
+      uppercase: { regex: /[A-Z]/, text: "At least 1 uppercase letter" },
+      lowercase: { regex: /[a-z]/, text: "At least 1 lowercase letter" },
+      number: { regex: /[0-9]/, text: "At least 1 number" },
+      symbol: { regex: /[^A-Za-z0-9]/, text: "At least 1 symbol" } // Any non-alphanumeric character
     };
 
     console.log("Password Input:", password);
-    console.log("Uppercase Detected:", validationRules.uppercase);
-    console.log("Lowercase Detected:", validationRules.lowercase);
-    console.log("Number Detected:", validationRules.number);
-    console.log("Symbol Detected:", validationRules.symbol);
+    Object.entries(validationRules).forEach(([rule, ruleData]) => {
+      const isValid = ruleData.regex.test(password);
+      console.log(`${ruleData.text} Detected:`, isValid);
 
-    Object.entries(validationRules).forEach(([rule, isValid]) => {
-      const element = document.getElementById(`${validationPrefix}-${rule}`);
-      if (!element) return; // Ensure validation element exists
-
-      const icon = element.querySelector("i");
-      if (!icon) return; // Ensure icon exists
-
-      if (isValid) {
-        if (!icon.classList.contains("fa-check")) {
-          icon.classList.replace("fa-xmark", "fa-check");
-          icon.style.color = "#34b233"; // ✅ Green for valid
-        }
-      } else {
-        if (!icon.classList.contains("fa-xmark")) {
-          icon.classList.replace("fa-check", "fa-xmark");
-          icon.style.color = "#b21807"; // ❌ Red for invalid
-        }
+      let element = document.getElementById(`${validationPrefix}-${rule}`);
+      if (!element) {
+        // If the element does not exist, create it dynamically
+        element = document.createElement("p");
+        element.id = `${validationPrefix}-${rule}`;
+        document.getElementById(`${validationPrefix}-validation`).appendChild(element);
       }
+
+      // Set the text and dynamically change the icon
+      element.innerHTML = `<i class="fa-solid ${isValid ? "fa-check" : "fa-xmark"}" style="color: ${
+        isValid ? "#34b233" : "#b21807"
+      };"></i> ${ruleData.text}`;
     });
   };
 
