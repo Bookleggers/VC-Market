@@ -10,12 +10,32 @@ document.addEventListener("DOMContentLoaded", async function () {
     "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im1sd3hmYnRpcXFhY3F2aHdmYnRrIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDE0MzM3MzYsImV4cCI6MjA1NzAwOTczNn0.Q6YD0EtZWITvTAMXFNFysyTFPtDHtD_cMFn_1G8VX4c"
   );
 
+  let checkInterval;
+
   // Auto-login if email was verified
   async function checkAuth() {
-    const { data: user } = await supabase.auth.getUser();
+    const { data: { user }, error } = await supabase.auth.getUser();
+    if (error) {
+      console.error("Auth error:", error.message);
+      return;
+    }
     if (user) {
       document.getElementById("user-info").innerText = `Logged in as ${user.email}`;
+      clearInterval(checkInterval); // Stop checking once logged in
     }
+  }
+
+  // Keep checking if email is verified every 5 seconds
+  async function startVerificationCheck(email) {
+    checkInterval = setInterval(async () => {
+      const { data: { user } } = await supabase.auth.getUser();
+      if (user && user.email_confirmed_at) {
+        console.log("Email verified, logging in...");
+        clearInterval(checkInterval);
+        alert("Your email has been verified! Logging you in...");
+        document.getElementById("user-info").innerText = `Logged in as ${user.email}`;
+      }
+    }, 5000); // Check every 5 seconds
   }
 
   // Sign Up Function
@@ -28,7 +48,8 @@ document.addEventListener("DOMContentLoaded", async function () {
     if (error) {
       alert(error.message);
     } else {
-      alert("Check your email for verification! After verifying, return to this page.");
+      alert("Check your email for verification! This page will auto-login when you verify.");
+      startVerificationCheck(email);
     }
   }
 
