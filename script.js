@@ -12,9 +12,16 @@ document.addEventListener("DOMContentLoaded", function () {
 // ✅ Fetch books from Supabase and display in table
 async function loadBooks() {
   const { data, error } = await supabase.from("preloaded_books").select("title, module, degree, new_price");
-  
+
   if (error) {
     console.error("Error fetching books:", error);
+    return;
+  }
+
+  console.log("Fetched data:", data); // ✅ Debugging log to check response
+
+  if (!data || data.length === 0) {
+    console.warn("No data found in preloaded_books");
     return;
   }
 
