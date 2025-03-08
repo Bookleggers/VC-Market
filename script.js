@@ -1,139 +1,81 @@
-document.addEventListener("DOMContentLoaded", function () {
-  if (!window.supabase) {
-    console.error("Supabase failed to load.");
-    return;
-  }
+const supabase = supabase.createClient("https://mlwxfbtiqqacqvhwfbtk.supabase.co", "your-anon-key");
 
-  // ✅ Initialize Supabase
-  const supabase = window.supabase.createClient(
-    "https://mlwxfbtiqqacqvhwfbtk.supabase.co",
-    "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im1sd3hmYnRpcXFhY3F2aHdmYnRrIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDE0MzM3MzYsImV4cCI6MjA1NzAwOTczNn0.Q6YD0EtZWITvTAMXFNFysyTFPtDHtD_cMFn_1G8VX4c"
-  );
+// ✅ Load dropdown filters for books
+async function loadFilters() {
+  const { data, error } = await supabase.from("preloaded_books").select("degree, module, title");
+  if (error) { console.error(error); return; }
 
-  // ✅ Show Notification Banner
-  function showNotification(message, success = true) {
-    const notification = document.getElementById("notification");
-    if (!notification) return;
+  const degreeCounts = {}, moduleCounts = {}, bookCounts = {};
 
-    notification.textContent = message;
-    notification.style.backgroundColor = success ? "#28a745" : "#dc3545"; // Green for success, Red for error
-    notification.style.display = "block";
+  data.forEach(book => {
+    degreeCounts[book.degree] = (degreeCounts[book.degree] || 0) + 1;
+    moduleCounts[book.module] = (moduleCounts[book.module] || 0) + 1;
+    bookCounts[book.title] = (bookCounts[book.title] || 0) + 1;
+  });
 
-    setTimeout(() => {
-      notification.style.display = "none";
-    }, 4000);
-  }
+  populateDropdown("degree-filter", degreeCounts);
+  populateDropdown("module-filter", moduleCounts);
+  populateDropdown("book-filter", bookCounts);
+}
 
-  // ✅ Password Validation (Only on Sign-Up)
-  window.validatePassword = function () {
-    const passwordInput = document.getElementById("signup-password");
-    if (!passwordInput) return;
+function populateDropdown(filterId, data) {
+  const dropdown = document.getElementById(filterId);
+  Object.entries(data).forEach(([key, count]) => {
+    let option = document.createElement("option");
+    option.value = key;
+    option.textContent = `${key} (${count})`;
+    dropdown.appendChild(option);
+  });
+}
 
-    const password = passwordInput.value;
-    const validationContainer = document.getElementById("signup-validation");
-    if (!validationContainer) return;
+async function filterBooks() {
+  const selectedDegree = document.getElementById("degree-filter").value;
+  const selectedModule = document.getElementById("module-filter").value;
+  const selectedBook = document.getElementById("book-filter").value;
 
-    validationContainer.style.display = password.length > 0 ? "block" : "none"; // Hide if empty
+  let query = supabase.from("book_listings").select("title, price, condition");
+  if (selectedDegree) query = query.eq("degree", selectedDegree);
+  if (selectedModule) query = query.eq("module", selectedModule);
+  if (selectedBook) query = query.eq("title", selectedBook);
 
-    const validationRules = {
-      uppercase: { regex: /[A-Z]/, text: "At least 1 uppercase letter" },
-      lowercase: { regex: /[a-z]/, text: "At least 1 lowercase letter" },
-      number: { regex: /[0-9]/, text: "At least 1 number" },
-      symbol: { regex: /[^A-Za-z0-9]/, text: "At least 1 symbol" }
-    };
+  const { data, error } = await query;
+  if (error) { console.error(error); return; }
 
-    Object.entries(validationRules).forEach(([rule, ruleData]) => {
-      const isValid = ruleData.regex.test(password);
+  const listingsContainer = document.getElementById("book-listings");
+  listingsContainer.innerHTML = "";
 
-      let element = document.getElementById(`signup-${rule}`);
-      if (!element) {
-        element = document.createElement("p");
-        element.id = `signup-${rule}`;
-        validationContainer.appendChild(element);
-      }
+  data.forEach(book => {
+    let div = document.createElement("div");
+    div.classList.add("book-item");
+    div.innerHTML = `<strong>${book.title}</strong> - R${book.price} (${book.condition})`;
+    listingsContainer.appendChild(div);
+  });
+}
 
-      // Update text, icon, and color dynamically
-      element.innerHTML = `<i class="fa-solid ${isValid ? "fa-check" : "fa-xmark"}" style="color: ${
-        isValid ? "#34b233" : "#b21807"
-      };"></i> <span style="color: ${isValid ? "#34b233" : "#b21807"};">${ruleData.text}</span>`;
-    });
-  };
-
-  // ✅ Attach Password Validation (Only to Sign-Up)
-  const signupPassword = document.getElementById("signup-password");
-  if (signupPassword) {
-    signupPassword.oninput = function () {
-      validatePassword();
-    };
-  }
-
-  // ✅ Sign Up Function
-  window.signUp = async function () {
+// ✅ Attach functions for authentication (only on login.html)
+if (document.getElementById("signup-button")) {
+  document.getElementById("signup-button").addEventListener("click", async () => {
     const email = document.getElementById("signup-email").value;
     const password = document.getElementById("signup-password").value;
 
     let { error } = await supabase.auth.signUp({ email, password });
+    if (error) alert(error.message);
+    else alert("Verification email sent! Please check your inbox.");
+  });
+}
 
-    if (error) {
-      showNotification(error.message, false);
-    } else {
-      document.getElementById("signup-section").style.display = "none";
-      document.getElementById("login-section").style.display = "block";
-      document.getElementById("login-email").value = email;
-      document.getElementById("login-password").value = password;
-      document.getElementById("verification-message").classList.remove("hidden");
-      showNotification("Verification email sent. Please verify and log in.");
-    }
-  };
-
-  // ✅ Login Function
-  window.login = async function () {
+if (document.getElementById("login-button")) {
+  document.getElementById("login-button").addEventListener("click", async () => {
     const email = document.getElementById("login-email").value;
     const password = document.getElementById("login-password").value;
 
     let { data, error } = await supabase.auth.signInWithPassword({ email, password });
-
-    if (error) {
-      showNotification(error.message, false);
-    } else {
-      showNotification(`Logged in as ${data.session.user.email}`);
-    }
-  };
-
-  // ✅ Toggle Password Visibility
-  window.togglePassword = function (fieldId, icon) {
-    const passwordField = document.getElementById(fieldId);
-    if (!passwordField) return;
-
-    if (passwordField.type === "password") {
-      passwordField.type = "text";
-      icon.classList.replace("fa-eye", "fa-eye-slash");
-    } else {
-      passwordField.type = "password";
-      icon.classList.replace("fa-eye-slash", "fa-eye");
-    }
-  };
-
-  // ✅ Switch Between Sign-Up & Login Pages
-  document.getElementById("show-login").addEventListener("click", function () {
-    document.getElementById("signup-section").style.display = "none";
-    document.getElementById("login-section").style.display = "block";
-    document.getElementById("verification-message").classList.add("hidden");
-    document.getElementById("show-signup-container").classList.remove("hidden");
-
-    // Hide password validation when switching to login
-    document.getElementById("signup-validation").style.display = "none";
+    if (error) alert(error.message);
+    else alert(`Logged in as ${data.user.email}`);
   });
+}
 
-  document.getElementById("show-signup").addEventListener("click", function () {
-    document.getElementById("login-section").style.display = "none";
-    document.getElementById("signup-section").style.display = "block";
-
-    // Show password validation when switching to sign-up
-    document.getElementById("signup-validation").style.display = "block";
-  });
-
-  // ✅ Attach Functions to Buttons
-  document.getElementById("signup-button").addEventListener("click", signUp);
-  document.getElementById("login-button").addEventListener("click", login);
-});
+// ✅ Run filters only on the home page
+if (document.getElementById("degree-filter")) {
+  window.onload = loadFilters;
+}
