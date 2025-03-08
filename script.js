@@ -13,6 +13,8 @@ document.addEventListener("DOMContentLoaded", function () {
   // ✅ Show Notification Banner
   function showNotification(message, success = true) {
     const notification = document.getElementById("notification");
+    if (!notification) return;
+    
     notification.textContent = message;
     notification.style.backgroundColor = success ? "#28a745" : "#dc3545"; // Green for success, Red for error
     notification.style.display = "block";
@@ -22,9 +24,10 @@ document.addEventListener("DOMContentLoaded", function () {
     }, 4000);
   }
 
-  // ✅ Live Password Validation (Fixed)
-  function validatePassword(inputId, validationId) {
+  // ✅ Live Password Validation (Fully Working)
+  function validatePassword(inputId, validationPrefix) {
     const password = document.getElementById(inputId).value;
+
     const validationRules = {
       uppercase: /[A-Z]/.test(password),
       lowercase: /[a-z]/.test(password),
@@ -33,30 +36,37 @@ document.addEventListener("DOMContentLoaded", function () {
     };
 
     Object.keys(validationRules).forEach(rule => {
-      const element = document.getElementById(`${validationId}-${rule}`);
-      if (element) { 
-        const icon = element.querySelector("i");
-        if (icon) { 
-          if (validationRules[rule]) {
-            icon.classList.replace("fa-xmark", "fa-check");
-            icon.style.color = "#34b233"; // ✅ Green for valid
-          } else {
-            icon.classList.replace("fa-check", "fa-xmark");
-            icon.style.color = "#b21807"; // ❌ Red for invalid
-          }
-        }
+      const element = document.getElementById(`${validationPrefix}-${rule}`);
+      if (!element) return; // Ensure element exists
+
+      const icon = element.querySelector("i");
+      if (!icon) return; // Ensure icon exists
+
+      if (validationRules[rule]) {
+        icon.classList.replace("fa-xmark", "fa-check");
+        icon.style.color = "#34b233"; // ✅ Green for valid
+      } else {
+        icon.classList.replace("fa-check", "fa-xmark");
+        icon.style.color = "#b21807"; // ❌ Red for invalid
       }
     });
   }
 
   // ✅ Attach Password Validation to Input Fields
-  document.getElementById("signup-password").addEventListener("input", function () {
-    validatePassword("signup-password", "signup");
-  });
+  const signupPassword = document.getElementById("signup-password");
+  const loginPassword = document.getElementById("login-password");
 
-  document.getElementById("login-password").addEventListener("input", function () {
-    validatePassword("login-password", "login");
-  });
+  if (signupPassword) {
+    signupPassword.addEventListener("input", function () {
+      validatePassword("signup-password", "signup");
+    });
+  }
+
+  if (loginPassword) {
+    loginPassword.addEventListener("input", function () {
+      validatePassword("login-password", "login");
+    });
+  }
 
   // ✅ Sign Up Function
   async function signUp() {
@@ -94,6 +104,8 @@ document.addEventListener("DOMContentLoaded", function () {
   // ✅ Toggle Password Visibility
   function togglePassword(fieldId, icon) {
     const passwordField = document.getElementById(fieldId);
+    if (!passwordField) return;
+
     if (passwordField.type === "password") {
       passwordField.type = "text";
       icon.classList.replace("fa-eye", "fa-eye-slash");
@@ -104,20 +116,36 @@ document.addEventListener("DOMContentLoaded", function () {
   }
 
   // ✅ Switch Between Sign-Up & Login Pages
-  document.getElementById("show-login").addEventListener("click", function () {
-    document.getElementById("signup-section").style.display = "none";
-    document.getElementById("login-section").style.display = "block";
-    document.getElementById("verification-message").classList.add("hidden");
-    document.getElementById("show-signup-container").classList.remove("hidden");
-  });
+  const showLoginBtn = document.getElementById("show-login");
+  const showSignupBtn = document.getElementById("show-signup");
 
-  document.getElementById("show-signup").addEventListener("click", function () {
-    document.getElementById("login-section").style.display = "none";
-    document.getElementById("signup-section").style.display = "block";
-  });
+  if (showLoginBtn) {
+    showLoginBtn.addEventListener("click", function () {
+      document.getElementById("signup-section").style.display = "none";
+      document.getElementById("login-section").style.display = "block";
+      document.getElementById("verification-message").classList.add("hidden");
+      document.getElementById("show-signup-container").classList.remove("hidden");
+    });
+  }
+
+  if (showSignupBtn) {
+    showSignupBtn.addEventListener("click", function () {
+      document.getElementById("login-section").style.display = "none";
+      document.getElementById("signup-section").style.display = "block";
+    });
+  }
 
   // ✅ Attach Functions to Buttons
-  document.getElementById("signup-button").addEventListener("click", signUp);
-  document.getElementById("login-button").addEventListener("click", login);
+  const signupButton = document.getElementById("signup-button");
+  const loginButton = document.getElementById("login-button");
+
+  if (signupButton) {
+    signupButton.addEventListener("click", signUp);
+  }
+
+  if (loginButton) {
+    loginButton.addEventListener("click", login);
+  }
+
   window.togglePassword = togglePassword;
 });
