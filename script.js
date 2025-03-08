@@ -23,20 +23,20 @@ document.addEventListener("DOMContentLoaded", async function () {
   }
 
   // ✅ Live Password Validation (Fixed)
-  window.validatePassword = function (inputId, validationId) {
+  function validatePassword(inputId, validationId) {
     const password = document.getElementById(inputId).value;
-    const requirements = {
+    const validationRules = {
       uppercase: /[A-Z]/.test(password),
       lowercase: /[a-z]/.test(password),
       number: /[0-9]/.test(password),
       symbol: /[^A-Za-z0-9]/.test(password)
     };
 
-    Object.keys(requirements).forEach(key => {
-      const element = document.getElementById(`${validationId}-${key}`);
+    Object.keys(validationRules).forEach(rule => {
+      const element = document.getElementById(`${validationId}-${rule}`);
       if (element) { 
         const icon = element.querySelector("i");
-        if (requirements[key]) {
+        if (validationRules[rule]) {
           icon.classList.replace("fa-xmark", "fa-check");
           icon.style.color = "#34b233"; // ✅ Green for valid
         } else {
@@ -45,10 +45,19 @@ document.addEventListener("DOMContentLoaded", async function () {
         }
       }
     });
-  };
+  }
+
+  // ✅ Attach Password Validation to Input Fields
+  document.getElementById("signup-password").addEventListener("input", () => {
+    validatePassword("signup-password", "signup");
+  });
+
+  document.getElementById("login-password").addEventListener("input", () => {
+    validatePassword("login-password", "login");
+  });
 
   // ✅ Sign Up Function
-  window.signUp = async function () {
+  async function signUp() {
     const email = document.getElementById("signup-email").value;
     const password = document.getElementById("signup-password").value;
 
@@ -64,10 +73,10 @@ document.addEventListener("DOMContentLoaded", async function () {
       document.getElementById("verification-message").classList.remove("hidden");
       showNotification("Verification email sent. Please verify and log in.");
     }
-  };
+  }
 
   // ✅ Login Function
-  window.login = async function () {
+  async function login() {
     const email = document.getElementById("login-email").value;
     const password = document.getElementById("login-password").value;
 
@@ -78,10 +87,10 @@ document.addEventListener("DOMContentLoaded", async function () {
     } else {
       showNotification(`Logged in as ${data.session.user.email}`);
     }
-  };
+  }
 
   // ✅ Toggle Password Visibility
-  window.togglePassword = function (fieldId, icon) {
+  function togglePassword(fieldId, icon) {
     const passwordField = document.getElementById(fieldId);
     if (passwordField.type === "password") {
       passwordField.type = "text";
@@ -90,18 +99,23 @@ document.addEventListener("DOMContentLoaded", async function () {
       passwordField.type = "password";
       icon.classList.replace("fa-eye-slash", "fa-eye");
     }
-  };
+  }
 
-  // ✅ Attach Validation Listeners
-  document.getElementById("signup-password").addEventListener("input", () => {
-    validatePassword("signup-password", "signup");
+  // ✅ Switch Between Sign-Up & Login Pages
+  document.getElementById("show-login").addEventListener("click", () => {
+    document.getElementById("signup-section").style.display = "none";
+    document.getElementById("login-section").style.display = "block";
+    document.getElementById("verification-message").classList.add("hidden");
+    document.getElementById("show-signup-container").classList.remove("hidden");
   });
 
-  document.getElementById("login-password").addEventListener("input", () => {
-    validatePassword("login-password", "login");
+  document.getElementById("show-signup").addEventListener("click", () => {
+    document.getElementById("login-section").style.display = "none";
+    document.getElementById("signup-section").style.display = "block";
   });
 
   // ✅ Attach Functions to Buttons
   document.getElementById("signup-button").addEventListener("click", signUp);
   document.getElementById("login-button").addEventListener("click", login);
+  window.togglePassword = togglePassword;
 });
