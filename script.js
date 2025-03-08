@@ -10,7 +10,7 @@ document.addEventListener("DOMContentLoaded", async function () {
     "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im1sd3hmYnRpcXFhY3F2aHdmYnRrIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDE0MzM3MzYsImV4cCI6MjA1NzAwOTczNn0.Q6YD0EtZWITvTAMXFNFysyTFPtDHtD_cMFn_1G8VX4c"
   );
 
-  // ✅ Make validatePassword globally accessible
+  // ✅ Password Validation (Now with Error Handling)
   window.validatePassword = function (inputId, validationId) {
     const password = document.getElementById(inputId).value;
     const requirements = {
@@ -22,14 +22,14 @@ document.addEventListener("DOMContentLoaded", async function () {
 
     Object.keys(requirements).forEach(key => {
       const element = document.getElementById(`${validationId}-${key}`);
-      if (element) {
+      if (element) { // ✅ Only update if the element exists
         const icon = element.querySelector("i");
         if (requirements[key]) {
-          icon.classList.replace("fa-xmark", "fa-check");
-          icon.style.color = "#34b233"; // Green for valid
+          if (icon) icon.classList.replace("fa-xmark", "fa-check");
+          element.style.color = "#34b233"; // Green for valid
         } else {
-          icon.classList.replace("fa-check", "fa-xmark");
-          icon.style.color = "#b21807"; // Red for invalid
+          if (icon) icon.classList.replace("fa-check", "fa-xmark");
+          element.style.color = "#b21807"; // Red for invalid
         }
       }
     });
