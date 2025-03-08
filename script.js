@@ -58,13 +58,21 @@ document.addEventListener("DOMContentLoaded", async function () {
     }
   }
 
-  // ✅ Toggle Password Visibility
-  window.togglePassword = function (fieldId) {
+  // ✅ Toggle Password Visibility (Using Font Awesome)
+  window.togglePassword = function (fieldId, icon) {
     const passwordField = document.getElementById(fieldId);
-    passwordField.type = passwordField.type === "password" ? "text" : "password";
+    if (passwordField.type === "password") {
+      passwordField.type = "text";
+      icon.classList.remove("fa-eye-slash");
+      icon.classList.add("fa-eye");
+    } else {
+      passwordField.type = "password";
+      icon.classList.remove("fa-eye");
+      icon.classList.add("fa-eye-slash");
+    }
   };
 
-  // ✅ Switch to Login (Fixed)
+  // ✅ Switch to Login
   document.getElementById("show-login").addEventListener("click", () => {
     document.getElementById("signup-section").style.display = "none";
     document.getElementById("login-section").style.display = "block";
@@ -75,7 +83,7 @@ document.addEventListener("DOMContentLoaded", async function () {
     document.getElementById("show-signup-container").classList.remove("hidden");
   });
 
-  // ✅ Switch to Sign Up (Fixed)
+  // ✅ Switch to Sign Up
   document.getElementById("show-signup").addEventListener("click", () => {
     document.getElementById("login-section").style.display = "none";
     document.getElementById("signup-section").style.display = "block";
