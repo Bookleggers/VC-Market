@@ -1,8 +1,10 @@
-// ✅ Initialize Supabase at the top
-const supabase = supabase.createClient(
-  "https://mlwxfbtiqqacqvhwfbtk.supabase.co",
-  "your-anon-key"
-);
+// ✅ Ensure Supabase is loaded before using it
+if (typeof supabase === "undefined") {
+  var supabase = window.supabase.createClient(
+    "https://mlwxfbtiqqacqvhwfbtk.supabase.co",
+    "your-anon-key"
+  );
+}
 
 // ✅ Load dropdown filters for books
 async function loadFilters() {
@@ -62,7 +64,7 @@ async function filterBooks() {
   });
 }
 
-// ✅ Attach functions for authentication (only on login.html)
+// ✅ Authentication Functions (Sign-Up, Login)
 if (document.getElementById("signup-button")) {
   document.getElementById("signup-button").addEventListener("click", async () => {
     const email = document.getElementById("signup-email").value;
