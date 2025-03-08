@@ -24,7 +24,7 @@ document.addEventListener("DOMContentLoaded", function () {
     }, 4000);
   }
 
-  // ✅ Live Password Validation (Fixed & Working for All Cases)
+  // ✅ Live Password Validation with Debugging Logs
   window.validatePassword = function (inputId, validationPrefix) {
     const passwordInput = document.getElementById(inputId);
     if (!passwordInput) return; // Ensure input field exists
@@ -35,8 +35,14 @@ document.addEventListener("DOMContentLoaded", function () {
       uppercase: /[A-Z]/.test(password),
       lowercase: /[a-z]/.test(password),
       number: /[0-9]/.test(password),
-      symbol: /[!@#$%^&*(),.?":{}|<>]/.test(password) // Fixed: Checks for common symbols
+      symbol: /[!@#$%^&*(),.?":{}|<>]/.test(password) // Checks for common symbols
     };
+
+    console.log("Password Input:", password);
+    console.log("Uppercase Detected:", validationRules.uppercase);
+    console.log("Lowercase Detected:", validationRules.lowercase);
+    console.log("Number Detected:", validationRules.number);
+    console.log("Symbol Detected:", validationRules.symbol);
 
     Object.keys(validationRules).forEach(rule => {
       const element = document.getElementById(`${validationPrefix}-${rule}`);
