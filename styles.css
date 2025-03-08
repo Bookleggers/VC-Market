@@ -1,30 +1,99 @@
+/* General Page Styles */
 body {
   font-family: Arial, sans-serif;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  height: 100vh;
+  margin: 0;
+  padding: 0;
   background-color: #f8f9fa;
 }
 
+/* Header & Navigation */
+header {
+  background: #007bff;
+  color: white;
+  padding: 15px 0;
+  text-align: center;
+}
+
+nav ul {
+  list-style: none;
+  padding: 0;
+  display: flex;
+  justify-content: center;
+  gap: 20px;
+}
+
+nav ul li {
+  display: inline;
+}
+
+nav ul li a {
+  color: white;
+  text-decoration: none;
+  font-size: 16px;
+}
+
+nav ul li a:hover {
+  text-decoration: underline;
+}
+
+/* Main Container */
 .container {
   text-align: center;
   background: white;
   padding: 20px;
   border-radius: 8px;
   box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
-  width: 300px;
+  width: 350px;
+  margin: 50px auto;
 }
 
-input {
-  display: block;
-  width: 100%;
-  padding: 8px;
-  margin: 10px 0;
+/* Filters Section */
+.filters {
+  text-align: center;
+  margin: 20px auto;
+  display: flex;
+  justify-content: center;
+  gap: 10px;
+}
+
+.filters select {
+  padding: 10px;
   border: 1px solid #ccc;
   border-radius: 4px;
+  font-size: 14px;
 }
 
+/* Book Listings */
+#book-listings {
+  max-width: 800px;
+  margin: 20px auto;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 15px;
+  justify-content: center;
+}
+
+.book-item {
+  background: white;
+  padding: 15px;
+  border-radius: 5px;
+  box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+  width: 250px;
+  text-align: center;
+}
+
+.book-item strong {
+  display: block;
+  font-size: 16px;
+  margin-bottom: 5px;
+}
+
+.book-item:hover {
+  background: #f0f0f0;
+  cursor: pointer;
+}
+
+/* Buttons */
 button {
   padding: 10px;
   width: 100%;
@@ -32,13 +101,15 @@ button {
   color: white;
   border: none;
   cursor: pointer;
-  margin: 5px 0;
+  border-radius: 4px;
+  font-size: 16px;
 }
 
 button:hover {
   background: #0056b3;
 }
 
+/* Login & Sign-Up Page Styles */
 .password-container {
   position: relative;
   display: flex;
@@ -62,7 +133,7 @@ button:hover {
   color: #333;
 }
 
-/* Password Validation Styles */
+/* Password Validation */
 .password-validation {
   text-align: left;
   font-size: 14px;
@@ -90,6 +161,7 @@ button:hover {
   display: none;
 }
 
+/* Hidden Elements */
 .hidden {
   display: none;
 }
