@@ -24,7 +24,7 @@ document.addEventListener("DOMContentLoaded", function () {
     }, 4000);
   }
 
-  // ✅ Password Validation (Only on Sign-Up)
+  // ✅ Password Validation (Only for Sign-Up)
   window.validatePassword = function () {
     const passwordInput = document.getElementById("signup-password");
     if (!passwordInput) return;
@@ -42,20 +42,19 @@ document.addEventListener("DOMContentLoaded", function () {
       symbol: { regex: /[^A-Za-z0-9]/, text: "At least 1 symbol" }
     };
 
+    // Ensure validation container is cleared before adding elements
+    validationContainer.innerHTML = "";
+
     Object.entries(validationRules).forEach(([rule, ruleData]) => {
       const isValid = ruleData.regex.test(password);
 
-      let element = document.getElementById(`signup-${rule}`);
-      if (!element) {
-        element = document.createElement("p");
-        element.id = `signup-${rule}`;
-        validationContainer.appendChild(element);
-      }
-
-      // Update text, icon, and color dynamically
+      const element = document.createElement("p");
+      element.id = `signup-${rule}`;
       element.innerHTML = `<i class="fa-solid ${isValid ? "fa-check" : "fa-xmark"}" style="color: ${
         isValid ? "#34b233" : "#b21807"
       };"></i> <span style="color: ${isValid ? "#34b233" : "#b21807"};">${ruleData.text}</span>`;
+
+      validationContainer.appendChild(element);
     });
   };
 
@@ -86,7 +85,7 @@ document.addEventListener("DOMContentLoaded", function () {
     }
   };
 
-  // ✅ Login Function
+  // ✅ Login Function (Now Clean – No Validation)
   window.login = async function () {
     const email = document.getElementById("login-email").value;
     const password = document.getElementById("login-password").value;
@@ -121,7 +120,7 @@ document.addEventListener("DOMContentLoaded", function () {
     document.getElementById("verification-message").classList.add("hidden");
     document.getElementById("show-signup-container").classList.remove("hidden");
 
-    // Hide password validation when switching to login
+    // Completely remove password validation when switching to login
     document.getElementById("signup-validation").style.display = "none";
   });
 
