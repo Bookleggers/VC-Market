@@ -64,18 +64,18 @@ document.addEventListener("DOMContentLoaded", async function () {
     passwordField.type = passwordField.type === "password" ? "text" : "password";
   };
 
-  // ✅ Switch to Login
+  // ✅ Switch to Login (Fixed)
   document.getElementById("show-login").addEventListener("click", () => {
     document.getElementById("signup-section").style.display = "none";
     document.getElementById("login-section").style.display = "block";
-    
+
     if (!fromSignup) {
       document.getElementById("verification-message").classList.add("hidden");
     }
     document.getElementById("show-signup-container").classList.remove("hidden");
   });
 
-  // ✅ Switch to Sign Up
+  // ✅ Switch to Sign Up (Fixed)
   document.getElementById("show-signup").addEventListener("click", () => {
     document.getElementById("login-section").style.display = "none";
     document.getElementById("signup-section").style.display = "block";
