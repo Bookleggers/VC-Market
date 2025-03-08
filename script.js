@@ -22,7 +22,7 @@ document.addEventListener("DOMContentLoaded", async function () {
     }, 4000);
   }
 
-  // ✅ Live Password Validation
+  // ✅ Live Password Validation (Fixed)
   window.validatePassword = function (inputId, validationId) {
     const password = document.getElementById(inputId).value;
     const requirements = {
@@ -34,7 +34,7 @@ document.addEventListener("DOMContentLoaded", async function () {
 
     Object.keys(requirements).forEach(key => {
       const element = document.getElementById(`${validationId}-${key}`);
-      if (element) { // Ensure element exists before updating
+      if (element) { 
         const icon = element.querySelector("i");
         if (requirements[key]) {
           icon.classList.replace("fa-xmark", "fa-check");
@@ -92,18 +92,13 @@ document.addEventListener("DOMContentLoaded", async function () {
     }
   };
 
-  // ✅ Switch to Login
-  document.getElementById("show-login").addEventListener("click", () => {
-    document.getElementById("signup-section").style.display = "none";
-    document.getElementById("login-section").style.display = "block";
-    document.getElementById("verification-message").classList.add("hidden");
-    document.getElementById("show-signup-container").classList.remove("hidden");
+  // ✅ Attach Validation Listeners
+  document.getElementById("signup-password").addEventListener("input", () => {
+    validatePassword("signup-password", "signup");
   });
 
-  // ✅ Switch to Sign Up
-  document.getElementById("show-signup").addEventListener("click", () => {
-    document.getElementById("login-section").style.display = "none";
-    document.getElementById("signup-section").style.display = "block";
+  document.getElementById("login-password").addEventListener("input", () => {
+    validatePassword("login-password", "login");
   });
 
   // ✅ Attach Functions to Buttons
