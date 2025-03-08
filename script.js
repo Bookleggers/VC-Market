@@ -1,9 +1,13 @@
-const supabase = supabase.createClient("https://mlwxfbtiqqacqvhwfbtk.supabase.co", "your-anon-key");
+// ✅ Initialize Supabase at the top
+const supabase = supabase.createClient(
+  "https://mlwxfbtiqqacqvhwfbtk.supabase.co",
+  "your-anon-key"
+);
 
 // ✅ Load dropdown filters for books
 async function loadFilters() {
   const { data, error } = await supabase.from("preloaded_books").select("degree, module, title");
-  if (error) { console.error(error); return; }
+  if (error) { console.error("Error fetching books:", error); return; }
 
   const degreeCounts = {}, moduleCounts = {}, bookCounts = {};
 
@@ -18,8 +22,12 @@ async function loadFilters() {
   populateDropdown("book-filter", bookCounts);
 }
 
+// ✅ Populate dropdowns dynamically
 function populateDropdown(filterId, data) {
   const dropdown = document.getElementById(filterId);
+  if (!dropdown) return;
+
+  dropdown.innerHTML = '<option value="">Select</option>'; // Reset dropdown
   Object.entries(data).forEach(([key, count]) => {
     let option = document.createElement("option");
     option.value = key;
@@ -28,10 +36,11 @@ function populateDropdown(filterId, data) {
   });
 }
 
+// ✅ Filter books based on selection
 async function filterBooks() {
-  const selectedDegree = document.getElementById("degree-filter").value;
-  const selectedModule = document.getElementById("module-filter").value;
-  const selectedBook = document.getElementById("book-filter").value;
+  const selectedDegree = document.getElementById("degree-filter")?.value;
+  const selectedModule = document.getElementById("module-filter")?.value;
+  const selectedBook = document.getElementById("book-filter")?.value;
 
   let query = supabase.from("book_listings").select("title, price, condition");
   if (selectedDegree) query = query.eq("degree", selectedDegree);
@@ -39,11 +48,12 @@ async function filterBooks() {
   if (selectedBook) query = query.eq("title", selectedBook);
 
   const { data, error } = await query;
-  if (error) { console.error(error); return; }
+  if (error) { console.error("Error fetching filtered books:", error); return; }
 
   const listingsContainer = document.getElementById("book-listings");
-  listingsContainer.innerHTML = "";
+  if (!listingsContainer) return;
 
+  listingsContainer.innerHTML = ""; // Clear previous listings
   data.forEach(book => {
     let div = document.createElement("div");
     div.classList.add("book-item");
