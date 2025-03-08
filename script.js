@@ -4,12 +4,6 @@ document.addEventListener("DOMContentLoaded", async function () {
     return;
   }
 
-  // Initialize Supabase
-  const supabase = window.supabase.createClient(
-    "https://mlwxfbtiqqacqvhwfbtk.supabase.co",
-    "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im1sd3hmYnRpcXFhY3F2aHdmYnRrIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDE0MzM3MzYsImV4cCI6MjA1NzAwOTczNn0.Q6YD0EtZWITvTAMXFNFysyTFPtDHtD_cMFn_1G8VX4c"
-  );
-
   // ✅ Password Validation
   function validatePassword(inputId, validationId) {
     const password = document.getElementById(inputId).value;
@@ -44,8 +38,4 @@ document.addEventListener("DOMContentLoaded", async function () {
       icon.classList.replace("fa-eye-slash", "fa-eye");
     }
   };
-
-  // ✅ Attach Functions
-  document.getElementById("signup-button").addEventListener("click", signUp);
-  document.getElementById("login-button").addEventListener("click", login);
 });
