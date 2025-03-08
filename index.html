@@ -5,28 +5,39 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>VC Market</title>
   <link rel="stylesheet" href="styles.css">
-  <!-- Load Supabase SDK -->
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js"></script>
 </head>
 <body>
 
   <div class="container">
-    <h2>Sign Up</h2>
-    <input type="email" id="signup-email" placeholder="Email">
-    <input type="password" id="signup-password" placeholder="Password">
-    <button id="signup-button">Sign Up</button>
+    <h2>VC Market - User Authentication</h2>
 
-    <h2>Login</h2>
-    <input type="email" id="login-email" placeholder="Email">
-    <input type="password" id="login-password" placeholder="Password">
-    <button id="login-button">Login</button>
+    <!-- Sign Up Section -->
+    <div id="signup-section">
+      <h3>Sign Up</h3>
+      <input type="email" id="signup-email" placeholder="Email">
+      <input type="password" id="signup-password" placeholder="Password">
+      <button id="signup-button">Sign Up</button>
+    </div>
 
-    <h2>User Info</h2>
+    <!-- Login Section -->
+    <div id="login-section" style="display: none;">
+      <p id="verification-message"></p>
+      <h3>Log In</h3>
+      <input type="email" id="login-email" placeholder="Email">
+      <input type="password" id="login-password" placeholder="Password">
+      <button id="login-button">Log In</button>
+    </div>
+
+    <!-- User Info & Logout -->
+    <h3>User Info</h3>
     <p id="user-info">Not logged in</p>
     <button id="logout-button">Logout</button>
+
+    <!-- Continue Button for Session 2 -->
+    <button id="continue-button" style="display: none;">Continue</button>
   </div>
 
-  <!-- Load script.js only AFTER Supabase has been loaded -->
   <script src="script.js"></script>
 
 </body>
