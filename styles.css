@@ -1,3 +1,20 @@
+/* ✅ Reset & Base */
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  font-family: 'Inter', sans-serif;
+}
+
+body {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+  background: linear-gradient(to bottom, #f8f9fa, #e3e6ea);
+  color: #222;
+}
+
+/* ✅ Header */
 .main-header {
   display: flex;
   align-items: center;
@@ -56,20 +73,21 @@
   background: rgb(39, 39, 42);
   color: rgb(244, 244, 245);
   border: 1px solid rgb(63, 63, 70);
-  box-shadow: rgba(0, 0, 0, 0.05) 0 1px 2px 0;
-}
-
-.btn-signin:hover {
-  background: rgb(63, 63, 70);
 }
 
 .btn-signup {
   background: rgb(255, 255, 255);
   color: rgb(0, 0, 0);
   border: 1px solid rgba(0, 0, 0, 0.08);
-  box-shadow: rgba(0, 0, 0, 0.05) 0 1px 2px 0;
 }
 
-.btn-signup:hover {
-  background: rgb(244, 244, 245);
+/* ✅ Footer */
+footer {
+  text-align: center;
+  padding: 20px 0;
+  background: #222;
+  color: white;
+  width: 100%;
+  margin-top: auto;
+  font-size: 14px;
 }
