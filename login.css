@@ -1,0 +1,150 @@
+/* ✅ Reset & Font */
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  font-family: 'SF Pro Display', sans-serif;
+}
+
+body {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  background: linear-gradient(to bottom, #f8f9fa, #e3e6ea);
+}
+
+/* ✅ Login Container */
+.login-container {
+  width: 380px;
+  background: white;
+  padding: 30px;
+  border-radius: 12px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+  text-align: center;
+}
+
+h2 {
+  font-size: 24px;
+  font-weight: bold;
+  color: #0071e3;
+}
+
+.sub-text {
+  font-size: 14px;
+  color: #666;
+  margin-bottom: 20px;
+}
+
+/* ✅ Input Fields */
+.input-container {
+  position: relative;
+  margin: 20px 0;
+}
+
+.input-container input {
+  width: 100%;
+  padding: 12px;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  outline: none;
+  transition: border 0.3s;
+}
+
+.input-container label {
+  position: absolute;
+  top: 12px;
+  left: 12px;
+  color: #aaa;
+  font-size: 14px;
+  transition: all 0.3s;
+  pointer-events: none;
+}
+
+.input-container input:focus {
+  border: 1px solid #0071e3;
+}
+
+.input-container input:focus + label,
+.input-container input:valid + label {
+  top: -10px;
+  left: 10px;
+  font-size: 12px;
+  color: #0071e3;
+}
+
+/* ✅ Password Toggle */
+.input-container i {
+  position: absolute;
+  right: 12px;
+  top: 14px;
+  cursor: pointer;
+  color: #666;
+}
+
+/* ✅ Buttons */
+.auth-button {
+  width: 100%;
+  padding: 12px;
+  border: none;
+  border-radius: 6px;
+  background: #0071e3;
+  color: white;
+  font-weight: bold;
+  cursor: pointer;
+  transition: background 0.3s;
+}
+
+.auth-button:hover {
+  background: #005bb5;
+}
+
+/* ✅ Toggle Between Login & Signup */
+button {
+  background: none;
+  border: none;
+  color: #0071e3;
+  cursor: pointer;
+}
+
+button:hover {
+  text-decoration: underline;
+}
+
+/* ✅ Notification Banner */
+.notification {
+  display: none;
+  padding: 12px;
+  color: white;
+  font-weight: bold;
+  text-align: center;
+  border-radius: 6px;
+  margin-bottom: 20px;
+}
+
+.notification.success {
+  background: #28a745;
+}
+
+.notification.error {
+  background: #dc3545;
+}
+
+/* ✅ Password Validation */
+.validation-box {
+  text-align: left;
+  font-size: 14px;
+  margin-top: 10px;
+}
+
+.validation-box p {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  margin: 4px 0;
+}
+
+/* ✅ Hidden Class */
+.hidden {
+  display: none;
+}
