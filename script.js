@@ -4,7 +4,10 @@ const supabase = window.supabase.createClient(
 );
 
 document.addEventListener("DOMContentLoaded", function () {
-  if (document.getElementById("degree-filter")) loadDegrees();
+  if (document.getElementById("degree-filter")) {
+    loadDegrees();
+    filterBooks();
+  }
   if (document.getElementById("signup-button")) {
     document.getElementById("signup-button").addEventListener("click", signUp);
     document.getElementById("login-button").addEventListener("click", logIn);
@@ -43,11 +46,10 @@ function populateDropdown(filterId, dataSet) {
 async function updateModules() {
   const selectedDegree = document.getElementById("degree-filter")?.value;
   const moduleDropdown = document.getElementById("module-filter");
-  const bookListings = document.getElementById("book-listings");
   if (!selectedDegree) {
     moduleDropdown.innerHTML = '<option value="">Select Module</option>';
     moduleDropdown.disabled = true;
-    bookListings.innerHTML = "";
+    filterBooks();
     return;
   }
   const { data: listedBooks, error: listingError } = await supabase
@@ -73,10 +75,6 @@ async function filterBooks() {
   const selectedDegree = document.getElementById("degree-filter")?.value;
   const selectedModule = document.getElementById("module-filter")?.value;
   const bookListings = document.getElementById("book-listings");
-  if (!selectedDegree) {
-    bookListings.innerHTML = "";
-    return;
-  }
   const { data: listedBooks, error: listingError } = await supabase
     .from("book_listings")
     .select("id, book_id, seller_id, price, condition, issues, status")
@@ -85,9 +83,9 @@ async function filterBooks() {
   const bookIdsForSale = listedBooks.map(book => book.book_id);
   let query = supabase
     .from("preloaded_books")
-    .select("id, title, module")
-    .eq("degree", selectedDegree)
+    .select("id, title, module, degree")
     .in("id", bookIdsForSale);
+  if (selectedDegree) query = query.eq("degree", selectedDegree);
   if (selectedModule) query = query.eq("module", selectedModule);
   const { data: books, error } = await query.order("module", { ascending: true });
   if (error) return console.error(error);
@@ -104,6 +102,7 @@ async function filterBooks() {
     card.innerHTML = `
       <strong class="book-title">${bookDetails.title}</strong>
       <p class="book-module">${bookDetails.module}</p>
+      <p class="book-degree">${bookDetails.degree}</p>
       <p class="book-price">R${book.price}</p>
       <p class="book-condition">${book.condition || "No condition info"}</p>
       ${book.issues ? `<p class="book-issues">⚠️ ${book.issues.join(', ')}</p>` : ""}
@@ -115,7 +114,7 @@ async function filterBooks() {
 async function signUp() {
   const email = document.getElementById("signup-email").value;
   const password = document.getElementById("signup-password").value;
-  const { error, data } = await supabase.auth.signUp({ email, password });
+  const { error } = await supabase.auth.signUp({ email, password });
   if (error) return alert("Sign up error: " + error.message);
   alert("Sign up successful! Please check your email to confirm your account.");
 }
@@ -123,7 +122,7 @@ async function signUp() {
 async function logIn() {
   const email = document.getElementById("login-email").value;
   const password = document.getElementById("login-password").value;
-  const { error, data } = await supabase.auth.signInWithPassword({ email, password });
+  const { error } = await supabase.auth.signInWithPassword({ email, password });
   if (error) return alert("Login error: " + error.message);
   alert("Login successful!");
 }
