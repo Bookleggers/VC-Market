@@ -49,7 +49,7 @@ async function updateModules() {
     return;
   }
 
-  // Fetch only books listed for sale in `book_listings`
+  // Fetch book IDs listed for sale in `book_listings`
   const { data: listedBooks, error: listingError } = await supabase
     .from("book_listings")
     .select("book_id")
@@ -94,7 +94,7 @@ async function filterBooks() {
     return;
   }
 
-  // Get all book_ids for sale
+  // Get all book_ids for sale from `book_listings`
   const { data: listedBooks, error: listingError } = await supabase
     .from("book_listings")
     .select("id, book_id, seller_id, price, condition, issues, status")
@@ -109,7 +109,12 @@ async function filterBooks() {
   const bookIdsForSale = listedBooks.map(book => book.book_id);
 
   // Fetch book details from `preloaded_books` (Filtered by Degree & Module)
-  let query = supabase.from("preloaded_books").select("id, title, module").eq("degree", selectedDegree).in("id", bookIdsForSale);
+  let query = supabase
+    .from("preloaded_books")
+    .select("id, title, module")
+    .eq("degree", selectedDegree)
+    .in("id", bookIdsForSale);
+
   if (selectedModule) query = query.eq("module", selectedModule);
 
   const { data: books, error } = await query.order("module", { ascending: true });
@@ -140,8 +145,8 @@ async function filterBooks() {
       <strong class="book-title">${bookDetails.title}</strong>
       <p class="book-module">${bookDetails.module}</p>
       <p class="book-price">R${book.price}</p>
-      <p class="book-condition">${book.condition}</p>
-      ${Array.isArray(book.issues) && book.issues.length > 0 ? `<p class="book-issues">⚠️ ${book.issues.join(', ')}</p>` : ""}
+      <p class="book-condition">${book.condition || "No condition info"}</p>
+      ${book.issues ? `<p class="book-issues">⚠️ ${book.issues.join(', ')}</p>` : ""}
     `;
 
     bookListings.appendChild(card);
