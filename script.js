@@ -24,6 +24,11 @@ document.addEventListener("DOMContentLoaded", function () {
 });
 
 async function loadAllListings() {
+  const { data, error } = await supabase
+    .from("book_listings")
+    .select("*"); // Fetch everything for debugging
+
+  console.log("Raw Listings:", data, "Error:", error)
   console.log("Loading all listings...");
   const { data: listings, error: listingsError } = await supabase
     .from("book_listings")
