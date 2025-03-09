@@ -1,103 +1,4 @@
-/* ✅ Reset & Base */
-* {
-  box-sizing: border-box;
-  margin: 0;
-  padding: 0;
-  font-family: 'Inter', sans-serif;
-}
-
-body {
-  display: flex;
-  flex-direction: column;
-  min-height: 100vh;
-  background: linear-gradient(to bottom, #f8f9fa, #e3e6ea);
-  color: #222;
-}
-
-/* ✅ Header - Lovable Style */
-.main-header {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  padding: 16px 40px;
-  background: rgb(4, 5, 6);
-  color: rgb(244, 244, 245);
-  width: 100%;
-  height: 64px;
-}
-
-.logo-section .logo {
-  color: white;
-  font-size: 18px;
-  font-weight: 600;
-}
-
-/* Centered Menu */
-.main-nav {
-  display: flex;
-  gap: 32px;
-}
-
-.main-nav a {
-  color: rgb(244, 244, 245);
-  text-decoration: none;
-  font-weight: 500;
-  font-size: 14px;
-  padding: 8px;
-  transition: opacity 0.2s ease;
-}
-
-.main-nav a:hover {
-  opacity: 0.7;
-}
-
-/* Auth Buttons (Login / Sign up) - Lovable Styled */
-.auth-buttons {
-  display: flex;
-  gap: 10px;
-}
-
-.btn-signin, .btn-signup {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  height: 32px;
-  padding: 0 14px;
-  border-radius: 6px;
-  font-size: 13px;
-  font-weight: 500;
-  text-decoration: none;
-  transition: all 0.15s cubic-bezier(0.4, 0, 0.2, 1);
-  white-space: nowrap;
-}
-
-/* Sign in button - dark */
-.btn-signin {
-  background: rgb(39, 39, 42);
-  color: rgb(244, 244, 245);
-  border: 1px solid rgb(63, 63, 70);
-  box-shadow: rgba(0, 0, 0, 0.05) 0 1px 2px 0;
-}
-
-.btn-signin:hover {
-  background: rgb(63, 63, 70);
-  color: white;
-}
-
-/* Sign up button - light */
-.btn-signup {
-  background: rgb(255, 255, 255);
-  color: rgb(0, 0, 0);
-  border: 1px solid rgba(0, 0, 0, 0.08);
-  box-shadow: rgba(0, 0, 0, 0.05) 0 1px 2px 0;
-}
-
-.btn-signup:hover {
-  background: rgb(244, 244, 245);
-  color: black;
-}
-
-/* ✅ Main Auth Form */
+/* ✅ Auth Form */
 .auth-container {
   display: flex;
   justify-content: center;
@@ -138,8 +39,6 @@ body {
   border: 1px solid #ccc;
   border-radius: 6px;
   padding-right: 40px;
-  background: white;
-  font-size: 14px;
 }
 
 .input-container label {
@@ -159,7 +58,7 @@ body {
   color: #0071e3;
 }
 
-/* ✅ Password Eye Icon */
+/* ✅ Password Toggle */
 .password-box .toggle-password {
   position: absolute;
   right: 12px;
@@ -169,7 +68,7 @@ body {
   color: #666;
 }
 
-/* ✅ Password Validation */
+/* ✅ Validation */
 .validation-box {
   text-align: left;
   font-size: 14px;
@@ -177,11 +76,6 @@ body {
   padding-bottom: 15px;
 }
 
-.validation-box p {
-  margin: 6px 0;
-}
-
-/* ✅ Auth Button */
 .auth-button {
   width: 100%;
   padding: 12px;
@@ -200,7 +94,6 @@ body {
   background: #005bb5;
 }
 
-/* ✅ Switch Text */
 .switch-text {
   margin-top: 15px;
 }
@@ -211,15 +104,4 @@ body {
   color: #0071e3;
   cursor: pointer;
   font-weight: 500;
-}
-
-/* ✅ Footer */
-footer {
-  text-align: center;
-  padding: 20px 0;
-  background: #222;
-  color: white;
-  width: 100%;
-  margin-top: auto;
-  font-size: 14px;
 }
