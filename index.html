@@ -24,20 +24,16 @@
     <h2>Find Your Textbooks</h2>
     
     <div class="filters">
-      <select id="degree-filter" onchange="filterBooks()">
+      <select id="degree-filter" onchange="updateModules()">
         <option value="">Select Degree</option>
       </select>
       
-      <select id="module-filter" onchange="filterBooks()">
+      <select id="module-filter" onchange="filterBooks()" disabled>
         <option value="">Select Module</option>
-      </select>
-      
-      <select id="book-filter" onchange="filterBooks()">
-        <option value="">Select Book</option>
       </select>
     </div>
     
-    <div id="book-listings"></div>
+    <div id="book-listings" class="book-container"></div>
   </main>
 </body>
 </html>
