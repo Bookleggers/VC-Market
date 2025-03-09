@@ -9,7 +9,7 @@ document.addEventListener("DOMContentLoaded", function () {
   loadDegrees();
 });
 
-// ✅ Load Degree options from preloaded_books
+// ✅ Load Degree options from `preloaded_books`
 async function loadDegrees() {
   const { data, error } = await supabase.from("preloaded_books").select("degree").order("degree", { ascending: true });
 
@@ -18,7 +18,7 @@ async function loadDegrees() {
     return;
   }
 
-  const uniqueDegrees = [...new Set(data.map(book => book.degree))]; // Remove duplicates
+  const uniqueDegrees = [...new Set(data.map(book => book.degree))];
   populateDropdown("degree-filter", uniqueDegrees);
 }
 
@@ -28,7 +28,6 @@ function populateDropdown(filterId, dataSet) {
   if (!dropdown) return;
 
   dropdown.innerHTML = '<option value="">Select</option>'; // Reset dropdown
-
   dataSet.forEach(value => {
     let option = document.createElement("option");
     option.value = value;
@@ -37,7 +36,7 @@ function populateDropdown(filterId, dataSet) {
   });
 }
 
-// ✅ Update Modules when a Degree is selected
+// ✅ Update Modules when a Degree is selected (Only show modules that have books for sale)
 async function updateModules() {
   const selectedDegree = document.getElementById("degree-filter")?.value;
   const moduleDropdown = document.getElementById("module-filter");
@@ -50,11 +49,25 @@ async function updateModules() {
     return;
   }
 
-  // Fetch modules based on selected degree from preloaded_books
-  const { data, error } = await supabase
+  // Fetch all book_ids from `book_listings` that are available for the selected degree
+  const { data: listedBooks, error: listingError } = await supabase
+    .from("book_listings")
+    .select("book_id")
+    .eq("status", "Available");
+
+  if (listingError) {
+    console.error("Error fetching listed books:", listingError);
+    return;
+  }
+
+  const bookIdsForSale = listedBooks.map(book => book.book_id);
+
+  // Fetch modules based on selected degree, but only include modules where books are listed for sale
+  const { data: books, error } = await supabase
     .from("preloaded_books")
-    .select("module")
+    .select("module, id")
     .eq("degree", selectedDegree)
+    .in("id", bookIdsForSale) // Only include books that are for sale
     .order("module", { ascending: true });
 
   if (error) {
@@ -62,7 +75,7 @@ async function updateModules() {
     return;
   }
 
-  const uniqueModules = [...new Set(data.map(book => book.module))]; // Remove duplicates
+  const uniqueModules = [...new Set(books.map(book => book.module))];
   populateDropdown("module-filter", uniqueModules);
   moduleDropdown.disabled = uniqueModules.length === 0;
 
@@ -70,7 +83,7 @@ async function updateModules() {
   filterBooks();
 }
 
-// ✅ Filter books based on Degree and Module (Using book_listings)
+// ✅ Filter books based on Degree and Module (Using `book_listings`)
 async function filterBooks() {
   const selectedDegree = document.getElementById("degree-filter")?.value;
   const selectedModule = document.getElementById("module-filter")?.value;
@@ -81,35 +94,45 @@ async function filterBooks() {
     return;
   }
 
-  let query = supabase.from("book_listings")
+  // Get all book_ids for sale
+  const { data: listedBooks, error: listingError } = await supabase
+    .from("book_listings")
     .select("id, book_id, seller_id, price, condition, issues, status")
-    .eq("status", "Available"); // Only show available books
+    .eq("status", "Available");
 
-  if (selectedDegree) {
-    query = query.in("book_id", await getBookIdsByDegree(selectedDegree));
-  }
-  if (selectedModule) {
-    query = query.in("book_id", await getBookIdsByModule(selectedModule));
-  }
-
-  const { data, error } = await query.order("price", { ascending: true });
-
-  if (error) {
-    console.error("Error fetching books:", error);
+  if (listingError) {
+    console.error("Error fetching books for sale:", listingError);
     return;
   }
 
-  // Clear existing books
+  // Extract book_ids from listed books
+  const bookIdsForSale = listedBooks.map(book => book.book_id);
+
+  // Fetch book details from `preloaded_books` (Filtered by Degree & Module)
+  let query = supabase.from("preloaded_books").select("id, title, module").eq("degree", selectedDegree).in("id", bookIdsForSale);
+  if (selectedModule) query = query.eq("module", selectedModule);
+
+  const { data: books, error } = await query.order("module", { ascending: true });
+
+  if (error) {
+    console.error("Error fetching book details:", error);
+    return;
+  }
+
+  // Clear existing book listings
   bookListings.innerHTML = "";
 
-  if (data.length === 0) {
+  // Filter books for sale
+  const filteredListings = listedBooks.filter(listing => books.some(book => book.id === listing.book_id));
+
+  if (filteredListings.length === 0) {
     bookListings.innerHTML = "<p>No books available for this selection.</p>";
     return;
   }
 
   // Generate book cards
-  for (const book of data) {
-    const bookDetails = await getBookDetails(book.book_id);
+  filteredListings.forEach(book => {
+    const bookDetails = books.find(b => b.id === book.book_id);
     let card = document.createElement("div");
     card.classList.add("book-card");
 
@@ -122,51 +145,5 @@ async function filterBooks() {
     `;
 
     bookListings.appendChild(card);
-  }
-}
-
-// ✅ Helper function: Get book IDs by degree
-async function getBookIdsByDegree(degree) {
-  const { data, error } = await supabase
-    .from("preloaded_books")
-    .select("id")
-    .eq("degree", degree);
-
-  if (error) {
-    console.error("Error fetching book IDs:", error);
-    return [];
-  }
-
-  return data.map(book => book.id);
-}
-
-// ✅ Helper function: Get book IDs by module
-async function getBookIdsByModule(module) {
-  const { data, error } = await supabase
-    .from("preloaded_books")
-    .select("id")
-    .eq("module", module);
-
-  if (error) {
-    console.error("Error fetching book IDs:", error);
-    return [];
-  }
-
-  return data.map(book => book.id);
-}
-
-// ✅ Helper function: Get book details by book ID
-async function getBookDetails(bookId) {
-  const { data, error } = await supabase
-    .from("preloaded_books")
-    .select("title, module")
-    .eq("id", bookId)
-    .single();
-
-  if (error) {
-    console.error("Error fetching book details:", error);
-    return { title: "Unknown", module: "Unknown" };
-  }
-
-  return data;
+  });
 }
