@@ -4,11 +4,21 @@ const supabase = window.supabase.createClient(
 );
 
 document.addEventListener("DOMContentLoaded", function () {
+  // Add event listener to degree dropdown
+  const degreeDropdown = document.getElementById("degree-filter");
+  if (degreeDropdown) {
+    degreeDropdown.addEventListener("change", updateModules);
+    console.log("Degree dropdown event listener added");
+  }
+  
+  // On index page, load degrees and display books
   if (document.getElementById("degree-filter")) {
-    console.log("Loading degrees...");
+    console.log("Loading degrees on index page...");
     loadDegrees();
     filterBooks();
   }
+  
+  // On login page, add event listeners for sign up / login toggles
   if (document.getElementById("signup-button")) {
     document.getElementById("signup-button").addEventListener("click", signUp);
     document.getElementById("login-button").addEventListener("click", logIn);
@@ -24,8 +34,7 @@ document.addEventListener("DOMContentLoaded", function () {
 });
 
 async function loadDegrees() {
-  const { data, error } = await supabase
-    .from("preloaded_books")
+  const { data, error } = await supabase.from("preloaded_books")
     .select("degree")
     .order("degree", { ascending: true });
   console.log("Degrees data:", data, "Error:", error);
@@ -48,6 +57,7 @@ function populateDropdown(filterId, dataSet) {
 }
 
 async function updateModules() {
+  console.log("updateModules triggered");
   const selectedDegree = document.getElementById("degree-filter")?.value;
   console.log("Selected degree:", selectedDegree);
   const moduleDropdown = document.getElementById("module-filter");
@@ -108,7 +118,7 @@ async function filterBooks() {
     return;
   }
   filteredListings.forEach(book => {
-    const bookDetails = books.find(b => b.id === book.book_id);
+    const bookDetails = books.find(b => b.id === listing.book_id || b.id === book.book_id);
     let card = document.createElement("div");
     card.classList.add("book-card");
     card.innerHTML = `
