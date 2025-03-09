@@ -9,29 +9,32 @@
   <script src="script.js" defer></script>
 </head>
 <body>
-  <header>
-    <div class="container header-container">
+
+  <!-- ✅ Header -->
+  <header class="main-header">
+    <div class="logo-section">
       <h1 id="user-name" class="logo">VC Market</h1>
-      <nav>
-        <ul class="nav-links">
-          <li><a href="index.html">Home</a></li>
-          <li id="dashboard-link" style="display: none;"><a href="dashboard.html">Dashboard</a></li>
-        </ul>
-      </nav>
-      <div class="auth-buttons">
-        <a href="login.html" id="auth-link" class="button">Login / Sign Up</a>
-      </div>
+    </div>
+    <nav class="main-nav">
+      <a href="index.html">Home</a>
+      <a href="dashboard.html" id="dashboard-link" style="display: none;">Dashboard</a>
+    </nav>
+    <div class="auth-buttons">
+      <a href="login.html" id="auth-link" class="btn-signin">Login</a>
+      <a href="login.html?signup=true" class="btn-signup">Sign Up</a>
     </div>
   </header>
 
+  <!-- ✅ Hero Section -->
   <section class="hero">
-    <div class="container">
+    <div class="container hero-container">
       <h2>Find and Sell Textbooks Easily</h2>
       <p>The smartest way to buy and sell textbooks at Varsity College.</p>
       <a href="dashboard.html" class="cta-button">Sell Your Books</a>
     </div>
   </section>
 
+  <!-- ✅ Main Content -->
   <main>
     <div class="container main-content">
       <aside class="sidebar">
@@ -55,17 +58,20 @@
           <option value="module">Module</option>
         </select>
       </aside>
-      <div class="listings-section">
+
+      <section class="listings-section">
         <h2>Available Listings</h2>
         <div id="listings-container" class="listings-grid"></div>
-      </div>
+      </section>
     </div>
   </main>
 
+  <!-- ✅ Footer -->
   <footer>
     <div class="container">
       <p>&copy; 2025 VC Market. All rights reserved.</p>
     </div>
   </footer>
+
 </body>
 </html>
