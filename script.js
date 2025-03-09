@@ -5,6 +5,7 @@ const supabase = window.supabase.createClient(
 
 document.addEventListener("DOMContentLoaded", function () {
   if (document.getElementById("degree-filter")) {
+    console.log("Loading degrees...");
     loadDegrees();
     filterBooks();
   }
@@ -23,11 +24,14 @@ document.addEventListener("DOMContentLoaded", function () {
 });
 
 async function loadDegrees() {
-  const { data, error } = await supabase.from("preloaded_books")
+  const { data, error } = await supabase
+    .from("preloaded_books")
     .select("degree")
     .order("degree", { ascending: true });
+  console.log("Degrees data:", data, "Error:", error);
   if (error) return console.error(error);
   const uniqueDegrees = [...new Set(data.map(book => book.degree))];
+  console.log("Unique degrees:", uniqueDegrees);
   populateDropdown("degree-filter", uniqueDegrees);
 }
 
@@ -45,6 +49,7 @@ function populateDropdown(filterId, dataSet) {
 
 async function updateModules() {
   const selectedDegree = document.getElementById("degree-filter")?.value;
+  console.log("Selected degree:", selectedDegree);
   const moduleDropdown = document.getElementById("module-filter");
   if (!selectedDegree) {
     moduleDropdown.innerHTML = '<option value="">Select Module</option>';
@@ -56,6 +61,7 @@ async function updateModules() {
     .from("book_listings")
     .select("book_id")
     .eq("status", "Available");
+  console.log("Listed books (for modules):", listedBooks, "Error:", listingError);
   if (listingError) return console.error(listingError);
   const bookIdsForSale = listedBooks.map(book => book.book_id);
   const { data: books, error } = await supabase
@@ -64,8 +70,10 @@ async function updateModules() {
     .eq("degree", selectedDegree)
     .in("id", bookIdsForSale)
     .order("module", { ascending: true });
+  console.log("Modules query result:", books, "Error:", error);
   if (error) return console.error(error);
   const uniqueModules = [...new Set(books.map(book => book.module))];
+  console.log("Unique modules:", uniqueModules);
   populateDropdown("module-filter", uniqueModules);
   moduleDropdown.disabled = uniqueModules.length === 0;
   filterBooks();
@@ -74,11 +82,13 @@ async function updateModules() {
 async function filterBooks() {
   const selectedDegree = document.getElementById("degree-filter")?.value;
   const selectedModule = document.getElementById("module-filter")?.value;
+  console.log("Filtering books with degree:", selectedDegree, "and module:", selectedModule);
   const bookListings = document.getElementById("book-listings");
   const { data: listedBooks, error: listingError } = await supabase
     .from("book_listings")
     .select("id, book_id, seller_id, price, condition, issues, status")
     .eq("status", "Available");
+  console.log("Listed books for filtering:", listedBooks, "Error:", listingError);
   if (listingError) return console.error(listingError);
   const bookIdsForSale = listedBooks.map(book => book.book_id);
   let query = supabase
@@ -88,9 +98,11 @@ async function filterBooks() {
   if (selectedDegree) query = query.eq("degree", selectedDegree);
   if (selectedModule) query = query.eq("module", selectedModule);
   const { data: books, error } = await query.order("module", { ascending: true });
+  console.log("Books query result:", books, "Error:", error);
   if (error) return console.error(error);
   bookListings.innerHTML = "";
   const filteredListings = listedBooks.filter(listing => books.some(book => book.id === listing.book_id));
+  console.log("Filtered listings:", filteredListings);
   if (filteredListings.length === 0) {
     bookListings.innerHTML = "<p>No books available for this selection.</p>";
     return;
