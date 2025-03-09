@@ -9,49 +9,43 @@
 body {
   display: flex;
   flex-direction: column;
-  align-items: center;
   min-height: 100vh;
   background: linear-gradient(to bottom, #f8f9fa, #e3e6ea);
 }
 
 /* ✅ Header */
-header {
-  width: 100%;
+.main-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 20px 40px;
   background: white;
-  padding: 20px 0;
   box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
+  width: 100%;
 }
 
-.header-container {
-  max-width: 1200px;
-  margin: 0 auto;
-  text-align: center;
-}
-
-.logo {
-  font-size: 26px;
+.logo-section .logo {
+  font-size: 28px;
   font-weight: bold;
   color: #0071e3;
 }
 
 .main-nav {
   display: flex;
-  justify-content: space-between;
-  align-items: center;
-  margin-top: 10px;
-}
-
-.nav-links {
-  display: flex;
-  justify-content: center;
-  list-style: none;
   gap: 25px;
+  justify-content: center;
 }
 
-.nav-links li a {
+.main-nav a {
   color: #333;
   text-decoration: none;
   font-weight: 500;
+  padding: 8px;
+  transition: opacity 0.3s;
+}
+
+.main-nav a:hover {
+  opacity: 0.7;
 }
 
 .auth-buttons {
@@ -63,9 +57,44 @@ header {
   color: #0071e3;
   font-weight: bold;
   text-decoration: none;
+  padding: 8px 16px;
+  border-radius: 6px;
+  transition: background 0.3s;
 }
 
-/* ✅ Fix Floating Labels */
+.auth-buttons a:hover {
+  background: rgba(0, 113, 227, 0.1);
+}
+
+/* ✅ Form & Floating Labels */
+.auth-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 40px 20px;
+  width: 100%;
+}
+
+.form-box {
+  max-width: 400px;
+  background: white;
+  padding: 30px;
+  border-radius: 10px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+  width: 100%;
+  text-align: center;
+}
+
+.form-box h2 {
+  margin-bottom: 10px;
+}
+
+.sub-text {
+  margin-bottom: 20px;
+  color: #666;
+}
+
+/* ✅ Input Styling */
 .input-container {
   position: relative;
   margin: 20px 0;
@@ -77,8 +106,8 @@ header {
   border: 1px solid #ccc;
   border-radius: 6px;
   outline: none;
-  transition: border 0.3s;
   padding-right: 40px;
+  background: white;
 }
 
 .input-container label {
@@ -88,7 +117,6 @@ header {
   font-size: 14px;
   color: #aaa;
   transition: all 0.3s;
-  pointer-events: none;
 }
 
 .input-container input:focus + label,
@@ -100,11 +128,7 @@ header {
 }
 
 /* ✅ Password Toggle */
-.password-box {
-  position: relative;
-}
-
-.toggle-password {
+.password-box .toggle-password {
   position: absolute;
   right: 12px;
   top: 50%;
@@ -113,7 +137,7 @@ header {
   color: #666;
 }
 
-/* ✅ Fix Spacing for Password Validation */
+/* ✅ Validation */
 .validation-box {
   text-align: left;
   font-size: 14px;
@@ -121,11 +145,7 @@ header {
   padding-bottom: 15px;
 }
 
-.validation-box p {
-  margin: 6px 0;
-}
-
-/* ✅ Login Button */
+/* ✅ Buttons */
 .auth-button {
   width: 100%;
   padding: 12px;
@@ -136,10 +156,22 @@ header {
   font-weight: bold;
   cursor: pointer;
   transition: background 0.3s;
+  margin-top: 10px;
 }
 
 .auth-button:hover {
   background: #005bb5;
+}
+
+.switch-text {
+  margin-top: 15px;
+}
+
+.switch-text button {
+  background: none;
+  border: none;
+  color: #0071e3;
+  cursor: pointer;
 }
 
 /* ✅ Footer */
