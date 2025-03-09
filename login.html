@@ -4,13 +4,29 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Login - VC Market</title>
+  <link rel="stylesheet" href="styles.css">
   <link rel="stylesheet" href="login.css">
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js"></script>
   <script src="login.js" defer></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/js/all.min.js" defer></script>
 </head>
 <body class="auth-page">
-  <div class="login-container">
+  
+  <!-- ✅ Header -->
+  <header>
+    <div class="container header-container">
+      <h1 class="logo">VC Market</h1>
+      <nav>
+        <ul class="nav-links">
+          <li><a href="index.html">Home</a></li>
+          <li><a href="dashboard.html">Dashboard</a></li>
+          <li><a href="login.html" id="auth-link">Login / Sign Up</a></li>
+        </ul>
+      </nav>
+    </div>
+  </header>
+
+  <main class="auth-container">
     <!-- ✅ Notification Banner -->
     <div id="notification" class="notification hidden"></div>
 
@@ -37,7 +53,7 @@
         <p>Already have an account? <button id="show-login">Log in</button></p>
       </div>
 
-      <!-- ✅ Login Section (Hidden by Default) -->
+      <!-- ✅ Login Section -->
       <div id="login-section" class="hidden">
         <div class="input-container">
           <input type="email" id="login-email" required>
@@ -54,9 +70,17 @@
         <p>Don't have an account? <button id="show-signup">Sign up</button></p>
       </div>
 
-      <!-- ✅ Email Verification Message (Hidden by Default) -->
+      <!-- ✅ Email Verification Message -->
       <p id="verification-message" class="hidden">Verification email sent. Please check your email.</p>
     </div>
-  </div>
+  </main>
+
+  <!-- ✅ Footer -->
+  <footer>
+    <div class="container">
+      <p>&copy; 2025 VC Market. All rights reserved.</p>
+    </div>
+  </footer>
+
 </body>
 </html>
