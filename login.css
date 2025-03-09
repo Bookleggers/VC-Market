@@ -8,14 +8,63 @@
 
 body {
   display: flex;
+  flex-direction: column;
   justify-content: center;
   align-items: center;
-  height: 100vh;
+  min-height: 100vh;
   background: linear-gradient(to bottom, #f8f9fa, #e3e6ea);
 }
 
+/* ✅ Header */
+header {
+  width: 100%;
+  background: white;
+  padding: 15px 0;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 1000;
+}
+
+.header-container {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 20px;
+}
+
+.logo {
+  font-size: 24px;
+  font-weight: bold;
+  color: #0071e3;
+}
+
+.nav-links {
+  display: flex;
+  list-style: none;
+  gap: 20px;
+}
+
+.nav-links li a {
+  color: #333;
+  text-decoration: none;
+  font-weight: 500;
+}
+
 /* ✅ Login Container */
-.login-container {
+.auth-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-grow: 1;
+  margin-top: 80px;
+  width: 100%;
+}
+
+.form-box {
   width: 380px;
   background: white;
   padding: 30px;
@@ -45,6 +94,7 @@ h2 {
 .input-container input {
   width: 100%;
   padding: 12px;
+  padding-right: 40px; /* Space for eye icon */
   border: 1px solid #ccc;
   border-radius: 6px;
   outline: none;
@@ -55,19 +105,15 @@ h2 {
   position: absolute;
   top: 12px;
   left: 12px;
-  color: #aaa;
   font-size: 14px;
+  color: #aaa;
   transition: all 0.3s;
   pointer-events: none;
 }
 
-.input-container input:focus {
-  border: 1px solid #0071e3;
-}
-
 .input-container input:focus + label,
 .input-container input:valid + label {
-  top: -10px;
+  top: -15px;
   left: 10px;
   font-size: 12px;
   color: #0071e3;
@@ -77,7 +123,8 @@ h2 {
 .input-container i {
   position: absolute;
   right: 12px;
-  top: 14px;
+  top: 50%;
+  transform: translateY(-50%);
   cursor: pointer;
   color: #666;
 }
@@ -99,18 +146,6 @@ h2 {
   background: #005bb5;
 }
 
-/* ✅ Toggle Between Login & Signup */
-button {
-  background: none;
-  border: none;
-  color: #0071e3;
-  cursor: pointer;
-}
-
-button:hover {
-  text-decoration: underline;
-}
-
 /* ✅ Notification Banner */
 .notification {
   display: none;
@@ -130,18 +165,14 @@ button:hover {
   background: #dc3545;
 }
 
-/* ✅ Password Validation */
-.validation-box {
-  text-align: left;
-  font-size: 14px;
-  margin-top: 10px;
-}
-
-.validation-box p {
-  display: flex;
-  align-items: center;
-  gap: 6px;
-  margin: 4px 0;
+/* ✅ Footer */
+footer {
+  text-align: center;
+  padding: 20px 0;
+  background-color: #222;
+  color: white;
+  width: 100%;
+  margin-top: auto;
 }
 
 /* ✅ Hidden Class */
