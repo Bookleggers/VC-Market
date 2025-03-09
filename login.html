@@ -14,15 +14,18 @@
   
   <!-- ✅ Header -->
   <header>
-    <div class="container header-container">
+    <div class="container">
       <h1 class="logo">VC Market</h1>
       <nav>
         <ul class="nav-links">
           <li><a href="index.html">Home</a></li>
           <li><a href="dashboard.html">Dashboard</a></li>
-          <li><a href="login.html" id="auth-link">Login / Sign Up</a></li>
         </ul>
       </nav>
+      <div class="auth-buttons">
+        <a href="login.html" class="login-link">Login</a>
+        <a href="login.html?signup=true" class="signup-link">Sign Up</a>
+      </div>
     </div>
   </header>
 
@@ -41,16 +44,21 @@
           <label>Email</label>
         </div>
 
-        <div class="input-container">
+        <div class="input-container password-box">
           <input type="password" id="signup-password" required oninput="validatePassword()">
           <label>Password</label>
-          <i class="fa-solid fa-eye" onclick="togglePassword('signup-password', this)"></i>
+          <i class="fa-solid fa-eye toggle-password" onclick="togglePassword('signup-password', this)"></i>
         </div>
 
-        <div id="signup-validation" class="validation-box hidden"></div>
+        <div id="signup-validation" class="validation-box">
+          <p><i class="fa-solid fa-xmark" style="color: #b21807;"></i> At least 1 uppercase letter</p>
+          <p><i class="fa-solid fa-xmark" style="color: #b21807;"></i> At least 1 lowercase letter</p>
+          <p><i class="fa-solid fa-xmark" style="color: #b21807;"></i> At least 1 number</p>
+          <p><i class="fa-solid fa-xmark" style="color: #b21807;"></i> At least 1 symbol</p>
+        </div>
 
         <button id="signup-button" class="auth-button">Sign Up</button>
-        <p>Already have an account? <button id="show-login">Log in</button></p>
+        <p class="switch-text">Already have an account? <button id="show-login">Log in</button></p>
       </div>
 
       <!-- ✅ Login Section -->
@@ -60,14 +68,14 @@
           <label>Email</label>
         </div>
 
-        <div class="input-container">
+        <div class="input-container password-box">
           <input type="password" id="login-password" required>
           <label>Password</label>
-          <i class="fa-solid fa-eye" onclick="togglePassword('login-password', this)"></i>
+          <i class="fa-solid fa-eye toggle-password" onclick="togglePassword('login-password', this)"></i>
         </div>
 
         <button id="login-button" class="auth-button">Log In</button>
-        <p>Don't have an account? <button id="show-signup">Sign up</button></p>
+        <p class="switch-text">Don't have an account? <button id="show-signup">Sign up</button></p>
       </div>
 
       <!-- ✅ Email Verification Message -->
