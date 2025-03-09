@@ -9,7 +9,6 @@
 body {
   display: flex;
   flex-direction: column;
-  justify-content: center;
   align-items: center;
   min-height: 100vh;
   background: linear-gradient(to bottom, #f8f9fa, #e3e6ea);
@@ -19,39 +18,44 @@ body {
 header {
   width: 100%;
   background: white;
-  padding: 15px 0;
+  padding: 20px 0;
   box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
-  position: fixed;
-  top: 0;
-  left: 0;
-  z-index: 1000;
 }
 
-.header-container {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  max-width: 1200px;
-  margin: 0 auto;
-  padding: 0 20px;
+.container {
+  text-align: center;
 }
 
 .logo {
-  font-size: 24px;
+  font-size: 26px;
   font-weight: bold;
   color: #0071e3;
 }
 
 .nav-links {
   display: flex;
+  justify-content: center;
+  gap: 25px;
+  margin: 10px 0;
   list-style: none;
-  gap: 20px;
 }
 
 .nav-links li a {
   color: #333;
   text-decoration: none;
   font-weight: 500;
+}
+
+.auth-buttons {
+  text-align: right;
+  margin-right: 20px;
+}
+
+.auth-buttons a {
+  margin-left: 15px;
+  color: #0071e3;
+  font-weight: bold;
+  text-decoration: none;
 }
 
 /* ✅ Login Container */
@@ -65,24 +69,12 @@ header {
 }
 
 .form-box {
-  width: 380px;
+  width: 400px;
   background: white;
   padding: 30px;
   border-radius: 12px;
   box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
   text-align: center;
-}
-
-h2 {
-  font-size: 24px;
-  font-weight: bold;
-  color: #0071e3;
-}
-
-.sub-text {
-  font-size: 14px;
-  color: #666;
-  margin-bottom: 20px;
 }
 
 /* ✅ Input Fields */
@@ -94,11 +86,11 @@ h2 {
 .input-container input {
   width: 100%;
   padding: 12px;
-  padding-right: 40px; /* Space for eye icon */
   border: 1px solid #ccc;
   border-radius: 6px;
   outline: none;
   transition: border 0.3s;
+  padding-right: 40px; /* Space for eye icon */
 }
 
 .input-container label {
@@ -112,7 +104,7 @@ h2 {
 }
 
 .input-container input:focus + label,
-.input-container input:valid + label {
+.input-container input:not(:placeholder-shown) + label {
   top: -15px;
   left: 10px;
   font-size: 12px;
@@ -120,7 +112,11 @@ h2 {
 }
 
 /* ✅ Password Toggle */
-.input-container i {
+.password-box {
+  position: relative;
+}
+
+.toggle-password {
   position: absolute;
   right: 12px;
   top: 50%;
@@ -146,23 +142,22 @@ h2 {
   background: #005bb5;
 }
 
-/* ✅ Notification Banner */
-.notification {
-  display: none;
-  padding: 12px;
-  color: white;
+/* ✅ Switch Text */
+.switch-text {
+  font-size: 14px;
+  margin-top: 10px;
+}
+
+.switch-text button {
+  background: none;
+  border: none;
+  color: #0071e3;
+  cursor: pointer;
   font-weight: bold;
-  text-align: center;
-  border-radius: 6px;
-  margin-bottom: 20px;
 }
 
-.notification.success {
-  background: #28a745;
-}
-
-.notification.error {
-  background: #dc3545;
+.switch-text button:hover {
+  text-decoration: underline;
 }
 
 /* ✅ Footer */
