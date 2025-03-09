@@ -10,26 +10,32 @@
   <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/js/all.min.js" defer></script>
 </head>
 <body>
-
-  <div class="container">
-    <h2>VC Market - Sign Up / Login</h2>
-
-    <!-- Sign Up Section -->
-    <div id="signup-section">
-      <input type="email" id="signup-email" placeholder="Email">
-      <input type="password" id="signup-password" placeholder="Password">
-      <button id="signup-button">Sign Up</button>
-      <p>Have an account? <button id="show-login">Log in</button></p>
+  <header>
+    <h1>VC Market</h1>
+    <nav>
+      <ul>
+        <li><a href="index.html">Browse Listings</a></li>
+        <li><a href="#">Sell Your Books</a></li>
+        <li><a href="login.html">Login / Sign Up</a></li>
+      </ul>
+    </nav>
+  </header>
+  <main>
+    <div class="container">
+      <h2>VC Market - Sign Up / Login</h2>
+      <div id="signup-section">
+        <input type="email" id="signup-email" placeholder="Email">
+        <input type="password" id="signup-password" placeholder="Password">
+        <button id="signup-button">Sign Up</button>
+        <p>Have an account? <button id="show-login">Log in</button></p>
+      </div>
+      <div id="login-section" style="display: none;">
+        <input type="email" id="login-email" placeholder="Email">
+        <input type="password" id="login-password" placeholder="Password">
+        <button id="login-button">Log In</button>
+        <p>Don't have an account? <button id="show-signup">Sign up</button></p>
+      </div>
     </div>
-
-    <!-- Login Section (Initially Hidden) -->
-    <div id="login-section" style="display: none;">
-      <input type="email" id="login-email" placeholder="Email">
-      <input type="password" id="login-password" placeholder="Password">
-      <button id="login-button">Log In</button>
-      <p>Don't have an account? <button id="show-signup">Sign up</button></p>
-    </div>
-  </div>
-
+  </main>
 </body>
 </html>
