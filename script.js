@@ -8,35 +8,16 @@ const supabase = window.supabase.createClient(
 document.addEventListener("DOMContentLoaded", function () {
   console.log("DOM fully loaded");
   loadAllListings();
-
-  if (document.getElementById("signup-button")) {
-    document.getElementById("signup-button").addEventListener("click", signUp);
-    document.getElementById("login-button").addEventListener("click", logIn);
-    document.getElementById("show-login").addEventListener("click", () => {
-      document.getElementById("signup-section").style.display = "none";
-      document.getElementById("login-section").style.display = "block";
-    });
-    document.getElementById("show-signup").addEventListener("click", () => {
-      document.getElementById("login-section").style.display = "none";
-      document.getElementById("signup-section").style.display = "block";
-    });
-  }
 });
 
 async function loadAllListings() {
-  const { data, error } = await supabase
-    .from("book_listings")
-    .select("*"); // Fetch everything for debugging
-
-  console.log("Raw Listings:", data, "Error:", error)
   console.log("Loading all listings...");
   const { data: listings, error: listingsError } = await supabase
     .from("book_listings")
     .select(`
-  id, price, condition, issues, status, book_id,
-  preloaded_books!inner(id, title, module, degree)
-`);
-
+      id, price, condition, issues, status,
+      preloaded_books (title, module, degree)
+    `);
 
   console.log("Listings:", listings, "Error:", listingsError);
   if (listingsError) {
@@ -44,40 +25,27 @@ async function loadAllListings() {
     return;
   }
 
-  const tableBody = document.getElementById("listing-table").querySelector("tbody");
-  tableBody.innerHTML = "";
+  const listingsContainer = document.getElementById("listings-container");
+  listingsContainer.innerHTML = "";
 
   if (!listings || listings.length === 0) {
-    tableBody.innerHTML = "<tr><td colspan='6'>No listings found.</td></tr>";
+    listingsContainer.innerHTML = "<p>No listings found.</p>";
     return;
   }
 
   listings.forEach(listing => {
-    const row = document.createElement("tr");
-    row.innerHTML = `
-      <td>${listing.preloaded_books?.title || "Unknown"}</td>
-      <td>${listing.preloaded_books?.module || "Unknown"}</td>
-      <td>${listing.preloaded_books?.degree || "Unknown"}</td>
-      <td>R${listing.price}</td>
-      <td>${listing.condition || "No info"}</td>
-      <td>${Array.isArray(listing.issues) ? listing.issues.join(", ") : "None"}</td>
+    const card = document.createElement("div");
+    card.classList.add("listing-card");
+
+    card.innerHTML = `
+      <h3>${listing.preloaded_books?.title || "Unknown"}</h3>
+      <p><strong>Module:</strong> ${listing.preloaded_books?.module || "Unknown"}</p>
+      <p><strong>Degree:</strong> ${listing.preloaded_books?.degree || "Unknown"}</p>
+      <p><strong>Price:</strong> R${listing.price}</p>
+      <p><strong>Condition:</strong> ${listing.condition}</p>
+      <p><strong>Issues:</strong> ${Array.isArray(listing.issues) ? listing.issues.join(", ") : "None"}</p>
     `;
-    tableBody.appendChild(row);
+
+    listingsContainer.appendChild(card);
   });
-}
-
-async function signUp() {
-  const email = document.getElementById("signup-email").value;
-  const password = document.getElementById("signup-password").value;
-  const { error } = await supabase.auth.signUp({ email, password });
-  if (error) return alert("Sign up error: " + error.message);
-  alert("Sign up successful! Please check your email to confirm your account.");
-}
-
-async function logIn() {
-  const email = document.getElementById("login-email").value;
-  const password = document.getElementById("login-password").value;
-  const { error } = await supabase.auth.signInWithPassword({ email, password });
-  if (error) return alert("Login error: " + error.message);
-  alert("Login successful!");
 }
