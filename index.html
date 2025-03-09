@@ -3,67 +3,54 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>VC Market - All Listings</title>
+  <title>VC Market</title>
   <link rel="stylesheet" href="styles.css">
-  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js"></script>
-  <script src="script.js" defer></script>
+  <script src="https://kit.fontawesome.com/4eae5c8c24.js" crossorigin="anonymous"></script>
 </head>
 <body>
 
-<header class="main-header">
-  <div class="logo-section">
-    <h1 class="logo" id="user-name">VC Market</h1>
-  </div>
-  <nav class="main-nav">
-    <a href="index.html">Home</a>
-    <a href="dashboard.html" id="dashboard-link" style="display: none;">Dashboard</a>
-  </nav>
-  <div class="auth-buttons">
-    <a href="login.html" id="auth-link" class="btn-signin">Login</a>
-    <a href="login.html?signup=true" class="btn-signup">Sign Up</a>
-  </div>
-</header>
+  <header>
+    <h1>VC Market</h1>
+    <nav>
+      <a href="#">Home</a>
+      <a href="#">Buy Books</a>
+      <a href="#">Sell Books</a>
+      <a href="#">Contact</a>
+    </nav>
+  </header>
 
-<section class="hero">
-  <div class="container hero-container">
-    <h2>Find and Sell Textbooks Easily</h2>
-    <p>The smartest way to buy and sell textbooks at Varsity College.</p>
-    <a href="dashboard.html" class="cta-button">Sell Your Books</a>
-  </div>
-</section>
+  <section class="hero">
+    <h1>Welcome to VC Market</h1>
+    <p>Buy and sell your textbooks with ease, all in one place.</p>
+    <button>Get Started</button>
+  </section>
 
-<main>
-  <div class="container main-content">
+  <section class="cards-container">
+    <div class="card">
+      <h2>Buy Textbooks</h2>
+      <p>Find affordable second-hand textbooks for your modules.</p>
+      <button>Shop Now</button>
+    </div>
+    <div class="card">
+      <h2>Sell Textbooks</h2>
+      <p>List your old textbooks and earn money back.</p>
+      <button>Sell Now</button>
+    </div>
+    <div class="card">
+      <h2>Track Orders</h2>
+      <p>View and manage your textbook orders and sales.</p>
+      <button>Track Now</button>
+    </div>
+    <div class="card">
+      <h2>Contact Us</h2>
+      <p>Have questions? Reach out and we’ll get back to you.</p>
+      <button>Contact</button>
+    </div>
+  </section>
 
-    <aside class="sidebar">
-      <h3>Filters</h3>
-      <label>Degree</label>
-      <select id="filter-degree"><option value="">All</option></select>
-      <label>Module</label>
-      <select id="filter-module"><option value="">All</option></select>
-      <label>Book Name</label>
-      <input type="text" id="filter-book" placeholder="Search by name">
-      <h3>Sort By</h3>
-      <select id="sort-options">
-        <option value="alphabetical">Alphabetical</option>
-        <option value="price-low">Price: Low to High</option>
-        <option value="price-high">Price: High to Low</option>
-        <option value="degree">Degree</option>
-        <option value="module">Module</option>
-      </select>
-    </aside>
-
-    <section class="listings-section">
-      <h2>Available Listings</h2>
-      <div id="listings-container" class="listings-grid"></div>
-    </section>
-
-  </div>
-</main>
-
-<footer>
-  <p>&copy; 2025 VC Market. All rights reserved.</p>
-</footer>
+  <footer>
+    <p>&copy; 2025 VC Market. All rights reserved.</p>
+  </footer>
 
 </body>
 </html>
