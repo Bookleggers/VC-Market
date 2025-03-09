@@ -8,7 +8,7 @@ const supabase = window.supabase.createClient(
 document.addEventListener("DOMContentLoaded", function () {
   console.log("DOM fully loaded");
   loadAllListings();
-  
+
   // Login page event listeners
   if (document.getElementById("signup-button")) {
     document.getElementById("signup-button").addEventListener("click", signUp);
@@ -26,20 +26,20 @@ document.addEventListener("DOMContentLoaded", function () {
 
 async function loadAllListings() {
   console.log("Loading all listings...");
+  // Query all rows from book_listings without filtering by status
   const { data: listings, error: listingsError } = await supabase
     .from("book_listings")
-    .select("id, book_id, seller_id, price, condition, issues, status")
-    .eq("status", "Available");
+    .select("id, book_id, seller_id, price, condition, issues, status");
   console.log("Listings:", listings, "Error:", listingsError);
   if (listingsError) {
     console.error("Error fetching listings:", listingsError);
     return;
   }
-  const bookIdsForSale = listings.map(listing => listing.book_id);
+  const bookIds = listings.map(listing => listing.book_id);
   const { data: books, error: booksError } = await supabase
     .from("preloaded_books")
     .select("id, title, module, degree")
-    .in("id", bookIdsForSale);
+    .in("id", bookIds);
   console.log("Books:", books, "Error:", booksError);
   if (booksError) {
     console.error("Error fetching books:", booksError);
@@ -47,6 +47,10 @@ async function loadAllListings() {
   }
   const tableBody = document.getElementById("listing-table").querySelector("tbody");
   tableBody.innerHTML = "";
+  if (listings.length === 0) {
+    tableBody.innerHTML = "<tr><td colspan='7'>No listings found.</td></tr>";
+    return;
+  }
   listings.forEach(listing => {
     const bookDetails = books.find(book => book.id === listing.book_id);
     if (bookDetails) {
@@ -58,6 +62,7 @@ async function loadAllListings() {
         <td>R${listing.price}</td>
         <td>${listing.condition || "No info"}</td>
         <td>${listing.issues ? listing.issues.join(", ") : "None"}</td>
+        <td>${listing.status}</td>
       `;
       tableBody.appendChild(row);
     }
@@ -79,5 +84,3 @@ async function logIn() {
   if (error) return alert("Login error: " + error.message);
   alert("Login successful!");
 }
- 
-
