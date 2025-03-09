@@ -1,4 +1,4 @@
-// ✅ Initialize Supabase correctly
+// ✅ Initialize Supabase
 const supabase = window.supabase.createClient(
   "https://mlwxfbtiqqacqvhwfbtk.supabase.co",
   "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im1sd3hmYnRpcXFhY3F2aHdmYnRrIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDE0MzM3MzYsImV4cCI6MjA1NzAwOTczNn0.Q6YD0EtZWITvTAMXFNFysyTFPtDHtD_cMFn_1G8VX4c"
@@ -49,7 +49,7 @@ async function updateModules() {
     return;
   }
 
-  // Fetch all book_ids from `book_listings` that are available for the selected degree
+  // Fetch only books listed for sale in `book_listings`
   const { data: listedBooks, error: listingError } = await supabase
     .from("book_listings")
     .select("book_id")
@@ -62,12 +62,12 @@ async function updateModules() {
 
   const bookIdsForSale = listedBooks.map(book => book.book_id);
 
-  // Fetch modules based on selected degree, but only include modules where books are listed for sale
+  // Fetch modules from `preloaded_books`, only where books are for sale
   const { data: books, error } = await supabase
     .from("preloaded_books")
     .select("module, id")
     .eq("degree", selectedDegree)
-    .in("id", bookIdsForSale) // Only include books that are for sale
+    .in("id", bookIdsForSale) // Only books that are actually listed for sale
     .order("module", { ascending: true });
 
   if (error) {
@@ -141,7 +141,7 @@ async function filterBooks() {
       <p class="book-module">${bookDetails.module}</p>
       <p class="book-price">R${book.price}</p>
       <p class="book-condition">${book.condition}</p>
-      ${book.issues ? `<p class="book-issues">⚠️ ${book.issues.join(', ')}</p>` : ""}
+      ${Array.isArray(book.issues) && book.issues.length > 0 ? `<p class="book-issues">⚠️ ${book.issues.join(', ')}</p>` : ""}
     `;
 
     bookListings.appendChild(card);
