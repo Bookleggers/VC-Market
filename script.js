@@ -79,3 +79,4 @@ async function logIn() {
   if (error) return alert("Login error: " + error.message);
   alert("Login successful!");
 }
+ 
