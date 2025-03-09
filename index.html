@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>VC Market</title>
+  <title>VC Market - All Listings</title>
   <link rel="stylesheet" href="styles.css">
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js"></script>
   <script src="script.js" defer></script>
@@ -20,17 +20,20 @@
     </nav>
   </header>
   <main>
-    <h2>Find Your Textbooks</h2>
-    <div class="filters">
-      <!-- Added inline onchange attribute for debugging -->
-      <select id="degree-filter" onchange="updateModules()">
-        <option value="">Select Degree</option>
-      </select>
-      <select id="module-filter" disabled>
-        <option value="">Select Module</option>
-      </select>
-    </div>
-    <div id="book-listings" class="book-container"></div>
+    <h2>All Textbook Listings</h2>
+    <table id="listing-table">
+      <thead>
+        <tr>
+          <th>Title</th>
+          <th>Module</th>
+          <th>Degree</th>
+          <th>Price</th>
+          <th>Condition</th>
+          <th>Issues</th>
+        </tr>
+      </thead>
+      <tbody></tbody>
+    </table>
   </main>
 </body>
 </html>
