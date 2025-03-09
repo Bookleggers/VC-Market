@@ -6,25 +6,54 @@
   <title>Login - VC Market</title>
   <link rel="stylesheet" href="styles.css">
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js"></script>
-  <script src="script.js" defer></script>
+  <script src="login.js" defer></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/js/all.min.js" defer></script>
 </head>
-<body>
-  <div class="auth-container">
+<body class="auth-page">
+  <header>
+    <div class="container header-container">
+      <h1 class="logo">VC Market</h1>
+      <nav>
+        <ul class="nav-links">
+          <li><a href="index.html">Home</a></li>
+          <li><a href="dashboard.html">Dashboard</a></li>
+          <li><a href="login.html">Login / Sign Up</a></li>
+        </ul>
+      </nav>
+    </div>
+  </header>
+
+  <main class="auth-container">
+    <!-- ✅ Notification Banner -->
+    <div id="notification" class="notification hidden"></div>
+
     <h2>Sign Up / Login</h2>
+
+    <!-- ✅ Sign-Up Section -->
     <div id="signup-section">
       <input type="email" id="signup-email" placeholder="Email">
-      <input type="password" id="signup-password" placeholder="Password">
-      <div id="password-validation"></div>
+      <div class="password-container">
+        <input type="password" id="signup-password" placeholder="Password">
+        <i class="fa-solid fa-eye" onclick="togglePassword('signup-password', this)"></i>
+      </div>
+      <div id="signup-validation" class="validation-box hidden"></div>
       <button id="signup-button">Sign Up</button>
       <p>Have an account? <button id="show-login">Log in</button></p>
     </div>
-    <div id="login-section" style="display: none;">
+
+    <!-- ✅ Login Section (Hidden by Default) -->
+    <div id="login-section" class="hidden">
       <input type="email" id="login-email" placeholder="Email">
-      <input type="password" id="login-password" placeholder="Password">
+      <div class="password-container">
+        <input type="password" id="login-password" placeholder="Password">
+        <i class="fa-solid fa-eye" onclick="togglePassword('login-password', this)"></i>
+      </div>
       <button id="login-button">Log In</button>
       <p>Don't have an account? <button id="show-signup">Sign up</button></p>
     </div>
-  </div>
+
+    <!-- ✅ Email Verification Message (Hidden by Default) -->
+    <p id="verification-message" class="hidden">Verification email sent. Please check your email.</p>
+  </main>
 </body>
 </html>
