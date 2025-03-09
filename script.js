@@ -33,9 +33,10 @@ async function loadAllListings() {
   const { data: listings, error: listingsError } = await supabase
     .from("book_listings")
     .select(`
-      id, price, condition, issues, status,
-      preloaded_books (title, module, degree)
-    `);
+  id, price, condition, issues, status, book_id,
+  preloaded_books!inner(id, title, module, degree)
+`);
+
 
   console.log("Listings:", listings, "Error:", listingsError);
   if (listingsError) {
