@@ -30,19 +30,25 @@ nav ul li {
   border: 1px solid #ccc;
 }
 
-.filters {
-  margin-bottom: 20px;
+main {
+  padding: 20px;
 }
 
-.book-container {
-  display: flex;
-  flex-wrap: wrap;
+/* Table styles */
+table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 20px;
 }
 
-.book-card {
+table th,
+table td {
   border: 1px solid #ccc;
-  padding: 10px;
-  margin: 5px;
-  width: 200px;
-  background: white;
+  padding: 8px;
+  text-align: left;
+}
+
+table th {
+  background-color: #007bff;
+  color: white;
 }
