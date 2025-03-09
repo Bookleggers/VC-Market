@@ -9,7 +9,6 @@ document.addEventListener("DOMContentLoaded", function () {
   console.log("DOM fully loaded");
   loadAllListings();
 
-  // Login page event listeners
   if (document.getElementById("signup-button")) {
     document.getElementById("signup-button").addEventListener("click", signUp);
     document.getElementById("login-button").addEventListener("click", logIn);
@@ -26,46 +25,38 @@ document.addEventListener("DOMContentLoaded", function () {
 
 async function loadAllListings() {
   console.log("Loading all listings...");
-  // Query all rows from book_listings without filtering by status
   const { data: listings, error: listingsError } = await supabase
     .from("book_listings")
-    .select("id, book_id, seller_id, price, condition, issues, status");
+    .select(`
+      id, price, condition, issues, status,
+      preloaded_books (title, module, degree)
+    `);
+
   console.log("Listings:", listings, "Error:", listingsError);
   if (listingsError) {
     console.error("Error fetching listings:", listingsError);
     return;
   }
-  const bookIds = listings.map(listing => listing.book_id);
-  const { data: books, error: booksError } = await supabase
-    .from("preloaded_books")
-    .select("id, title, module, degree")
-    .in("id", bookIds);
-  console.log("Books:", books, "Error:", booksError);
-  if (booksError) {
-    console.error("Error fetching books:", booksError);
-    return;
-  }
+
   const tableBody = document.getElementById("listing-table").querySelector("tbody");
   tableBody.innerHTML = "";
-  if (listings.length === 0) {
-    tableBody.innerHTML = "<tr><td colspan='7'>No listings found.</td></tr>";
+
+  if (!listings || listings.length === 0) {
+    tableBody.innerHTML = "<tr><td colspan='6'>No listings found.</td></tr>";
     return;
   }
+
   listings.forEach(listing => {
-    const bookDetails = books.find(book => book.id === listing.book_id);
-    if (bookDetails) {
-      const row = document.createElement("tr");
-      row.innerHTML = `
-        <td>${bookDetails.title}</td>
-        <td>${bookDetails.module}</td>
-        <td>${bookDetails.degree}</td>
-        <td>R${listing.price}</td>
-        <td>${listing.condition || "No info"}</td>
-        <td>${listing.issues ? listing.issues.join(", ") : "None"}</td>
-        <td>${listing.status}</td>
-      `;
-      tableBody.appendChild(row);
-    }
+    const row = document.createElement("tr");
+    row.innerHTML = `
+      <td>${listing.preloaded_books?.title || "Unknown"}</td>
+      <td>${listing.preloaded_books?.module || "Unknown"}</td>
+      <td>${listing.preloaded_books?.degree || "Unknown"}</td>
+      <td>R${listing.price}</td>
+      <td>${listing.condition || "No info"}</td>
+      <td>${Array.isArray(listing.issues) ? listing.issues.join(", ") : "None"}</td>
+    `;
+    tableBody.appendChild(row);
   });
 }
 
