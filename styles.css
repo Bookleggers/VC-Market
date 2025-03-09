@@ -1,9 +1,9 @@
 /* Global Styles */
 body {
-  font-family: 'Arial', sans-serif;
+  font-family: 'Inter', sans-serif;
   margin: 0;
   padding: 0;
-  background-color: #f4f4f4;
+  background-color: #f5f5f5;
   color: #333;
 }
 
@@ -16,76 +16,104 @@ body {
 
 /* Header */
 header {
-  background-color: #007bff;
-  color: white;
+  background-color: white;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
   padding: 15px 0;
+  position: sticky;
+  top: 0;
+  width: 100%;
+  z-index: 1000;
+}
+
+header h1 {
   text-align: center;
+  font-size: 28px;
+  color: #007bff;
 }
 
 nav ul {
-  list-style: none;
-  padding: 0;
-  margin: 0;
   display: flex;
   justify-content: center;
-  gap: 20px;
-}
-
-nav ul li {
-  display: inline;
+  gap: 25px;
+  list-style: none;
+  padding: 0;
+  margin: 10px 0 0;
 }
 
 nav ul li a {
-  color: white;
+  color: #333;
   text-decoration: none;
+  font-weight: 600;
   font-size: 16px;
-  font-weight: bold;
+  padding: 8px 15px;
+  border-radius: 6px;
   transition: 0.3s;
 }
 
 nav ul li a:hover {
-  text-decoration: underline;
+  background: #007bff;
+  color: white;
 }
 
-/* Main */
-main {
-  padding: 40px 20px;
+/* Hero Section */
+.hero {
+  background: url('https://source.unsplash.com/1600x500/?books,library') no-repeat center;
+  background-size: cover;
+  color: white;
   text-align: center;
+  padding: 80px 20px;
+  position: relative;
 }
 
-h2 {
+.hero h2 {
+  font-size: 36px;
+  margin-bottom: 10px;
+}
+
+.hero p {
+  font-size: 18px;
   margin-bottom: 20px;
-  font-size: 28px;
-  color: #007bff;
+}
+
+.hero .cta-button {
+  background: #007bff;
+  color: white;
+  padding: 12px 24px;
+  border-radius: 6px;
+  font-size: 16px;
+  text-decoration: none;
+  transition: 0.3s;
+}
+
+.hero .cta-button:hover {
+  background: #0056b3;
 }
 
 /* Listings Grid */
 .listings-grid {
   display: grid;
-  grid-template-columns: repeat(4, 1fr);
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
   gap: 20px;
-  padding: 20px;
-  justify-items: center;
+  padding: 40px 0;
 }
 
 /* Listing Card */
 .listing-card {
   background: white;
-  border-radius: 8px;
+  border-radius: 12px;
   padding: 20px;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+  transition: transform 0.3s, box-shadow 0.3s;
   text-align: left;
-  width: 100%;
-  max-width: 280px;
-  transition: transform 0.3s;
 }
 
 .listing-card:hover {
   transform: translateY(-5px);
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
 }
 
 .listing-card h3 {
-  margin: 0 0 10px;
+  margin-bottom: 10px;
   font-size: 20px;
   color: #007bff;
 }
@@ -97,9 +125,9 @@ h2 {
 
 /* Footer */
 footer {
-  background-color: #333;
+  background-color: #222;
   color: white;
   text-align: center;
-  padding: 15px 0;
+  padding: 20px 0;
   margin-top: 40px;
 }
