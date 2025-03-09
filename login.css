@@ -1,4 +1,4 @@
-/* ✅ Base */
+/* ✅ Reset & Base */
 * {
   box-sizing: border-box;
   margin: 0;
@@ -11,9 +11,10 @@ body {
   flex-direction: column;
   min-height: 100vh;
   background: linear-gradient(to bottom, #f8f9fa, #e3e6ea);
+  color: #222;
 }
 
-/* ✅ Header */
+/* ✅ Header - Lovable Style */
 .main-header {
   display: flex;
   align-items: center;
@@ -27,10 +28,11 @@ body {
 
 .logo-section .logo {
   color: white;
-  font-size: 20px;
+  font-size: 18px;
   font-weight: 600;
 }
 
+/* Centered Menu */
 .main-nav {
   display: flex;
   gap: 32px;
@@ -42,45 +44,60 @@ body {
   font-weight: 500;
   font-size: 14px;
   padding: 8px;
-  transition: opacity 0.2s;
+  transition: opacity 0.2s ease;
 }
 
 .main-nav a:hover {
   opacity: 0.7;
 }
 
+/* Auth Buttons (Login / Sign up) - Lovable Styled */
 .auth-buttons {
   display: flex;
-  gap: 12px;
+  gap: 10px;
 }
 
 .btn-signin, .btn-signup {
-  padding: 8px 14px;
-  font-size: 14px;
-  font-weight: 500;
-  border-radius: 6px;
-  text-decoration: none;
   display: flex;
   align-items: center;
   justify-content: center;
+  height: 32px;
+  padding: 0 14px;
+  border-radius: 6px;
+  font-size: 13px;
+  font-weight: 500;
+  text-decoration: none;
+  transition: all 0.15s cubic-bezier(0.4, 0, 0.2, 1);
+  white-space: nowrap;
 }
 
+/* Sign in button - dark */
 .btn-signin {
   background: rgb(39, 39, 42);
-  color: white;
+  color: rgb(244, 244, 245);
   border: 1px solid rgb(63, 63, 70);
+  box-shadow: rgba(0, 0, 0, 0.05) 0 1px 2px 0;
 }
 
+.btn-signin:hover {
+  background: rgb(63, 63, 70);
+  color: white;
+}
+
+/* Sign up button - light */
 .btn-signup {
-  background: white;
+  background: rgb(255, 255, 255);
+  color: rgb(0, 0, 0);
+  border: 1px solid rgba(0, 0, 0, 0.08);
+  box-shadow: rgba(0, 0, 0, 0.05) 0 1px 2px 0;
+}
+
+.btn-signup:hover {
+  background: rgb(244, 244, 245);
   color: black;
 }
 
-.btn-signin:hover, .btn-signup:hover {
-  opacity: 0.85;
-}
-
-/* ✅ Auth form */
+/* ✅ Main Auth Form */
 .auth-container {
   display: flex;
   justify-content: center;
@@ -99,7 +116,17 @@ body {
   text-align: center;
 }
 
-/* ✅ Inputs & floating labels */
+.form-box h2 {
+  margin-bottom: 10px;
+  font-size: 22px;
+}
+
+.sub-text {
+  margin-bottom: 20px;
+  color: #666;
+}
+
+/* ✅ Inputs & Floating Labels */
 .input-container {
   position: relative;
   margin: 20px 0;
@@ -111,6 +138,8 @@ body {
   border: 1px solid #ccc;
   border-radius: 6px;
   padding-right: 40px;
+  background: white;
+  font-size: 14px;
 }
 
 .input-container label {
@@ -119,6 +148,7 @@ body {
   left: 12px;
   transition: 0.3s;
   color: #aaa;
+  font-size: 14px;
 }
 
 .input-container input:focus + label,
@@ -129,7 +159,7 @@ body {
   color: #0071e3;
 }
 
-/* ✅ Password eye */
+/* ✅ Password Eye Icon */
 .password-box .toggle-password {
   position: absolute;
   right: 12px;
@@ -139,7 +169,19 @@ body {
   color: #666;
 }
 
-/* ✅ Auth buttons */
+/* ✅ Password Validation */
+.validation-box {
+  text-align: left;
+  font-size: 14px;
+  margin-top: 10px;
+  padding-bottom: 15px;
+}
+
+.validation-box p {
+  margin: 6px 0;
+}
+
+/* ✅ Auth Button */
 .auth-button {
   width: 100%;
   padding: 12px;
@@ -151,10 +193,24 @@ body {
   cursor: pointer;
   margin-top: 10px;
   transition: background 0.3s;
+  font-size: 14px;
 }
 
 .auth-button:hover {
   background: #005bb5;
+}
+
+/* ✅ Switch Text */
+.switch-text {
+  margin-top: 15px;
+}
+
+.switch-text button {
+  background: none;
+  border: none;
+  color: #0071e3;
+  cursor: pointer;
+  font-weight: 500;
 }
 
 /* ✅ Footer */
@@ -165,4 +221,5 @@ footer {
   color: white;
   width: 100%;
   margin-top: auto;
+  font-size: 14px;
 }
