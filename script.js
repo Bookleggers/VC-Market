@@ -1,10 +1,14 @@
+console.log("Script loaded");
+
 const supabase = window.supabase.createClient(
   "https://mlwxfbtiqqacqvhwfbtk.supabase.co",
   "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im1sd3hmYnRpcXFhY3F2aHdmYnRrIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDE0MzM3MzYsImV4cCI6MjA1NzAwOTczNn0.Q6YD0EtZWITvTAMXFNFysyTFPtDHtD_cMFn_1G8VX4c"
 );
 
 document.addEventListener("DOMContentLoaded", function () {
-  // Add event listener to degree dropdown
+  console.log("DOM fully loaded and parsed");
+
+  // Using both inline attribute and event listener for degree dropdown
   const degreeDropdown = document.getElementById("degree-filter");
   if (degreeDropdown) {
     degreeDropdown.addEventListener("change", updateModules);
@@ -118,7 +122,7 @@ async function filterBooks() {
     return;
   }
   filteredListings.forEach(book => {
-    const bookDetails = books.find(b => b.id === listing.book_id || b.id === book.book_id);
+    const bookDetails = books.find(b => b.id === book.book_id);
     let card = document.createElement("div");
     card.classList.add("book-card");
     card.innerHTML = `
