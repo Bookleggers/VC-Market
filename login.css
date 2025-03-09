@@ -22,7 +22,9 @@ header {
   box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
 }
 
-.container {
+.header-container {
+  max-width: 1200px;
+  margin: 0 auto;
   text-align: center;
 }
 
@@ -32,12 +34,18 @@ header {
   color: #0071e3;
 }
 
+.main-nav {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 10px;
+}
+
 .nav-links {
   display: flex;
   justify-content: center;
-  gap: 25px;
-  margin: 10px 0;
   list-style: none;
+  gap: 25px;
 }
 
 .nav-links li a {
@@ -47,37 +55,17 @@ header {
 }
 
 .auth-buttons {
-  text-align: right;
-  margin-right: 20px;
+  display: flex;
+  gap: 15px;
 }
 
 .auth-buttons a {
-  margin-left: 15px;
   color: #0071e3;
   font-weight: bold;
   text-decoration: none;
 }
 
-/* ✅ Login Container */
-.auth-container {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  flex-grow: 1;
-  margin-top: 80px;
-  width: 100%;
-}
-
-.form-box {
-  width: 400px;
-  background: white;
-  padding: 30px;
-  border-radius: 12px;
-  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
-  text-align: center;
-}
-
-/* ✅ Input Fields */
+/* ✅ Fix Floating Labels */
 .input-container {
   position: relative;
   margin: 20px 0;
@@ -90,7 +78,7 @@ header {
   border-radius: 6px;
   outline: none;
   transition: border 0.3s;
-  padding-right: 40px; /* Space for eye icon */
+  padding-right: 40px;
 }
 
 .input-container label {
@@ -125,7 +113,19 @@ header {
   color: #666;
 }
 
-/* ✅ Buttons */
+/* ✅ Fix Spacing for Password Validation */
+.validation-box {
+  text-align: left;
+  font-size: 14px;
+  margin-top: 10px;
+  padding-bottom: 15px;
+}
+
+.validation-box p {
+  margin: 6px 0;
+}
+
+/* ✅ Login Button */
 .auth-button {
   width: 100%;
   padding: 12px;
@@ -142,24 +142,6 @@ header {
   background: #005bb5;
 }
 
-/* ✅ Switch Text */
-.switch-text {
-  font-size: 14px;
-  margin-top: 10px;
-}
-
-.switch-text button {
-  background: none;
-  border: none;
-  color: #0071e3;
-  cursor: pointer;
-  font-weight: bold;
-}
-
-.switch-text button:hover {
-  text-decoration: underline;
-}
-
 /* ✅ Footer */
 footer {
   text-align: center;
@@ -168,9 +150,4 @@ footer {
   color: white;
   width: 100%;
   margin-top: auto;
-}
-
-/* ✅ Hidden Class */
-.hidden {
-  display: none;
 }
