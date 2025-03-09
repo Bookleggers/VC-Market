@@ -9,7 +9,7 @@ document.addEventListener("DOMContentLoaded", function () {
   loadDegrees();
 });
 
-// ✅ Load Degree options from Supabase
+// ✅ Load Degree options from preloaded_books
 async function loadDegrees() {
   const { data, error } = await supabase.from("preloaded_books").select("degree").order("degree", { ascending: true });
 
@@ -50,7 +50,7 @@ async function updateModules() {
     return;
   }
 
-  // Fetch modules based on selected degree
+  // Fetch modules based on selected degree from preloaded_books
   const { data, error } = await supabase
     .from("preloaded_books")
     .select("module")
@@ -66,11 +66,11 @@ async function updateModules() {
   populateDropdown("module-filter", uniqueModules);
   moduleDropdown.disabled = uniqueModules.length === 0;
 
-  // Show books for the selected degree
+  // Show books for the selected degree (from book_listings)
   filterBooks();
 }
 
-// ✅ Filter books based on Degree and Module
+// ✅ Filter books based on Degree and Module (Use book_listings table)
 async function filterBooks() {
   const selectedDegree = document.getElementById("degree-filter")?.value;
   const selectedModule = document.getElementById("module-filter")?.value;
@@ -81,7 +81,7 @@ async function filterBooks() {
     return;
   }
 
-  let query = supabase.from("preloaded_books").select("title, price, module, issues").eq("degree", selectedDegree);
+  let query = supabase.from("book_listings").select("title, price, module, condition, issues").eq("degree", selectedDegree);
   if (selectedModule) query = query.eq("module", selectedModule);
 
   const { data, error } = await query.order("module", { ascending: true }).order("title", { ascending: true });
@@ -102,6 +102,7 @@ async function filterBooks() {
     card.innerHTML = `
       <strong class="book-title">${book.title}</strong>
       <p class="book-price">R${book.price}</p>
+      <p class="book-condition">${book.condition}</p>
       ${book.issues ? `<p class="book-issues">⚠️ ${book.issues}</p>` : ""}
       <p class="book-module">${book.module}</p>
     `;
