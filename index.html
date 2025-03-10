@@ -3,60 +3,63 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>VC Market</title>
+  <title>VC Market - Listings</title>
   <link rel="stylesheet" href="styles.css">
-  <script src="https://kit.fontawesome.com/4eae5c8c24.js" crossorigin="anonymous"></script>
+  <link rel="stylesheet" href="listings.css">
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js"></script>
+  <script src="listings.js" defer></script>
 </head>
 <body>
 
-  <header class="main-header">
-    <div class="logo-section">
-      <div class="logo">VC Market</div>
-    </div>
-    <nav class="main-nav">
-      <a href="#">Home</a>
-      <a href="listings.html">Buy Books</a>
-      <a href="#">Sell Books</a>
-      <a href="#">Contact</a>
-    </nav>
-    <div class="auth-buttons">
-      <a href="login.html" class="btn-signin">Login</a>
-      <a href="signup.html" class="btn-signup">Sign Up</a>
-    </div>
-  </header>
+<header class="main-header">
+  <div class="logo-section">
+    <div class="logo">VC Market</div>
+  </div>
+  <nav class="main-nav">
+    <a href="index.html">Home</a>
+    <a href="listings.html">Buy Books</a>
+    <a href="#">Sell Books</a>
+    <a href="#">Contact</a>
+  </nav>
+  <div class="auth-buttons">
+    <a href="login.html" class="btn-signin">Login</a>
+    <a href="signup.html" class="btn-signup">Sign Up</a>
+  </div>
+</header>
 
-  <section class="hero">
-    <h1>Welcome to VC Market</h1>
-    <p>Buy and sell your textbooks with ease, all in one place.</p>
-    <button onclick="location.href='listings.html'">Get Started</button>
-  </section>
+<main>
+  <h1 class="page-title">Available Listings</h1>
 
-  <section class="cards-container">
-    <div class="card">
-      <h2>Buy Textbooks</h2>
-      <p>Find affordable second-hand textbooks for your modules.</p>
-      <button onclick="location.href='listings.html'">Shop Now</button>
-    </div>
-    <div class="card">
-      <h2>Sell Textbooks</h2>
-      <p>List your old textbooks and earn money back.</p>
-      <button>Sell Now</button>
-    </div>
-    <div class="card">
-      <h2>Track Orders</h2>
-      <p>View and manage your textbook orders and sales.</p>
-      <button>Track Now</button>
-    </div>
-    <div class="card">
-      <h2>Contact Us</h2>
-      <p>Have questions? Reach out and we’ll get back to you.</p>
-      <button>Contact</button>
-    </div>
-  </section>
+  <div class="filters-container">
+    <select id="degree-filter"><option value="">Filter by Degree</option></select>
+    <select id="module-filter"><option value="">Filter by Module</option></select>
+    <div id="condition-container"></div>
+  </div>
 
-  <footer>
-    <p>&copy; 2025 VC Market. All rights reserved.</p>
-  </footer>
+  <div class="sort-show-reset">
+    <select id="sort-filter">
+      <option value="">Sort By</option>
+      <option value="degree">Degree (A-Z)</option>
+      <option value="module">Module (A-Z)</option>
+      <option value="title">Book Name (A-Z)</option>
+      <option value="price-asc">Price (Low to High)</option>
+      <option value="price-desc">Price (High to Low)</option>
+    </select>
+    <select id="pagination-limit">
+      <option value="12">Show 12</option>
+      <option value="24">Show 24</option>
+      <option value="36" selected>Show 36</option>
+    </select>
+    <button id="reset-filters">Reset Filters</button>
+  </div>
+
+  <div id="listings-container" class="listings-grid"></div>
+  <div id="pagination-controls" class="pagination-controls"></div>
+</main>
+
+<footer>
+  <p>&copy; 2025 VC Market. All rights reserved.</p>
+</footer>
 
 </body>
 </html>
