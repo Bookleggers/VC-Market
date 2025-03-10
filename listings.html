@@ -4,46 +4,65 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>VC Market - Listings</title>
+  <link rel="stylesheet" href="styles.css">
   <link rel="stylesheet" href="listings.css">
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js"></script>
   <script src="listings.js" defer></script>
-  <script src="https://kit.fontawesome.com/4eae5c8c24.js" crossorigin="anonymous"></script>
 </head>
 <body>
+  <header>
+    <h1>VC Market</h1>
+    <nav>
+      <a href="index.html">Home</a>
+      <a href="listings.html">Buy Books</a>
+      <a href="#">Sell Books</a>
+      <a href="#">Contact</a>
+    </nav>
+  </header>
 
-<header>
-  <h1>VC Market</h1>
-  <nav>
-    <a href="index.html">Home</a>
-    <a href="#">Buy Books</a>
-    <a href="#">Sell Books</a>
-    <a href="#">Contact</a>
-  </nav>
-</header>
+  <main class="listings-page">
+    <aside class="filters">
+      <h2>Filters</h2>
+      <label>Degree
+        <select id="degree-filter"><option value="">All</option></select>
+      </label>
+      <label>Module
+        <select id="module-filter"><option value="">All</option></select>
+      </label>
+      <label>Condition</label>
+      <div id="condition-filter">
+        <label><input type="checkbox" value="New"> New</label>
+        <label><input type="checkbox" value="Used - Like New"> Used - Like New</label>
+        <label><input type="checkbox" value="Used"> Used</label>
+      </div>
+      <label>Sort By
+        <select id="sort-filter">
+          <option value="">None</option>
+          <option value="degree">Degree (A-Z)</option>
+          <option value="module">Module (A-Z)</option>
+          <option value="title">Book Name (A-Z)</option>
+          <option value="price-asc">Price (Low to High)</option>
+          <option value="price-desc">Price (High to Low)</option>
+        </select>
+      </label>
+      <label>Show Per Page
+        <select id="per-page-filter">
+          <option value="12">12</option>
+          <option value="24">24</option>
+          <option value="36">36</option>
+        </select>
+      </label>
+      <button id="reset-filters">Reset Filters</button>
+    </aside>
 
-<main class="container">
-  <aside class="filter-section">
-    <h2>Filters</h2>
-    <select id="filter-degree"><option value="">Select Degree</option></select>
-    <select id="filter-module"><option value="">Select Module</option></select>
-    <select id="filter-condition">
-      <option value="">Select Condition</option>
-      <option value="New">New</option>
-      <option value="Used - Like New">Used - Like New</option>
-      <option value="Used - Good">Used - Good</option>
-      <option value="Used - Acceptable">Used - Acceptable</option>
-    </select>
-  </aside>
+    <section>
+      <div id="listings-container" class="listings-grid"></div>
+      <div id="pagination"></div>
+    </section>
+  </main>
 
-  <section class="listings-section">
-    <h2>Available Listings</h2>
-    <div id="listings-container" class="listings-grid"></div>
-  </section>
-</main>
-
-<footer>
-  <p>&copy; 2025 VC Market. All rights reserved.</p>
-</footer>
-
+  <footer>
+    <p>&copy; 2025 VC Market. All rights reserved.</p>
+  </footer>
 </body>
 </html>
