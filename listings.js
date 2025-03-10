@@ -11,6 +11,7 @@ document.addEventListener("DOMContentLoaded", async () => {
   await loadListings();
   document.getElementById('reset-filters').addEventListener('click', resetFilters);
   document.getElementById('pagination-limit').addEventListener('change', (e) => { limit = +e.target.value; currentPage = 1; displayListings(); });
+  document.getElementById('lightbox-close').addEventListener('click', () => document.getElementById('lightbox').style.display = 'none');
 });
 
 async function loadListings() {
@@ -69,5 +70,3 @@ function displayListings() {
 
   renderCards(filtered);
 }
-
-function renderCards(data) { /* I'll give this in next message if needed */ }
