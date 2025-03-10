@@ -3,53 +3,47 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Buy Textbooks</title>
+  <title>VC Market - Listings</title>
   <link rel="stylesheet" href="listings.css">
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js"></script>
+  <script src="listings.js" defer></script>
   <script src="https://kit.fontawesome.com/4eae5c8c24.js" crossorigin="anonymous"></script>
 </head>
 <body>
 
-  <header class="main-header">
-    <div class="logo-section">
-      <div class="logo">VC Market</div>
-    </div>
-    <nav class="main-nav">
-      <a href="index.html">Home</a>
-      <a href="#">Buy Books</a>
-      <a href="#">Sell Books</a>
-      <a href="#">Contact</a>
-    </nav>
-    <div class="auth-buttons">
-      <a href="login.html" class="btn-signin">Login</a>
-      <a href="signup.html" class="btn-signup">Sign Up</a>
-    </div>
-  </header>
+<header>
+  <h1>VC Market</h1>
+  <nav>
+    <a href="index.html">Home</a>
+    <a href="#">Buy Books</a>
+    <a href="#">Sell Books</a>
+    <a href="#">Contact</a>
+  </nav>
+</header>
 
-  <div class="container">
-    <aside class="filter-section">
-      <h2>Filter</h2>
-      <select id="filter-degree">
-        <option value="">Select Degree</option>
-      </select>
-      <select id="filter-module">
-        <option value="">Select Module</option>
-      </select>
-      <select id="filter-condition">
-        <option value="">Select Condition</option>
-        <option value="New">New</option>
-        <option value="Used - Like New">Used - Like New</option>
-        <option value="Used - Good">Used - Good</option>
-        <option value="Used - Acceptable">Used - Acceptable</option>
-      </select>
-    </aside>
+<main class="container">
+  <aside class="filter-section">
+    <h2>Filters</h2>
+    <select id="filter-degree"><option value="">Select Degree</option></select>
+    <select id="filter-module"><option value="">Select Module</option></select>
+    <select id="filter-condition">
+      <option value="">Select Condition</option>
+      <option value="New">New</option>
+      <option value="Used - Like New">Used - Like New</option>
+      <option value="Used - Good">Used - Good</option>
+      <option value="Used - Acceptable">Used - Acceptable</option>
+    </select>
+  </aside>
 
-    <main class="listings-container" id="listings-container"></main>
-  </div>
+  <section class="listings-section">
+    <h2>Available Listings</h2>
+    <div id="listings-container" class="listings-grid"></div>
+  </section>
+</main>
 
-  <footer>
-    <p>&copy; 2025 VC Market. All rights reserved.</p>
-  </footer>
+<footer>
+  <p>&copy; 2025 VC Market. All rights reserved.</p>
+</footer>
 
-  <script src="listings.js" type="module"></script>
 </body>
 </html>
