@@ -2,38 +2,54 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>Book Listings</title>
-  <link rel="stylesheet" href="styles.css">
-  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Buy Textbooks</title>
+  <link rel="stylesheet" href="listings.css">
+  <script src="https://kit.fontawesome.com/4eae5c8c24.js" crossorigin="anonymous"></script>
 </head>
 <body>
 
-<header>
-  <h1>VC Market</h1>
-  <nav>
-    <a href="index.html">Home</a>
-    <a href="listings.html">Listings</a>
-    <a href="#">About</a>
-    <a href="#">Contact</a>
-    <div class="auth-buttons">
-      <a href="login.html">Login</a>
-      <a href="signup.html">Sign Up</a>
+  <header class="main-header">
+    <div class="logo-section">
+      <div class="logo">VC Market</div>
     </div>
-  </nav>
-</header>
+    <nav class="main-nav">
+      <a href="index.html">Home</a>
+      <a href="#">Buy Books</a>
+      <a href="#">Sell Books</a>
+      <a href="#">Contact</a>
+    </nav>
+    <div class="auth-buttons">
+      <a href="login.html" class="btn-signin">Login</a>
+      <a href="signup.html" class="btn-signup">Sign Up</a>
+    </div>
+  </header>
 
-<div class="filters">
-  <input type="text" id="search" placeholder="Search by title or module">
-  <select id="condition-filter">
-    <option value="">All Conditions</option>
-    <option value="New">New</option>
-    <option value="Used - Like New">Used - Like New</option>
-    <option value="Used">Used</option>
-  </select>
-</div>
+  <div class="container">
+    <aside class="filter-section">
+      <h2>Filter</h2>
+      <select id="filter-degree">
+        <option value="">Select Degree</option>
+      </select>
+      <select id="filter-module">
+        <option value="">Select Module</option>
+      </select>
+      <select id="filter-condition">
+        <option value="">Select Condition</option>
+        <option value="New">New</option>
+        <option value="Used - Like New">Used - Like New</option>
+        <option value="Used - Good">Used - Good</option>
+        <option value="Used - Acceptable">Used - Acceptable</option>
+      </select>
+    </aside>
 
-<div id="listings-container"></div>
+    <main class="listings-container" id="listings-container"></main>
+  </div>
 
-<script src="listings.js"></script>
+  <footer>
+    <p>&copy; 2025 VC Market. All rights reserved.</p>
+  </footer>
+
+  <script src="listings.js" type="module"></script>
 </body>
 </html>
