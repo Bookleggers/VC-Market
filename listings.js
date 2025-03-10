@@ -9,9 +9,9 @@ let limit = 36;
 
 document.addEventListener("DOMContentLoaded", async () => {
   await loadListings();
+  setupFilters();
   document.getElementById('reset-filters').addEventListener('click', resetFilters);
-  document.getElementById('pagination-limit').addEventListener('change', (e) => { limit = +e.target.value; currentPage = 1; displayListings(); });
-  document.getElementById('lightbox-close').addEventListener('click', () => document.getElementById('lightbox').style.display = 'none');
+  document.getElementById('pagination-limit').addEventListener('change', (e) => { limit = parseInt(e.target.value); currentPage = 1; displayListings(); });
 });
 
 async function loadListings() {
@@ -29,21 +29,21 @@ function populateFilters() {
 
   const degreeSelect = document.getElementById('degree-filter');
   degrees.forEach(d => degreeSelect.innerHTML += `<option value="${d}">${d}</option>`);
-  degreeSelect.addEventListener('change', displayListings);
 
   const moduleSelect = document.getElementById('module-filter');
   modules.forEach(m => moduleSelect.innerHTML += `<option value="${m}">${m}</option>`);
-  moduleSelect.addEventListener('change', displayListings);
 
   const conditionContainer = document.getElementById('condition-container');
   conditions.forEach(c => conditionContainer.innerHTML += `<label><input type="checkbox" value="${c}"> ${c}</label>`);
-  conditionContainer.querySelectorAll('input').forEach(cb => cb.addEventListener('change', displayListings));
 
+  degreeSelect.addEventListener('change', displayListings);
+  moduleSelect.addEventListener('change', displayListings);
+  document.querySelectorAll('#condition-container input').forEach(cb => cb.addEventListener('change', displayListings));
   document.getElementById('sort-filter').addEventListener('change', displayListings);
 }
 
 function resetFilters() {
-  document.querySelectorAll('select').forEach(s => s.selectedIndex = 0);
+  document.querySelectorAll('.filters-container select').forEach(s => s.selectedIndex = 0);
   document.querySelectorAll('#condition-container input').forEach(cb => cb.checked = false);
   currentPage = 1;
   limit = 36;
@@ -69,4 +69,3 @@ function displayListings() {
   else if (sort === 'price-desc') filtered.sort((a, b) => b.price - a.price);
 
   renderCards(filtered);
-}
