@@ -7,57 +7,59 @@
   <link rel="stylesheet" href="styles.css">
   <link rel="stylesheet" href="listings.css">
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js"></script>
-  <script src="listings.js" defer></script>
 </head>
 <body>
 
-  <header class="main-header">
-    <div class="logo-section">
-      <div class="logo">VC Market</div>
-    </div>
-    <nav class="main-nav">
-      <a href="index.html">Home</a>
-      <a href="listings.html">Buy Books</a>
-      <a href="#">Sell Books</a>
-      <a href="#">Contact</a>
-    </nav>
-    <div class="auth-buttons">
-      <a href="login.html" class="btn-signin">Login</a>
-      <a href="signup.html" class="btn-signup">Sign Up</a>
-    </div>
-  </header>
+<header class="main-header">
+  <div class="logo-section">
+    <div class="logo">VC Market</div>
+  </div>
+  <nav class="main-nav">
+    <a href="index.html">Home</a>
+    <a href="#">Sell Books</a>
+    <a href="login.html">Login / Sign Up</a>
+  </nav>
+</header>
 
-  <main>
-    <h1 class="page-title">Available Listings</h1>
+<main>
+  <div class="filters-container">
+    <select id="degree-filter"><option value="">Filter by Degree</option></select>
+    <select id="module-filter"><option value="">Filter by Module</option></select>
+    <div id="condition-container" class="condition-filters"></div>
+  </div>
 
-    <div class="filters-container">
-      <select id="degree-filter"><option value="">Filter by Degree</option></select>
-      <select id="module-filter"><option value="">Filter by Module</option></select>
-      <div id="condition-container"></div>
-      <select id="sort-filter">
-        <option value="">Sort By</option>
-        <option value="degree">Degree (A-Z)</option>
-        <option value="module">Module (A-Z)</option>
-        <option value="title">Book Name (A-Z)</option>
-        <option value="price-asc">Price (Low to High)</option>
-        <option value="price-desc">Price (High to Low)</option>
-      </select>
-      <select id="pagination-limit">
-        <option value="12">Show 12</option>
-        <option value="24">Show 24</option>
-        <option value="36">Show 36</option>
-      </select>
-      <button id="reset-filters">Reset Filters</button>
-    </div>
+  <div class="sort-show-reset">
+    <select id="sort-filter">
+      <option value="">Sort By</option>
+      <option value="degree">Degree (A-Z)</option>
+      <option value="module">Module (A-Z)</option>
+      <option value="title">Book Name (A-Z)</option>
+      <option value="price-asc">Price (Low to High)</option>
+      <option value="price-desc">Price (High to Low)</option>
+    </select>
+    <select id="pagination-limit">
+      <option value="12">Show 12</option>
+      <option value="24">Show 24</option>
+      <option value="36" selected>Show 36</option>
+    </select>
+    <button id="reset-filters">Reset</button>
+  </div>
 
-    <div id="listings-container" class="listings-grid"></div>
+  <div id="listings-container" class="listings-grid"></div>
+  <div id="pagination-controls" class="pagination-controls"></div>
+</main>
 
-    <div id="pagination-controls"></div>
-  </main>
+<div id="lightbox" class="lightbox">
+  <div class="lightbox-content">
+    <span id="lightbox-close">&times;</span>
+    <div id="lightbox-details"></div>
+  </div>
+</div>
 
-  <footer>
-    <p>&copy; 2025 VC Market. All rights reserved.</p>
-  </footer>
+<footer>
+  <p>&copy; 2025 VC Market. All rights reserved.</p>
+</footer>
 
+<script src="listings.js"></script>
 </body>
 </html>
