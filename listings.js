@@ -1,127 +1,116 @@
-console.log("Listings script loaded");
-
 const supabase = window.supabase.createClient(
   "https://mlwxfbtiqqacqvhwfbtk.supabase.co",
   "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im1sd3hmYnRpcXFhY3F2aHdmYnRrIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDE0MzM3MzYsImV4cCI6MjA1NzAwOTczNn0.Q6YD0EtZWITvTAMXFNFysyTFPtDHtD_cMFn_1G8VX4c"
 );
 
 let allListings = [];
-let filteredListings = [];
 let currentPage = 1;
-let perPage = 12;
+let itemsPerPage = 12;
 
 document.addEventListener("DOMContentLoaded", async () => {
-  await loadListings();
+  await loadAllListings();
   setupFilters();
+  document.getElementById('reset-filters').addEventListener('click', resetFilters);
 });
 
-async function loadListings() {
-  const { data, error } = await supabase.from("book_listings").select(`
-    id, price, condition, issues, status,
-    preloaded_books (title, module, degree)
-  `);
+async function loadAllListings() {
+  const { data: listings, error } = await supabase
+    .from("book_listings")
+    .select(`id, price, condition, issues, status, preloaded_books (title, module, degree)`);
 
   if (error) return console.error(error);
-
-  allListings = data;
-  populateDegreeFilter();
-  filteredListings = [...allListings];
+  allListings = listings;
+  populateFilters(listings);
   renderListings();
 }
 
-function populateDegreeFilter() {
-  const degrees = [...new Set(allListings.map(l => l.preloaded_books.degree))];
-  const degreeSelect = document.getElementById("degree-filter");
-  degrees.forEach(degree => {
-    const option = document.createElement("option");
-    option.value = degree;
-    option.textContent = degree;
-    degreeSelect.appendChild(option);
+function populateFilters(listings) {
+  const degreeSet = new Set();
+  const moduleSet = new Set();
+  const conditionSet = new Set();
+
+  listings.forEach(l => {
+    degreeSet.add(l.preloaded_books.degree);
+    moduleSet.add(l.preloaded_books.module);
+    conditionSet.add(l.condition);
+  });
+
+  addOptions('degree-filter', degreeSet);
+  addOptions('module-filter', moduleSet);
+  const conditionFilter = document.getElementById('condition-filter');
+  conditionSet.forEach(cond => {
+    const label = document.createElement('label');
+    label.innerHTML = `<input type="checkbox" value="${cond}"> ${cond}`;
+    conditionFilter.appendChild(label);
   });
 }
 
-function setupFilters() {
-  document.querySelectorAll("#degree-filter, #module-filter, #sort-filter, #per-page-filter").forEach(el => el.addEventListener("change", applyFilters));
-  document.querySelectorAll("#condition-filter input").forEach(cb => cb.addEventListener("change", applyFilters));
-  document.getElementById("reset-filters").addEventListener("click", () => {
-    document.querySelectorAll("select").forEach(el => el.value = "");
-    document.querySelectorAll("#condition-filter input").forEach(cb => cb.checked = false);
-    currentPage = 1;
-    applyFilters();
+function addOptions(id, options) {
+  const select = document.getElementById(id);
+  Array.from(options).sort().forEach(opt => {
+    const option = document.createElement('option');
+    option.value = opt;
+    option.textContent = opt;
+    select.appendChild(option);
   });
 }
 
-function applyFilters() {
-  const degree = document.getElementById("degree-filter").value;
-  const moduleSelect = document.getElementById("module-filter");
-  const sort = document.getElementById("sort-filter").value;
-  const conditions = [...document.querySelectorAll("#condition-filter input:checked")].map(cb => cb.value);
-  perPage = parseInt(document.getElementById("per-page-filter").value);
-
-  let modules = [...new Set(allListings.filter(l => degree === "" || l.preloaded_books.degree === degree).map(l => l.preloaded_books.module))];
-  moduleSelect.innerHTML = "<option value=''>All</option>";
-  modules.forEach(module => {
-    const option = document.createElement("option");
-    option.value = module;
-    option.textContent = module;
-    moduleSelect.appendChild(option);
-  });
-
-  const module = moduleSelect.value;
-  filteredListings = allListings.filter(l =>
-    (degree === "" || l.preloaded_books.degree === degree) &&
-    (module === "" || l.preloaded_books.module === module) &&
-    (conditions.length === 0 || conditions.includes(l.condition))
-  );
-
-  sortListings(sort);
+function resetFilters() {
+  document.getElementById('degree-filter').value = '';
+  document.getElementById('module-filter').value = '';
+  document.querySelectorAll('#condition-filter input').forEach(cb => cb.checked = false);
+  document.getElementById('sort-filter').value = '';
   currentPage = 1;
   renderListings();
 }
 
-function sortListings(sort) {
-  const compare = (a, b, key) => a[key].localeCompare(b[key]);
-  if (sort === "degree") filteredListings.sort((a, b) => compare(a.preloaded_books, b.preloaded_books, "degree"));
-  if (sort === "module") filteredListings.sort((a, b) => compare(a.preloaded_books, b.preloaded_books, "module"));
-  if (sort === "title") filteredListings.sort((a, b) => compare(a.preloaded_books, b.preloaded_books, "title"));
-  if (sort === "price-asc") filteredListings.sort((a, b) => a.price - b.price);
-  if (sort === "price-desc") filteredListings.sort((a, b) => b.price - a.price);
+function setupFilters() {
+  ['degree-filter', 'module-filter', 'sort-filter', 'items-per-page'].forEach(id => {
+    document.getElementById(id).addEventListener('change', renderListings);
+  });
+  document.getElementById('condition-filter').addEventListener('change', renderListings);
 }
 
 function renderListings() {
-  const container = document.getElementById("listings-container");
-  container.innerHTML = "";
-  const start = (currentPage - 1) * perPage;
-  const paginatedListings = filteredListings.slice(start, start + perPage);
-  paginatedListings.forEach(l => {
-    const card = document.createElement("div");
-    card.classList.add("listing-card");
-    card.innerHTML = `
+  const degree = document.getElementById('degree-filter').value;
+  const module = document.getElementById('module-filter').value;
+  const sort = document.getElementById('sort-filter').value;
+  itemsPerPage = parseInt(document.getElementById('items-per-page').value);
+  const conditions = Array.from(document.querySelectorAll('#condition-filter input:checked')).map(cb => cb.value);
+
+  let filtered = allListings.filter(l => 
+    (!degree || l.preloaded_books.degree === degree) &&
+    (!module || l.preloaded_books.module === module) &&
+    (conditions.length === 0 || conditions.includes(l.condition))
+  );
+
+  filtered = sortListings(filtered, sort);
+  paginate(filtered);
+}
+
+function sortListings(listings, sort) {
+  switch (sort) {
+    case 'degree': return listings.sort((a, b) => a.preloaded_books.degree.localeCompare(b.preloaded_books.degree));
+    case 'module': return listings.sort((a, b) => a.preloaded_books.module.localeCompare(b.preloaded_books.module));
+    case 'book': return listings.sort((a, b) => a.preloaded_books.title.localeCompare(b.preloaded_books.title));
+    case 'price-asc': return listings.sort((a, b) => a.price - b.price);
+    case 'price-desc': return listings.sort((a, b) => b.price - a.price);
+    default: return listings;
+  }
+}
+
+function paginate(listings) {
+  const start = (currentPage - 1) * itemsPerPage;
+  const paginated = listings.slice(start, start + itemsPerPage);
+  const container = document.getElementById('listings-container');
+  container.innerHTML = paginated.map(l => `
+    <div class="listing-card">
       <h3>${l.preloaded_books.title}</h3>
       <p><strong>Module:</strong> ${l.preloaded_books.module}</p>
       <p><strong>Degree:</strong> ${l.preloaded_books.degree}</p>
       <p><strong>Price:</strong> R${l.price}</p>
       <p><strong>Condition:</strong> ${l.condition}</p>
-      <p><strong>Issues:</strong> ${Array.isArray(l.issues) ? l.issues.join(", ") : "None"}</p>
-    `;
-    container.appendChild(card);
-  });
-  renderPagination();
-}
+    </div>`).join('');
 
-function renderPagination() {
-  const totalPages = Math.ceil(filteredListings.length / perPage);
-  const pagination = document.getElementById("pagination");
-  pagination.innerHTML = "";
-  for (let i = 1; i <= totalPages; i++) {
-    const btn = document.createElement("button");
-    btn.classList.add("pagination-btn");
-    if (i === currentPage) btn.classList.add("active");
-    btn.textContent = i;
-    btn.addEventListener("click", () => {
-      currentPage = i;
-      renderListings();
-    });
-    pagination.appendChild(btn);
-  }
+  setupPagination(listings.length);
 }
