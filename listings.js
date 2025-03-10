@@ -12,7 +12,11 @@ document.addEventListener("DOMContentLoaded", async () => {
   await loadListings();
   setupFilters();
   document.getElementById('reset-filters').addEventListener('click', resetFilters);
-  document.getElementById('pagination-limit').addEventListener('change', e => { limit = parseInt(e.target.value); displayListings(); });
+  document.getElementById('pagination-limit').addEventListener('change', (e) => {
+    limit = parseInt(e.target.value);
+    currentPage = 1;
+    displayListings();
+  });
 });
 
 async function loadListings() {
@@ -28,26 +32,30 @@ function displayListings() {
   container.innerHTML = '';
   let filtered = applyFilters();
   let paginated = filtered.slice((currentPage - 1) * limit, currentPage * limit);
-  paginated.forEach(listing => {
-    const card = document.createElement('div');
-    card.className = 'listing-card';
-    card.innerHTML = `
-      <h3>${listing.preloaded_books?.title}</h3>
-      <p><strong>Module:</strong> ${listing.preloaded_books?.module}</p>
-      <p><strong>Degree:</strong> ${listing.preloaded_books?.degree}</p>
-      <p><strong>Price:</strong> R${listing.price}</p>
-      <p><strong>Condition:</strong> ${listing.condition}</p>
-      <p><strong>Issues:</strong> ${Array.isArray(listing.issues) ? listing.issues.join(", ") : "None"}</p>
-    `;
-    container.appendChild(card);
-  });
+  if (paginated.length === 0) {
+    container.innerHTML = '<p>No listings match your filters.</p>';
+  } else {
+    paginated.forEach(listing => {
+      const card = document.createElement('div');
+      card.className = 'listing-card';
+      card.innerHTML = `
+        <h3>${listing.preloaded_books?.title}</h3>
+        <p><strong>Module:</strong> ${listing.preloaded_books?.module}</p>
+        <p><strong>Degree:</strong> ${listing.preloaded_books?.degree}</p>
+        <p><strong>Price:</strong> R${listing.price}</p>
+        <p><strong>Condition:</strong> ${listing.condition}</p>
+        <p><strong>Issues:</strong> ${Array.isArray(listing.issues) ? listing.issues.join(", ") : "None"}</p>
+      `;
+      container.appendChild(card);
+    });
+  }
   setupPagination(filtered.length);
 }
 
 function populateFilters() {
-  const degrees = [...new Set(listings.map(l => l.preloaded_books?.degree))].sort();
-  const modules = [...new Set(listings.map(l => l.preloaded_books?.module))].sort();
-  const conditions = [...new Set(listings.map(l => l.condition))].sort();
+  const degrees = [...new Set(listings.map(l => l.preloaded_books?.degree).filter(Boolean))].sort();
+  const modules = [...new Set(listings.map(l => l.preloaded_books?.module).filter(Boolean))].sort();
+  const conditions = [...new Set(listings.map(l => l.condition).filter(Boolean))].sort();
 
   const degreeSelect = document.getElementById('degree-filter');
   degrees.forEach(d => degreeSelect.innerHTML += `<option value="${d}">${d}</option>`);
@@ -57,22 +65,55 @@ function populateFilters() {
 
   const conditionContainer = document.getElementById('condition-container');
   conditions.forEach(c => conditionContainer.innerHTML += `<label><input type="checkbox" value="${c}"> ${c}</label>`);
+
+  // Hook up event listeners so filters work
+  degreeSelect.addEventListener('change', () => { currentPage = 1; displayListings(); });
+  moduleSelect.addEventListener('change', () => { currentPage = 1; displayListings(); });
+  conditionContainer.querySelectorAll('input[type="checkbox"]').forEach(input => {
+    input.addEventListener('change', () => { currentPage = 1; displayListings(); });
+  });
+  document.getElementById('sort-filter').addEventListener('change', () => { currentPage = 1; displayListings(); });
 }
 
 function applyFilters() {
   let degree = document.getElementById('degree-filter').value;
   let module = document.getElementById('module-filter').value;
   let conditions = [...document.querySelectorAll('#condition-container input:checked')].map(i => i.value);
-  return listings.filter(l => (!degree || l.preloaded_books?.degree === degree) && (!module || l.preloaded_books?.module === module) && (conditions.length === 0 || conditions.includes(l.condition)));
+  let sortBy = document.getElementById('sort-filter').value;
+
+  let filtered = listings.filter(l => 
+    (!degree || l.preloaded_books?.degree === degree) &&
+    (!module || l.preloaded_books?.module === module) &&
+    (conditions.length === 0 || conditions.includes(l.condition))
+  );
+
+  if (sortBy === "degree") filtered.sort((a, b) => a.preloaded_books.degree.localeCompare(b.preloaded_books.degree));
+  else if (sortBy === "module") filtered.sort((a, b) => a.preloaded_books.module.localeCompare(b.preloaded_books.module));
+  else if (sortBy === "title") filtered.sort((a, b) => a.preloaded_books.title.localeCompare(b.preloaded_books.title));
+  else if (sortBy === "price-asc") filtered.sort((a, b) => a.price - b.price);
+  else if (sortBy === "price-desc") filtered.sort((a, b) => b.price - a.price);
+
+  return filtered;
 }
 
 function resetFilters() {
-  document.querySelectorAll('.filters-container select').forEach(select => select.value = '');
+  document.querySelectorAll('.filters-container select').forEach(select => select.selectedIndex = 0);
   document.querySelectorAll('#condition-container input').forEach(input => input.checked = false);
+  currentPage = 1;
   displayListings();
 }
 
 function setupPagination(total) {
   const controls = document.getElementById('pagination-controls');
   controls.innerHTML = '';
+  let totalPages = Math.ceil(total / limit);
+  if (totalPages <= 1) return;
+
+  for (let i = 1; i <= totalPages; i++) {
+    const btn = document.createElement('button');
+    btn.textContent = i;
+    if (i === currentPage) btn.style.background = '#6a11cb';
+    btn.addEventListener('click', () => { currentPage = i; displayListings(); });
+    controls.appendChild(btn);
+  }
 }
