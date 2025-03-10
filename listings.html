@@ -16,12 +16,19 @@
   </div>
   <nav class="main-nav">
     <a href="index.html">Home</a>
+    <a href="listings.html">Buy Books</a>
     <a href="#">Sell Books</a>
-    <a href="login.html">Login / Sign Up</a>
+    <a href="#">Contact</a>
   </nav>
+  <div class="auth-buttons">
+    <a href="login.html" class="btn-signin">Login</a>
+    <a href="signup.html" class="btn-signup">Sign Up</a>
+  </div>
 </header>
 
 <main>
+  <h1 class="page-title">Available Listings</h1>
+
   <div class="filters-container">
     <select id="degree-filter"><option value="">Filter by Degree</option></select>
     <select id="module-filter"><option value="">Filter by Module</option></select>
@@ -42,7 +49,7 @@
       <option value="24">Show 24</option>
       <option value="36" selected>Show 36</option>
     </select>
-    <button id="reset-filters">Reset</button>
+    <button id="reset-filters" disabled>Reset</button>
   </div>
 
   <div id="listings-container" class="listings-grid"></div>
