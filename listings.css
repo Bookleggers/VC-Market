@@ -1,88 +1,95 @@
-.listings-page {
+.page-title {
+  text-align: center;
+  margin: 30px 0 20px;
+  font-size: 2rem;
+  color: #222;
+}
+
+.filters-container {
   display: flex;
-  padding: 40px;
-  gap: 32px;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 16px;
+  margin: 0 auto 30px;
+  padding: 0 20px;
+  max-width: 1200px;
 }
 
-.filters {
-  min-width: 240px;
-  padding: 20px;
-  background: white;
-  border-radius: 10px;
-  box-shadow: 0 4px 12px rgba(0,0,0,0.1);
-}
-
-.filters h2 {
-  margin-bottom: 16px;
-}
-
-.filters label {
-  display: block;
-  margin-bottom: 16px;
-  font-weight: 500;
-}
-
-.filters select, .filters input[type="checkbox"] {
-  width: 100%;
-  padding: 8px;
-  margin-top: 8px;
-}
-
-.filters input[type="checkbox"] {
-  width: auto;
-  margin-right: 8px;
-}
-
-#reset-filters {
-  margin-top: 16px;
+.filters-container select,
+.filters-container button {
   padding: 10px;
-  width: 100%;
-  background: linear-gradient(135deg, #6a11cb, #2575fc);
-  color: white;
-  border: none;
   border-radius: 8px;
-  cursor: pointer;
+  border: 1px solid #ccc;
+  min-width: 180px;
+  font-size: 14px;
+}
+
+#condition-container {
+  display: flex;
+  gap: 10px;
+  align-items: center;
+  flex-wrap: wrap;
+}
+
+#condition-container label {
+  font-size: 14px;
 }
 
 .listings-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-  gap: 24px;
-  flex-grow: 1;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 20px;
+  padding: 20px;
+  max-width: 1200px;
+  margin: 0 auto;
 }
 
 .listing-card {
-  background: rgba(255,255,255,0.9);
-  padding: 20px;
+  background: white;
   border-radius: 12px;
-  box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+  box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+  padding: 20px;
   transition: transform 0.3s, box-shadow 0.3s;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
 }
 
 .listing-card:hover {
-  transform: translateY(-6px);
-  box-shadow: 0 8px 24px rgba(0,0,0,0.15);
+  transform: translateY(-5px);
+  box-shadow: 0 8px 16px rgba(0,0,0,0.12);
 }
 
 .listing-card h3 {
-  margin-top: 0;
+  margin: 0;
+  font-size: 1.3rem;
+  color: #222;
 }
 
-#pagination {
-  margin-top: 32px;
-  text-align: center;
+.listing-card p {
+  margin: 4px 0;
+  color: #555;
+  font-size: 0.95rem;
+  line-height: 1.4;
 }
 
-.pagination-btn {
+#pagination-controls {
+  display: flex;
+  justify-content: center;
+  margin: 20px 0 40px;
+  gap: 10px;
+}
+
+#pagination-controls button {
   padding: 8px 16px;
-  margin: 0 4px;
-  background: #2575fc;
-  color: white;
   border: none;
   border-radius: 6px;
+  background: #2575fc;
+  color: white;
   cursor: pointer;
+  transition: background 0.3s;
 }
 
-.pagination-btn.active {
+#pagination-controls button:hover {
   background: #6a11cb;
 }
