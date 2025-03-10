@@ -10,59 +10,56 @@
   <script src="listings.js" defer></script>
 </head>
 <body>
-  <header>
-    <h1>VC Market</h1>
-    <nav>
-      <a href="index.html">Home</a>
-      <a href="listings.html">Buy Books</a>
-      <a href="#">Sell Books</a>
-      <a href="#">Contact</a>
-    </nav>
-  </header>
 
-  <main class="listings-page">
-    <aside class="filters">
-      <h2>Filters</h2>
-      <label>Degree
-        <select id="degree-filter"><option value="">All</option></select>
-      </label>
-      <label>Module
-        <select id="module-filter"><option value="">All</option></select>
-      </label>
-      <label>Condition</label>
-      <div id="condition-filter">
-        <label><input type="checkbox" value="New"> New</label>
-        <label><input type="checkbox" value="Used - Like New"> Used - Like New</label>
-        <label><input type="checkbox" value="Used"> Used</label>
-      </div>
-      <label>Sort By
-        <select id="sort-filter">
-          <option value="">None</option>
-          <option value="degree">Degree (A-Z)</option>
-          <option value="module">Module (A-Z)</option>
-          <option value="title">Book Name (A-Z)</option>
-          <option value="price-asc">Price (Low to High)</option>
-          <option value="price-desc">Price (High to Low)</option>
-        </select>
-      </label>
-      <label>Show Per Page
-        <select id="per-page-filter">
-          <option value="12">12</option>
-          <option value="24">24</option>
-          <option value="36">36</option>
-        </select>
-      </label>
-      <button id="reset-filters">Reset Filters</button>
-    </aside>
+<header>
+  <h1>VC Market</h1>
+  <nav>
+    <a href="index.html">Home</a>
+    <a href="listings.html">Buy Books</a>
+    <a href="#">Sell Books</a>
+    <a href="#">Contact</a>
+  </nav>
+</header>
 
-    <section>
-      <div id="listings-container" class="listings-grid"></div>
-      <div id="pagination"></div>
-    </section>
-  </main>
+<main>
+  <h2>Available Listings</h2>
 
-  <footer>
-    <p>&copy; 2025 VC Market. All rights reserved.</p>
-  </footer>
+  <div class="filters">
+    <select id="degree-filter">
+      <option value="">Select Degree</option>
+    </select>
+
+    <select id="module-filter">
+      <option value="">Select Module</option>
+    </select>
+
+    <div id="condition-filter"></div>
+
+    <select id="sort-filter">
+      <option value="">Sort By</option>
+      <option value="degree">Degree (A-Z)</option>
+      <option value="module">Module (A-Z)</option>
+      <option value="book">Book (A-Z)</option>
+      <option value="price-asc">Price (Low to High)</option>
+      <option value="price-desc">Price (High to Low)</option>
+    </select>
+
+    <select id="items-per-page">
+      <option value="12">12 per page</option>
+      <option value="24">24 per page</option>
+      <option value="36">36 per page</option>
+    </select>
+
+    <button id="reset-filters">Reset Filters</button>
+  </div>
+
+  <div id="listings-container" class="listings-grid"></div>
+  <div id="pagination"></div>
+</main>
+
+<footer>
+  <p>&copy; 2025 VC Market. All rights reserved.</p>
+</footer>
+
 </body>
 </html>
